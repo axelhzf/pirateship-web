@@ -40,6 +40,7 @@
     "gulp-util": "^2.2.18"
   },
   "scripts": {
+    "postinstall": "bower install; gulp",
     "start": "node --harmony app/server/server.js",
     "test": "NODE_ENV=test node --harmony node_modules/.bin/_mocha --reporter spec test/**/*.spec.js"
   }
