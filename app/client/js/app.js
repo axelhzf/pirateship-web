@@ -6,7 +6,7 @@ App.ctrl = function (clazz) {
 
 App.config(function ($stateProvider, $urlRouterProvider, RestangularProvider) {
 
-  RestangularProvider.setBaseUrl("http://localhost:3001/api/");
+  RestangularProvider.setBaseUrl("/api/");
 
   $urlRouterProvider.otherwise("/movies");
 
