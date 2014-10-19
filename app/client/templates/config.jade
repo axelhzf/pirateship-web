@@ -1,0 +1,57 @@
+.config
+  h1 Configuration
+  form
+    .form-group
+      label Run as
+      select.form-control(ng-model="configuration.runAs")
+        option(value="local") Local
+        option(value="remote") Remote
+
+    div(ng-if="configuration.runAs == 'local'")
+      h2 Folders
+      fieldset.folders
+        .form-group
+          label Downloaded folder
+            small  (Downloaded folder in utorrent configuration)
+          input.form-control(ng-model="configuration.downloadedFolder")
+
+        .form-group
+          label TvShows folder
+            small  (Different folder to organize your tvshows)
+          input.form-control(ng-model="configuration.tvshowsFolder")
+
+        p Configure two separate folders for dowloading and downloaded torrents
+        img(src="client/images/utorrent-config-folders.png")
+
+      h2 uTorrent
+      fieldset.utorrent
+        .form-group
+          label Username
+          input.form-control(ng-model="configuration.utorrentUser")
+
+        .form-group
+          label Password
+          input.form-control(ng-model="configuration.utorrentPassword")
+
+        .form-group
+          label Port
+          input.form-control(ng-model="configuration.utorrentPort")
+        p Enable webui in utorrent configuration
+        img(src="client/images/utorrent-config-remote.png")
+
+    div(ng-if="configuration.runAs == 'remote'")
+      h2 Remote
+      fieldset.server
+        .form-group
+          label Host
+          input.form-control(ng-model="configuration.remoteHost")
+        .form-group
+          label Port
+          input.form-control(ng-model="configuration.remotePort")
+        .form-group
+          label Mounted folder
+          input.form-control(ng-model="configuration.remoteMount")
+
+
+    .actions
+      button.btn.btn-primary(type="submit", ng-click="save()") Save

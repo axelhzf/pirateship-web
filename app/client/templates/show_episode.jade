@@ -1,0 +1,26 @@
+spinner(wait-for="episode")
+.show-episode(ng-if="episode")
+  .show-episode-details
+    h2 {{episode.fullId}} {{episode.title}}
+    p {{episode.overview}}
+    img(ng-src="{{episode.screen}}")
+
+
+  spinner(wait-for="episode.torrents")
+  div(ng-if="episode.torrents")
+    h2 Torrents
+    table.torrents
+      thead
+        tr
+          th title
+          th
+          th seeds
+          th leechers
+      tbody
+        tr(ng-repeat="torrent in episode.torrents")
+          td
+            a(ng-click="downloadTorrent(torrent)") {{torrent.title}}
+          td
+            hd(title="torrent.title")
+          td {{torrent.seeds}}
+          td {{torrent.leechers}}

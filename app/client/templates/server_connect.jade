@@ -1,0 +1,9 @@
+div.connecting(ng-if="!s.connected")
+  h2 Connecting to server
+  h3 {{s.client.host}}
+  .spinner
+    i.ion-ios7-reloading
+
+  a.btn(ui-sref="config") Can't connect? Check your configuration
+
+ui-view(ng-if="s.connected")

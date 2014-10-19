@@ -1,0 +1,67 @@
+.poster-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+}
+
+.poster-list-item {
+    display: block;
+    flex-grow: 1;
+    flex-basis: 150px;
+    max-width: 200px;
+    margin: 0 10px 10px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 5px;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .post-list-content {
+        position: absolute;
+        top: 0;
+        right: 5px;
+        width: 100%;
+        height: 100%;
+        font-size: 24px;
+        text-align: right;
+        color: #fff;
+    }
+
+    .backdrop {
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.3s ease-in-out;
+        font-size: 50px;
+        text-align: center;
+        padding-top: 50%;
+        color: #fff;
+    }
+
+    &:hover {
+        .backdrop {
+            opacity: 1;
+        }
+    }
+
+    &.ng-enter, &.ng-leave {
+        opacity: 0;
+    }
+
+    &.ng-enter.ng-enter-active , &.ng-leave.ng-leave-active {
+        opacity: 1;
+        transition: all 0.3s ease-in-out;
+    }
+}
+

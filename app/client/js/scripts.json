@@ -1,0 +1,15 @@
+[
+  "components/jquery/dist/jquery.js",
+  "components/angular/angular.js",
+  "components/restangular/dist/restangular.js",
+  "components/ui-router/release/angular-ui-router.js",
+  "components/underscore/underscore.js",
+  "components/angular-sanitize/angular-sanitize.js",
+  "js/app.js",
+  "js/models/download.js",
+  "js/directives/fadeImg.js",
+  "js/directives/youtube-player.js",
+  "js/controllers/MoviesController.js",
+  "js/controllers/MovieController.js",
+  "js/controllers/HeaderController.js"
+]

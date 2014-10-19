@@ -1,0 +1,9 @@
+.content
+  h1 Movies
+  .poster-list
+    a.poster-list-item(ng-repeat="movie in movies", ui-sref="movie({id: movie.id})")
+      fade-img(src="movie.poster")
+      .backdrop
+        i.ion-ios7-eye
+      .post-list-content(ng-if="show.favorite")
+        i.ion-ios7-heart

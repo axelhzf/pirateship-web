@@ -1,0 +1,9 @@
+.utorrent-status(ng-if="episode.utorrent")
+  .utorrent-status-progress(ng-style="{width: episode.utorrent.percentProgress/10 + '%' }")
+  .utorrent-status-text
+    span(ng-if="episode.utorrent.percentProgress < 1000")
+      |{{episode.utorrent.percentProgress / 10 | number:0}}% - {{episode.utorrent.eta | humanizeEta}} - {{episode.utorrent.downloadSpeed | speed}}
+    span(ng-if="episode.utorrent.percentProgress >= 1000")
+      |{{episode.utorrent.percentProgress / 10 | number:0}}%
+
+

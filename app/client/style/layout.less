@@ -1,0 +1,130 @@
+html {
+    color: @lightGrey;
+}
+
+body {
+    margin: 0;
+    background-color: #121923;
+}
+
+a {
+    cursor: pointer;
+    color: @lightGrey;
+    text-decoration: none;
+    &:hover {
+        color: #76D1EE;
+        text-decoration: none;
+    }
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 100;
+    color: #fff;
+    margin: 20px 0;
+}
+
+.main-content {
+    padding-top: @header-height;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    padding: 5px 2px;
+}
+
+ul.inline {
+    li {
+        display: inline-block;
+    }
+}
+
+.show header {
+    display: flex;
+    flex-direction: row;
+    background-color: #10121A;
+    padding: @default-padding;
+
+    .poster img {
+        width: 100px;
+        height: auto;
+    }
+
+    .description {
+        flex: 1;
+        margin-left: 20px;
+
+        h1 {
+            color: #fff;
+
+        }
+    }
+
+    .seasons {
+        font-size: 24px;
+        font-weight: lighter;
+
+        .active {
+            color: @green;
+        }
+    }
+}
+
+.show-content {
+
+}
+
+.aired {
+    color: @green;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td, th {
+        padding: 7px;
+    }
+
+    td {
+        border-top: 1px solid @border-color;
+        border-bottom: 1px solid @border-color;
+    }
+}
+
+
+.torrents-table {
+    .status {
+        width: 120px;
+    }
+}
+
+.favorites {
+
+}
+
+.subtitles-status {
+    font-variant: small-caps;
+}
+
+.subtitles-status-none {
+    color: @lightGrey;
+}
+
+.subtitles-status-some {
+    color: orange;
+}
+
+.subtitles-status-all {
+    color: @green;
+}
+
+.hd {
+    height: 15px;
+}

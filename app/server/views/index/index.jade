@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  div(ng-app="app")
+    .header
+      ng-include(src="'assets/templates/header.html'")
+    .main-content(ui-view)
+
+  each script in scripts
+    script(src="/assets/#{script}")

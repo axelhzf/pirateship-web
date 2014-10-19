@@ -1,0 +1,16 @@
+.header(ng-controller="HeaderController as h")
+  .header-left
+    a.brand(ui-sref="home") Pirateship
+    form
+      input(type="text", ng-model="h.global.query", placeholder="Search...")
+      a.input-clear(ng-click="h.clearQuery()", ng-class="{visible: h.global.query.length > 0}")
+        i.ion-ios7-close-outline
+
+  .header-right
+    //a.icon(ng-click="h.previous()")
+    //  i(class="ion-ios7-arrow-left")
+    //a.icon(ng-click="h.next()")
+    //  i(class="ion-ios7-arrow-right")
+    //a.icon(ui-sref="config")
+    //  i(class="ion-ios7-settings-strong")
+

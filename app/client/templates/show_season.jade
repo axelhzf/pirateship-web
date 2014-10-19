@@ -1,0 +1,37 @@
+//spinner(wait-for="se.season")
+//
+//modal(visible="se.activeStream")
+//  p Streaming torrent
+//  spinner
+//  a.btn.btn-danger(ng-click="cancelStreaming()") Cancel
+
+modal(visible="se.loadingMsg")
+  p {{se.loadingMsg}}
+  spinner
+
+table.episodes-table(ng-if="se.season")
+  tbody
+    tr(ng-repeat="episode in se.season.episodes", update-episode="episode")
+      td.is-aired: i(class="fa fa-circle", ng-class="{aired: episode.isAired}")
+      td.title
+        a(ui-sref="show.episode({showId: episode._show.id, seasonId: episode._season.id, episodeId: episode.id})")
+          span.fullId {{episode.fullId}}
+          span {{episode.title}}
+      td.utorrent
+        utorrent-status(episode="episode")
+      td.actions
+        hd(title="episode.local.file")
+        subtitles-status(episode="episode")
+        span(ng-if="episode.local.file")
+          a(ng-click="playEpisode(episode)", title="{{episode.local.file}}")
+            i(class="fa fa-play-circle")
+
+        span(ng-if="!se.episode.isAired")
+          button-promise(action="se.downloadEpisode(episode)", icon="ion-ios7-cloud-download")
+
+        span(ng-if="!episode.local.file && episode.isAired")
+          a(ng-click="streamEpisode(episode)")
+            i(class="fa fa-eye")
+
+      td.aired-date
+        span(title="{{episode.first_aired_date | date }}") {{episode.first_aired_date | relativeDate }}

@@ -1,0 +1,30 @@
+@modal-alert-width: 200px;
+@modal-alert-height: 200px;
+
+.modal-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.modal-alert-content {
+  position: absolute;
+  width: @modal-alert-width;
+  height: @modal-alert-height;
+  background-color: @grey;
+  left: 50%;
+  top: 50%;
+  margin-left: -@modal-alert-width / 2;
+  margin-top: -@modal-alert-height / 2;
+  border-radius: 15px;
+  text-align: center;
+  padding-top: 70px;
+}
+
+.modal-alert .spinner {
+  margin: 15px auto;
+}

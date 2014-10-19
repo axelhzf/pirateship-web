@@ -1,0 +1,14 @@
+.content.movie
+  .left
+    fade-img(src="ctrl.movie.poster")
+
+    .actions
+      a.btn(ng-click="ctrl.downloadMagnet()") Download
+
+
+  .center
+    h1 {{ctrl.movie.title}}
+    p {{ctrl.movie.overview}}
+    h2 Trailer
+    youtube-player(video-url="ctrl.movie.trailer")
+
