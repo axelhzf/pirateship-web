@@ -1,4 +1,4 @@
-var App = angular.module("app", ["restangular", "ui.router", "ngSanitize"]);
+var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter"]);
 
 App.ctrl = function (clazz) {
   window.App.controller(clazz.name, clazz);

@@ -3,7 +3,10 @@
     fade-img(src="ctrl.movie.poster")
 
     .actions
-      a.btn(ng-click="ctrl.downloadMagnet()") Download
+      div(ng-if="!ctrl.download")
+        a.btn(ng-click="ctrl.downloadMagnet()") Download
+      div(ng-if="ctrl.download")
+        a.btn() {{ctrl.download.progress / 10}}% - {{ctrl.download.speed / 1000 | kbFmt:2}}/s
 
 
   .center

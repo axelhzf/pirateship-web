@@ -5,6 +5,7 @@
   "components/ui-router/release/angular-ui-router.js",
   "components/underscore/underscore.js",
   "components/angular-sanitize/angular-sanitize.js",
+  "components/angular-filter/dist/angular-filter.js",
   "js/app.js",
   "js/models/download.js",
   "js/directives/fadeImg.js",

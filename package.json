@@ -14,9 +14,9 @@
     "koa-static-cache": "^1.1.0",
     "koa-views": "^2.0.3",
     "mkdirp": "^0.5.0",
+    "pirateship-server": "git://github.com/axelhzf/pirateship-server.git#master",
     "thunkify": "^2.1.2",
-    "underscore": "^1.6.0",
-    "pirateship-server": "git://github.com/axelhzf/pirateship-server.git#master"
+    "underscore": "^1.6.0"
   },
   "devDependencies": {
     "gulp-clean": "^0.3.1",
@@ -42,6 +42,7 @@
   "scripts": {
     "postinstall": "bower install; gulp",
     "start": "node --harmony app/server/server.js",
-    "test": "NODE_ENV=test node --harmony node_modules/.bin/_mocha --reporter spec test/**/*.spec.js"
+    "test": "NODE_ENV=test node --harmony node_modules/.bin/_mocha --reporter spec test/**/*.spec.js",
+    "dev": "nodemon --harmony app/server/server.js"
   }
 }

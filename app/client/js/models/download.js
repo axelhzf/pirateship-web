@@ -3,8 +3,16 @@ function Download(http) {
 }
 
 Download.prototype = {
-  downloadMagnet: function (magnet) {
-    var url = "/api/downloads/" + encodeURIComponent(magnet);
+
+  one : function (where) {
+    var url = "/api/downloads/one";
+    return this.http.get(url, {params: where}).then(function (response) {
+      return response.data;
+    });
+  },
+
+  downloadMovie: function (movieId, magnet) {
+    var url = "/api/movies/" + movieId + "/download/" + encodeURIComponent(magnet);
     return this.http.get(url);
   }
 };

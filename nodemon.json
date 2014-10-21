@@ -1,0 +1,6 @@
+{
+  "watch": [
+    "app/server",
+    "node_modules/pirateship-server/app/server"
+  ]
+}
