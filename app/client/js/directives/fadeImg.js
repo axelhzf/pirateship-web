@@ -1,9 +1,9 @@
-App.directive("fadeImg", function () {
+App.directive("fadeImg", function ($sce) {
   return {
     restrict: "E",
     templateUrl: "assets/templates/fadeImg.html",
     scope: {
-      src: "="
+      img: "@"
     },
     link: function (scope, element, attrs) {
       scope.loaded = false;
@@ -11,7 +11,8 @@ App.directive("fadeImg", function () {
         scope.loaded = true;
         scope.$apply();
       });
-      scope.$watch("src", function (newValue, oldValue) {
+      scope.$watch("img", function (newValue, oldValue) {
+        scope.trustedSrc = $sce.trustAsResourceUrl(newValue);
         if (newValue !== oldValue) {
           scope.loaded = false;
         }

@@ -23,6 +23,7 @@ app.use(mount("/api", pirateshipServer.app));
 mountStatic("/assets", __dirname + '/../assets');
 mountStatic("/assets", __dirname + '/../.assets');
 mountStatic("/assets", __dirname + '/../client');
+mountStatic("/tmp", __dirname + '/../../node_modules/pirateship-server/tmp/');
 
 if (config.env === "development") {
   app.use(require("koa-logger")());

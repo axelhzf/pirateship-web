@@ -1,4 +1,4 @@
-var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter"]);
+var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter", "infinite-scroll"]);
 
 App.ctrl = function (clazz) {
   window.App.controller(clazz.name, clazz);
@@ -20,7 +20,7 @@ App.config(function ($stateProvider, $urlRouterProvider, RestangularProvider) {
   $stateProvider.state("movies", {
     url: "/movies",
     templateUrl: "assets/templates/movies.html",
-    controller: "MoviesController"
+    controller: "MoviesController as ctrl"
   });
 
   $stateProvider.state("movie", {
