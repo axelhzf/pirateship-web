@@ -1,6 +1,7 @@
 .content.movie
   .left
-    fade-img(src="ctrl.movie.poster")
+    .img-container
+      fade-img(img="/tmp/{{ctrl.movie.poster_thumb}}")
 
     .actions
       div(ng-if="!ctrl.download")

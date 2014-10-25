@@ -1,8 +1,8 @@
-function MoviesController (Movies, $http) {
-  this.movies = new Movies($http);
-  var self = this;
-
-  this.movies.fetch();
+function MoviesController (movies) {
+  this.movies = movies;
+  if (this.movies.items.length === 0 ) {
+    this.movies.fetch();
+  }
 }
 
 MoviesController.prototype = {

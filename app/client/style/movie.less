@@ -1,30 +1,36 @@
 .movie {
-  display: flex;
-  padding-top: 20px;
-  color: #6E6E73;
+    display: flex;
+    padding-top: 20px;
+    color: #6E6E73;
 
-  .left {
-    width: 200px;
+    .left {
+        width: 200px;
 
-    img {
-      max-width: 100%;
+        .img-container {
+            width: 200px;
+            height: 285px;
+        }
+
+        img {
+            width: 200px;
+            height: 285px;
+        }
+
+        .actions {
+            margin-top: 20px;
+
+            .btn {
+                width: 100%;
+            }
+        }
     }
 
-    .actions {
-      margin-top: 20px;
+    .center {
+        flex: 1;
+        padding: 0 20px;
 
-      .btn {
-        width: 100%;
-      }
+        h1 {
+
+        }
     }
-  }
-
-  .center {
-    flex: 1;
-    padding: 0 20px;
-
-    h1 {
-
-    }
-  }
 }

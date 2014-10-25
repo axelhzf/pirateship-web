@@ -1,11 +1,10 @@
 .content
   h1 Movies
 
-  .poster-list
+  .poster-list(infinite-scroll="ctrl.movies.appendNextPage()")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")
       fade-img(img="/tmp/{{movie.poster_thumb}}")
       .backdrop
         i.ion-ios7-eye
       .post-list-content(ng-if="show.favorite")
         i.ion-ios7-heart
-  div(infinite-scroll="ctrl.movies.appendNextPage()", infinite-scroll-distance="3")

@@ -21,6 +21,7 @@ Movies.prototype = {
     var self = this;
     return this.$http.get(apiBaseUrl + "/movies", {params: params}).then(function (response) {
       var data = response.data;
+      self.offset = data.offset;
       Array.prototype.push.apply(self.items, data.items);
     });
   },
@@ -32,4 +33,8 @@ Movies.prototype = {
 
 angular.module("app").factory("Movies", function () {
   return Movies;
+});
+
+angular.module("app").factory("movies", function ($http) {
+  return new Movies($http);
 });
