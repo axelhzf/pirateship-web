@@ -7,10 +7,13 @@ var co = require("co");
 var views = require("koa-views");
 var mount = require("koa-mount");
 var staticCache = require('koa-static-cache');
+var static = require("koa-static");
 
 var config = require("./config");
 var logger = require("./logger");
 var routes = require("./routes");
+
+
 
 var app = koa();
 
@@ -20,9 +23,9 @@ app.use(views('views', {
 
 app.use(mount("/api", pirateshipServer.app));
 
-mountStatic("/assets", __dirname + '/../assets');
-mountStatic("/assets", __dirname + '/../.assets');
-mountStatic("/assets", __dirname + '/../client');
+mountStaticCache("/assets", __dirname + '/../assets');
+mountStaticCache("/assets", __dirname + '/../.assets');
+mountStaticCache("/assets", __dirname + '/../client');
 mountStatic("/tmp", __dirname + '/../../node_modules/pirateship-server/tmp/');
 
 if (config.env === "development") {
@@ -64,10 +67,16 @@ if (require.main === module) {
 }
 
 // helpers
-function mountStatic (url, path) {
+function mountStaticCache (url, path) {
   var assets = koa();
   assets.use(staticCache(path, {
     maxAge: 2 * 60 * 60
   }));
+  app.use(mount(url, assets));
+}
+
+function mountStatic(url, path) {
+  var assets = koa();
+  assets.use(static(path));
   app.use(mount(url, assets));
 }
