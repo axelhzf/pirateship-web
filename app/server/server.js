@@ -16,6 +16,8 @@ var routes = require("./routes");
 
 
 var app = koa();
+require('koa-qs')(app);
+
 
 app.use(views('views', {
   default: 'jade'

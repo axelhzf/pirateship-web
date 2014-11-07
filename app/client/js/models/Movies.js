@@ -5,6 +5,7 @@ function Movies($http) {
   this.$http = $http;
   this.limit = 10;
   this.offset = 0;
+  this.where = {};
 }
 
 Movies.prototype = {
@@ -16,18 +17,27 @@ Movies.prototype = {
   appendCurrentPage: function () {
     var params = {
       limit: this.limit,
-      offset: this.offset
+      offset: this.offset,
+      where: this.where
     };
     var self = this;
-    return this.$http.get(apiBaseUrl + "/movies", {params: params}).then(function (response) {
-      var data = response.data;
-      self.offset = data.offset;
-      Array.prototype.push.apply(self.items, data.items);
-    });
+    var paramsString = qs.stringify(params);
+    var url = apiBaseUrl + "/movies?" + paramsString;
+
+    return this.$http.get(url)
+      .then(function (response) {
+        var data = response.data;
+        self.offset = data.offset;
+        Array.prototype.push.apply(self.items, data.items);
+      });
   },
   appendNextPage: function () {
     this.offset = this.offset + this.limit;
     return this.appendCurrentPage();
+  },
+  reset: function () {
+    this.offset = 0;
+    this.items = [];
   }
 };
 

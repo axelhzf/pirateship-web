@@ -1,8 +1,7 @@
-function HeaderController ($state, $rootScope) {
+function HeaderController ($state, $rootScope, global) {
   this.$state = $state;
   this.$rootScope = $rootScope;
-  this.query = "";
-  //this.global = g;
+  this.global = global;
 }
 
 HeaderController.prototype = {

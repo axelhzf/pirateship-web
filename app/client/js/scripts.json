@@ -10,6 +10,8 @@
   "js/app.js",
   "js/models/download.js",
   "js/models/Movies.js",
+  "js/models/global.js",
+  "js/libs/qs.js",
   "js/directives/fadeImg.js",
   "js/directives/youtube-player.js",
   "js/controllers/MoviesController.js",

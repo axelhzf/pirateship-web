@@ -1,6 +1,5 @@
 .content
   h1 Movies
-
   .poster-list(infinite-scroll="ctrl.movies.appendNextPage()")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")
       fade-img(img="/tmp/{{movie.poster_thumb}}")
