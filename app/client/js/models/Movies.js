@@ -6,6 +6,7 @@ function Movies($http) {
   this.limit = 10;
   this.offset = 0;
   this.where = {};
+  this.order = [];
 }
 
 Movies.prototype = {
@@ -18,12 +19,14 @@ Movies.prototype = {
     var params = {
       limit: this.limit,
       offset: this.offset,
-      where: this.where
+      where: this.where,
+      order: this.order
     };
     var self = this;
     var paramsString = qs.stringify(params);
     var url = apiBaseUrl + "/movies?" + paramsString;
 
+    console.log(params);
     return this.$http.get(url)
       .then(function (response) {
         var data = response.data;

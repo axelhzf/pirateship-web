@@ -8,9 +8,11 @@ function MoviesController(movies, global, $scope) {
   $scope.$watch("ctrl.global.query", _.bind(this.filterChangeQuery, this));
   $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterChangeQuery, this));
   $scope.$watch("ctrl.selectedGenre.text", _.bind(this.filterChangeQuery, this));
+  $scope.$watch("ctrl.selectedSort.text", _.bind(this.filterChangeQuery, this));
 
   this.selectedYear = {text: "Year"};
   this.selectedGenre = {text: "Genre"};
+  this.selectedSort = {text: "Sort"};
 
   this.initialFetch();
 }
@@ -24,6 +26,7 @@ MoviesController.prototype = {
 
     this.fetchYears();
     this.fetchGenres();
+    this.fetchSort();
   },
 
   filterChangeQuery: function (newValue, oldValue) {
@@ -56,6 +59,13 @@ MoviesController.prototype = {
     parameters.unshift(where);
 
     this.movies.where = parameters;
+
+    if(this.selectedSort.value) {
+      this.movies.order = "rating DESC";
+    } else {
+      this.movies.order = [];
+    }
+
     this.movies.fetch();
   },
 
@@ -75,6 +85,13 @@ MoviesController.prototype = {
         return {text: genre, value: genre};
       });
     })
+  },
+
+  fetchSort: function () {
+    this.sort = [
+      {text: "Don't sort"},
+      {text: "Rating", value: "rating"}
+    ]
   }
 
 };
