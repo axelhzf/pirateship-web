@@ -1,5 +1,7 @@
 function MoviesController(movies, global, $scope) {
   this.movies = movies;
+  this.movies.limit = 20;
+
   if (this.movies.items.length === 0) {
     this.movies.fetch();
   }
