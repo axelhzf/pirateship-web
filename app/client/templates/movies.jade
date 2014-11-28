@@ -2,7 +2,8 @@
   h1 Movies
 
   .filters
-    div(dropdown-select="ctrl.years", dropdown-model="ctrl.selectedYear", dropdown-item-label="text")
+    .filter(dropdown-select="ctrl.years", dropdown-model="ctrl.selectedYear", dropdown-item-label="text")
+    .filter(dropdown-select="ctrl.genres", dropdown-model="ctrl.selectedGenre", dropdown-item-label="text")
 
   .poster-list(infinite-scroll="ctrl.movies.appendNextPage()")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")

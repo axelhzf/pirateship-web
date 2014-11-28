@@ -44,6 +44,12 @@ Movies.prototype = {
     return this.$http.get(url).then(function (response) {
       return response.data;
     });
+  },
+  getGenres: function () {
+    var url = apiBaseUrl + "/movies/_genres";
+    return this.$http.get(url).then(function (response) {
+      return response.data;
+    });
   }
 };
 

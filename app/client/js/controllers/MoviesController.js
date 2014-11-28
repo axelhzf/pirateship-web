@@ -2,11 +2,15 @@ function MoviesController(movies, global, $scope) {
   this.movies = movies;
   this.movies.limit = 20;
   this.years = [];
+  this.genres = [];
 
   this.global = global;
   $scope.$watch("ctrl.global.query", _.bind(this.filterChangeQuery, this));
   $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterChangeQuery, this));
+  $scope.$watch("ctrl.selectedGenre.text", _.bind(this.filterChangeQuery, this));
+
   this.selectedYear = {text: "Year"};
+  this.selectedGenre = {text: "Genre"};
 
   this.initialFetch();
 }
@@ -18,9 +22,8 @@ MoviesController.prototype = {
       this.changeQuery();
     }
 
-    if (this.years.length === 0) {
-      this.fetchYears();
-    }
+    this.fetchYears();
+    this.fetchGenres();
   },
 
   filterChangeQuery: function (newValue, oldValue) {
@@ -43,6 +46,12 @@ MoviesController.prototype = {
       where.push("year = ?");
       parameters.push(this.selectedYear.value);
     }
+
+    if(this.selectedGenre.value) {
+      where.push("genre = ?");
+      parameters.push(this.selectedGenre.value);
+    }
+
     where = where.join(" and ");
     parameters.unshift(where);
 
@@ -55,6 +64,15 @@ MoviesController.prototype = {
     this.movies.getYears().then(function (years) {
       self.years = _.map(years, function (year) {
         return {text: year, value: year};
+      });
+    })
+  },
+
+  fetchGenres: function () {
+    var self = this;
+    this.movies.getGenres().then(function (genres) {
+      self.genres = _.map(genres, function (genre) {
+        return {text: genre, value: genre};
       });
     })
   }
