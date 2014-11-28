@@ -7,6 +7,7 @@
   "components/angular-sanitize/angular-sanitize.js",
   "components/angular-filter/dist/angular-filter.js",
   "components/ngInfiniteScroll/build/ng-infinite-scroll.js",
+  "components/angular-dropdowns/dist/angular-dropdowns.js",
   "js/app.js",
   "js/models/download.js",
   "js/models/Movies.js",

@@ -1,4 +1,4 @@
-var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter", "infinite-scroll"]);
+var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter", "infinite-scroll", "ngDropdowns"]);
 
 App.ctrl = function (clazz) {
   window.App.controller(clazz.name, clazz);

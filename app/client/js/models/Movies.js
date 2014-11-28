@@ -38,6 +38,12 @@ Movies.prototype = {
   reset: function () {
     this.offset = 0;
     this.items = [];
+  },
+  getYears: function () {
+    var url = apiBaseUrl + "/movies/_years";
+    return this.$http.get(url).then(function (response) {
+      return response.data;
+    });
   }
 };
 
