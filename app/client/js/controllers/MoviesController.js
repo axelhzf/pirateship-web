@@ -3,26 +3,31 @@ function MoviesController(movies, global, $scope) {
   this.movies.limit = 20;
   this.years = [];
 
-  if (this.movies.items.length === 0) {
-    this.movies.fetch();
-  }
-
-  if (this.years.length === 0) {
-    var self = this;
-    this.movies.getYears().then(function (years) {
-      self.years = _.map(years, function (year) {
-        return {text: year, value: year};
-      });
-    })
-  }
-
   this.global = global;
-  $scope.$watch("ctrl.global.query", _.bind(this.changeQuery, this));
-  $scope.$watch("ctrl.selectedYear.text", _.bind(this.changeQuery, this));
+  $scope.$watch("ctrl.global.query", _.bind(this.filterChangeQuery, this));
+  $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterChangeQuery, this));
   this.selectedYear = {text: "Year"};
+
+  this.initialFetch();
 }
 
 MoviesController.prototype = {
+
+  initialFetch: function () {
+    if (this.movies.items.length === 0) {
+      this.changeQuery();
+    }
+
+    if (this.years.length === 0) {
+      this.fetchYears();
+    }
+  },
+
+  filterChangeQuery: function (newValue, oldValue) {
+    if (newValue !== oldValue) {
+      this.changeQuery();
+    }
+  },
 
   changeQuery: function () {
     var query = this.global.query;
@@ -30,7 +35,7 @@ MoviesController.prototype = {
 
     var where = [];
     var parameters = [];
-    if(query) {
+    if (query) {
       where.push("title LIKE ?");
       parameters.push("%" + query + "%");
     }
@@ -43,6 +48,15 @@ MoviesController.prototype = {
 
     this.movies.where = parameters;
     this.movies.fetch();
+  },
+
+  fetchYears: function () {
+    var self = this;
+    this.movies.getYears().then(function (years) {
+      self.years = _.map(years, function (year) {
+        return {text: year, value: year};
+      });
+    })
   }
 
 };
