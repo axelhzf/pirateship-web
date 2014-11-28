@@ -27,7 +27,7 @@ MoviesController.prototype = {
   changeQuery: function () {
     var query = this.global.query;
     this.movies.reset();
-    this.movies.where = ["title LIKE ? and year = ?", "%" + query + "%", query];
+    this.movies.where = ["title LIKE ?", "%" + query + "%"];
     this.movies.fetch();
   },
 
