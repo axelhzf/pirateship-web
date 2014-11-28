@@ -18,7 +18,7 @@ function MoviesController(movies, global, $scope) {
 
   this.global = global;
   $scope.$watch("ctrl.global.query", _.bind(this.changeQuery, this));
-  $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterByYear, this));
+  $scope.$watch("ctrl.selectedYear.text", _.bind(this.changeQuery, this));
   this.selectedYear = {text: "Year"};
 }
 
@@ -27,16 +27,22 @@ MoviesController.prototype = {
   changeQuery: function () {
     var query = this.global.query;
     this.movies.reset();
-    this.movies.where = ["title LIKE ?", "%" + query + "%"];
-    this.movies.fetch();
-  },
 
-  filterByYear: function () {
-    if (this.selectedYear.value) {
-      this.movies.reset();
-      this.movies.where = ["year = ?", this.selectedYear.value];
-      this.movies.fetch();
+    var where = [];
+    var parameters = [];
+    if(query) {
+      where.push("title LIKE ?");
+      parameters.push("%" + query + "%");
     }
+    if (this.selectedYear.value) {
+      where.push("year = ?");
+      parameters.push(this.selectedYear.value);
+    }
+    where = where.join(" and ");
+    parameters.unshift(where);
+
+    this.movies.where = parameters;
+    this.movies.fetch();
   }
 
 };
