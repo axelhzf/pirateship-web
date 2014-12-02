@@ -34,5 +34,5 @@ gulp.task('es6', function () {
 });
 
 
-gulp.task("build", ["jade", "less"]);
+gulp.task("build", ["jade", "less", "es6"]);
 gulp.task("default", ["build"]);

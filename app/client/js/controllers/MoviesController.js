@@ -1,104 +1,78 @@
-function MoviesController(movies, global, $scope, movieYearsStore, movieGenresStore) {
-  this.movies = movies;
-  this.movieYearsStore = movieYearsStore;
-  this.movieGenresStore = movieGenresStore;
+class MoviesController {
+  constructor($scope, moviesStore, global, movieYearsStore, movieGenresStore) {
+    this.moviesStore = moviesStore;
+    this.movieYearsStore = movieYearsStore;
+    this.movieGenresStore = movieGenresStore;
 
-  this.movies.limit = 20;
-  this.years = [];
-  this.genres = [];
-
-  this.global = global;
-  $scope.$watch("ctrl.global.query", _.bind(this.filterChangeQuery, this));
-  $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterChangeQuery, this));
-  $scope.$watch("ctrl.selectedGenre.text", _.bind(this.filterChangeQuery, this));
-  $scope.$watch("ctrl.selectedSort.text", _.bind(this.filterChangeQuery, this));
-
-  this.selectedYear = {text: "Year"};
-  this.selectedGenre = {text: "Genre"};
-  this.selectedSort = {text: "Sort"};
+    this.moviesQuery = new MoviesStoreQuery();
+    this.movies = null;
 
 
-  this.initialFetch();
-}
+    this.years = [];
+    this.genres = [];
 
-MoviesController.prototype = {
+    this.global = global;
 
-  initialFetch: function () {
-    if (this.movies.items.length === 0) {
+    $scope.$watch("ctrl.global.query", _.bind(this.filterChangeQuery, this));
+    $scope.$watch("ctrl.selectedYear.text", _.bind(this.filterChangeQuery, this));
+    $scope.$watch("ctrl.selectedGenre.text", _.bind(this.filterChangeQuery, this));
+    $scope.$watch("ctrl.selectedSort.text", _.bind(this.filterChangeQuery, this));
+
+    this.selectedYear = {text: "Year"};
+    this.selectedGenre = {text: "Genre"};
+    this.selectedSort = {text: "Sort"};
+
+    this.initialFetch();
+  }
+
+  initialFetch() {
+    if (!this.movies) {
       this.changeQuery();
     }
 
     this.fetchYears();
     this.fetchGenres();
     this.fetchSort();
-  },
+  }
 
-  filterChangeQuery: function (newValue, oldValue) {
+  filterChangeQuery(newValue, oldValue) {
     if (newValue !== oldValue) {
       this.changeQuery();
     }
-  },
+  }
 
-  changeQuery: function () {
-    var query = this.global.query;
-    this.movies.reset();
+  changeQuery() {
+    console.log("change query");
+    this.movies = this.moviesStore.getMoviesIterator(this.moviesQuery);
+    this.movies.appendNextPage();
+  }
 
-    var where = [];
-    var parameters = [];
-    if (query) {
-      where.push("title LIKE ?");
-      parameters.push("%" + query + "%");
-    }
-    if (this.selectedYear.value) {
-      where.push("year = ?");
-      parameters.push(this.selectedYear.value);
-    }
-
-    if (this.selectedGenre.value) {
-      where.push("genre = ?");
-      parameters.push(this.selectedGenre.value);
-    }
-
-    where = where.join(" and ");
-    parameters.unshift(where);
-
-    this.movies.where = parameters;
-
-    if (this.selectedSort.value) {
-      this.movies.order = "rating DESC";
-    } else {
-      this.movies.order = [];
-    }
-
-    this.movies.fetch();
-  },
-
-  fetchYears: function () {
-    var self = this;
-    this.movieYearsStore.all().then(function (years) {
-      self.years = _.map(years, function (year) {
-        return {text: year, value: year};
-      });
+  fetchYears() {
+    this.movieYearsStore.all().then((years) => {
+      this.years = _.map(years, (year) => ({text: year, value: year}));
+      this.years.unshift({text: "Year"});
     });
-  },
+  }
 
-  fetchGenres: function () {
-    var self = this;
-    this.movieGenresStore.all().then(function (genres) {
-      self.genres = _.map(genres, function (genre) {
-        return {text: genre, value: genre};
-      });
+  fetchGenres() {
+    this.movieGenresStore.all().then((genres) => {
+      this.genres = _.map(genres, (genre) => ({text: genre, value: genre}));
+      this.genres.unshift({text: "Genre"});
     })
-  },
+  }
 
-  fetchSort: function () {
+  fetchSort() {
     this.sort = [
-      {text: "Don't sort"},
+      {text: "Sort"},
       {text: "Rating", value: "rating"}
     ]
   }
 
-};
+  appendNextPage() {
+    console.log("append next page", this.movies);
+    this.movies.appendNextPage();
+  }
+}
 
 
 angular.module("app").controller("MoviesController", MoviesController);

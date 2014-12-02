@@ -6,7 +6,7 @@
     .filter(dropdown-select="ctrl.genres", dropdown-model="ctrl.selectedGenre", dropdown-item-label="text")
     .filter(dropdown-select="ctrl.sort", dropdown-model="ctrl.selectedSort", dropdown-item-label="text")
 
-  .poster-list(infinite-scroll="ctrl.movies.appendNextPage()")
+  .poster-list(infinite-scroll="ctrl.appendNextPage()")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")
       fade-img(img="/tmp/{{movie.poster_thumb}}")
       .rating {{movie.rating}}

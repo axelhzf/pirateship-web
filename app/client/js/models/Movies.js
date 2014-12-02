@@ -1,65 +1,119 @@
-var apiBaseUrl = "/api";
-
-function Movies($http) {
-  this.items = [];
-  this.$http = $http;
-  this.limit = 10;
-  this.offset = 0;
-  this.where = {};
-  this.order = [];
+class MoviesStoreQuery {
+  constructor() {
+    this.limit = 10;
+    this.query = null;
+    this.year = null;
+    this.genre = null;
+    this.sort = null;
+  }
 }
 
-Movies.prototype = {
-  fetch: function () {
-    this.items = [];
-    this.offset = 0;
-    return this.appendCurrentPage();
-  },
-  appendCurrentPage: function () {
-    var params = {
-      limit: this.limit,
-      offset: this.offset,
-      where: this.where,
-      order: this.order
-    };
-    var self = this;
-    var paramsString = qs.stringify(params);
-    var url = apiBaseUrl + "/movies?" + paramsString;
+class MoviesStore {
 
-    console.log(params);
-    return this.$http.get(url)
-      .then(function (response) {
-        var data = response.data;
-        self.offset = data.offset;
-        Array.prototype.push.apply(self.items, data.items);
-      });
-  },
-  appendNextPage: function () {
-    this.offset = this.offset + this.limit;
-    return this.appendCurrentPage();
-  },
-  reset: function () {
-    this.offset = 0;
+  constructor(config, $http) {
+    this.config = config;
+    this.$http = $http;
+  }
+
+  getMoviesIterator(moviesStoreQuery) {
+    var page = new MoviesIterator(this.$http, this.config.api.path + "/movies");
+    page.params = this.buildFindParams(moviesStoreQuery);
+    page.params.limit = 20;
+    return page;
+  }
+
+  buildFindParams(moviesStoreQuery) {
+    var where = [];
+    var parameters = [];
+    var order = [];
+
+    if (moviesStoreQuery.query) {
+      where.push("title LIKE ?");
+      parameters.push("%" + moviesStoreQuery.query + "%");
+    }
+    if (moviesStoreQuery.year) {
+      where.push("year = ?");
+      parameters.push(moviesStoreQuery.year);
+    }
+
+    if (moviesStoreQuery.genre) {
+      where.push("genre = ?");
+      parameters.push(moviesStoreQuery.genre);
+    }
+
+    where = where.join(" and ");
+    parameters.unshift(where);
+
+    if (this.sort) {
+      order = "rating DESC";
+    }
+
+    return {
+      where: parameters,
+      order: order
+    }
+  }
+
+}
+
+class MoviesIterator {
+  constructor($http, url) {
+    this.$http = $http;
+    this.url = url;
+    this.params = {};
+
     this.items = [];
-  },
-  getYears: function () {
-    var url = apiBaseUrl + "/movies/_years";
-    return this.$http.get(url).then(function (response) {
-      return response.data;
-    });
-  },
-  getGenres: function () {
-    var url = apiBaseUrl + "/movies/_genres";
-    return this.$http.get(url).then(function (response) {
-      return response.data;
+    this.offset = 0;
+
+    this.requestQueue = new PromiseQueue();
+  }
+
+  appendNextPage() {
+    console.log("append next page");
+    this.requestQueue.add(() => {
+      var params = _.extend({offset: this.offset}, this.params);
+      var paramsString = qs.stringify(params);
+      var url = this.url + "?" + paramsString;
+      console.log("make request", params);
+      return this.$http.get(url).then((response) => {
+        var data = response.data;
+        this.offset = data.offset + data.limit;
+        Array.prototype.push.apply(this.items, data.items);
+        return this;
+      });
     });
   }
-};
+}
 
-angular.module("app").factory("Movies", function () {
-  return Movies;
-});
+class PromiseQueue {
+  constructor() {
+    this.queue = [];
+    this.activePromise = null;
+  }
 
-angular.module("app").factory("movies", function ($http) {
-  return new Movies($http);
-});
+  add(fn) {
+    if (!this.activePromise) {
+      this._executeFn(fn);
+    } else {
+      this.queue.push(fn);
+    }
+  }
+
+  _executeFn(fn) {
+    this.activePromise = fn();
+    this.activePromise.then((response) => {
+      this.activePromise = null;
+      if (this.queue.length > 0) {
+        var nextFn = this.queue.splice(0, 1)[0];
+        setTimeout(() => {
+          this._executeFn(nextFn);
+        }, 0);
+      }
+      return response;
+    });
+  }
+
+}
+
+
+angular.module("app").service("moviesStore", MoviesStore);
