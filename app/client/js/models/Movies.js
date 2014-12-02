@@ -65,16 +65,14 @@ class MoviesIterator {
     this.items = [];
     this.offset = 0;
 
-    this.requestQueue = new PromiseQueue();
+    this.requestQueue = new PromiseQueue(); //need a queue to append pages in order
   }
 
   appendNextPage() {
-    console.log("append next page");
     this.requestQueue.add(() => {
       var params = _.extend({offset: this.offset}, this.params);
       var paramsString = qs.stringify(params);
       var url = this.url + "?" + paramsString;
-      console.log("make request", params);
       return this.$http.get(url).then((response) => {
         var data = response.data;
         this.offset = data.offset + data.limit;
@@ -114,6 +112,5 @@ class PromiseQueue {
   }
 
 }
-
 
 angular.module("app").service("moviesStore", MoviesStore);

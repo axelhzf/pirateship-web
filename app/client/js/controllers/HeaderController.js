@@ -1,4 +1,4 @@
-function HeaderController ($state, $rootScope, global) {
+function HeaderController($state, $rootScope, global) {
   this.$state = $state;
   this.$rootScope = $rootScope;
   this.global = global;
@@ -15,5 +15,27 @@ HeaderController.prototype = {
     history.back();
   }
 };
+
+
+class HeaderController {
+  constructor($state, $rootScope, global) {
+    this.$state = $state;
+    this.$rootScope = $rootScope;
+    this.global = global;
+  }
+
+  clearQuery() {
+    this.global.moviesStoreQuery.query = "";
+  }
+
+  next() {
+    history.next();
+  }
+
+  previous() {
+    history.back();
+  }
+}
+
 
 App.ctrl(HeaderController);
