@@ -53,18 +53,14 @@ class MoviesController {
   }
 
   fetchYears() {
-    //this.selectedYear = {text: "Year"};
     this.movieYearsStore.all().then((years) => {
       this.years = _.map(years, (year) => ({text: year, value: year}));
       this.years.unshift({text: "Year"});
-      this.selectedYear = _.find(this.years, (year) => {
-        return year.value === this.moviesStoreQuery.year
-      });
+      this.selectedYear = _.find(this.years, (year) => year.value === this.moviesStoreQuery.year);
     });
   }
 
   fetchGenres() {
-    this.selectedGenre = {text: "Genre"};
     this.movieGenresStore.all().then((genres) => {
       this.genres = _.map(genres, (genre) => ({text: genre, value: genre}));
       this.genres.unshift({text: "Genre"});
@@ -73,12 +69,11 @@ class MoviesController {
   }
 
   fetchSort() {
-    this.selectedSort = {text: "Sort"};
     this.sort = [
       {text: "Sort"},
       {text: "Rating", value: "rating"}
     ];
-    this.selectedSort = _.find(this.sort, (year) => year.value === this.moviesStoreQuery.sort);
+    this.selectedSort = _.find(this.sort, (sort) => sort.value === this.moviesStoreQuery.sort);
   }
 
   appendNextPage() {

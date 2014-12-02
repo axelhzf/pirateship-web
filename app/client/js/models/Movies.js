@@ -44,14 +44,16 @@ class MoviesStore {
     where = where.join(" and ");
     parameters.unshift(where);
 
-    if (this.sort) {
+    if (moviesStoreQuery.sort) {
       order = "rating DESC";
     }
 
-    return {
+    var params = {
       where: parameters,
       order: order
-    }
+    };
+
+    return params;
   }
 
 }
