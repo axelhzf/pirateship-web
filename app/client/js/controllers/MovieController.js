@@ -12,8 +12,8 @@ function MovieController($stateParams, Restangular, download, $scope) {
 MovieController.prototype = {
 
   startDownloadInterval: function () {
-    this.stopDownloadInterval();
-    this.downloadInterval = setInterval(this.fetchDownload.bind(this), 1000);
+    //this.stopDownloadInterval();
+    //this.downloadInterval = setInterval(this.fetchDownload.bind(this), 1000);
   },
 
   stopDownloadInterval: function () {
