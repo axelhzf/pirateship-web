@@ -1,5 +1,8 @@
-function MoviesController(movies, global, $scope) {
+function MoviesController(movies, global, $scope, movieYearsStore, movieGenresStore) {
   this.movies = movies;
+  this.movieYearsStore = movieYearsStore;
+  this.movieGenresStore = movieGenresStore;
+
   this.movies.limit = 20;
   this.years = [];
   this.genres = [];
@@ -13,6 +16,7 @@ function MoviesController(movies, global, $scope) {
   this.selectedYear = {text: "Year"};
   this.selectedGenre = {text: "Genre"};
   this.selectedSort = {text: "Sort"};
+
 
   this.initialFetch();
 }
@@ -50,7 +54,7 @@ MoviesController.prototype = {
       parameters.push(this.selectedYear.value);
     }
 
-    if(this.selectedGenre.value) {
+    if (this.selectedGenre.value) {
       where.push("genre = ?");
       parameters.push(this.selectedGenre.value);
     }
@@ -60,7 +64,7 @@ MoviesController.prototype = {
 
     this.movies.where = parameters;
 
-    if(this.selectedSort.value) {
+    if (this.selectedSort.value) {
       this.movies.order = "rating DESC";
     } else {
       this.movies.order = [];
@@ -71,16 +75,16 @@ MoviesController.prototype = {
 
   fetchYears: function () {
     var self = this;
-    this.movies.getYears().then(function (years) {
+    this.movieYearsStore.all().then(function (years) {
       self.years = _.map(years, function (year) {
         return {text: year, value: year};
       });
-    })
+    });
   },
 
   fetchGenres: function () {
     var self = this;
-    this.movies.getGenres().then(function (genres) {
+    this.movieGenresStore.all().then(function (genres) {
       self.genres = _.map(genres, function (genre) {
         return {text: genre, value: genre};
       });
