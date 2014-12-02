@@ -1,10 +1,17 @@
 class MoviesController {
-  constructor($scope, moviesStore, global, movieYearsStore, movieGenresStore) {
+  constructor($scope, moviesStore, global, movieYearsStore, movieGenresStore, $state, $location) {
+    console.log("execute constructor");
     this.moviesStore = moviesStore;
     this.movieYearsStore = movieYearsStore;
     this.movieGenresStore = movieGenresStore;
+    this.$location = $location;
 
     this.moviesStoreQuery = global.moviesStoreQuery;
+    var queryParams = $state.params;
+    queryParams.year = _.isNumber(queryParams.year) ? ~~queryParams.year : null;
+    _.extend(this.moviesStoreQuery, $state.params);
+
+
     this.movies = null;
 
     this.years = [];
@@ -12,22 +19,21 @@ class MoviesController {
 
     this.global = global;
 
+    this.initialFetch();
+
     $scope.$watch("ctrl.selectedYear.text", () => this.moviesStoreQuery.year = this.selectedYear.value);
     $scope.$watch("ctrl.selectedGenre.text", () => this.moviesStoreQuery.genre = this.selectedGenre.value);
     $scope.$watch("ctrl.selectedSort.text", () => this.moviesStoreQuery.sort = this.selectedSort.value);
     $scope.$watch("ctrl.moviesStoreQuery", this.filterChangeQuery.bind(this), true);
-
-    this.initialFetch();
   }
 
   initialFetch() {
-    if (!this.movies) {
-      this.changeQuery();
-    }
-
     this.fetchYears();
     this.fetchGenres();
     this.fetchSort();
+
+    this.movies = this.moviesStore.getMoviesIterator(this.moviesStoreQuery);
+    this.movies.appendNextPage();
   }
 
   filterChangeQuery(newValue, oldValue) {
@@ -37,9 +43,7 @@ class MoviesController {
   }
 
   changeQuery() {
-    console.log("change query");
-    this.movies = this.moviesStore.getMoviesIterator(this.moviesStoreQuery);
-    this.movies.appendNextPage();
+    this.$location.search(_.pick(this.moviesStoreQuery, "query", "year", "genre", "sort")).replace();
   }
 
   fetchYears() {

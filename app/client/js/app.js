@@ -18,7 +18,7 @@ App.config(function ($stateProvider, $urlRouterProvider, RestangularProvider) {
   });
 
   $stateProvider.state("movies", {
-    url: "/movies",
+    url: "/movies?query&year&genre&order&sort",
     templateUrl: "assets/templates/movies.html",
     controller: "MoviesController as ctrl"
   });
