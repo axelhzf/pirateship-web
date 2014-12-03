@@ -3,6 +3,9 @@
     .img-container
       fade-img(img="/tmp/{{ctrl.movie.poster_thumb}}")
 
+    .rating
+      .rating-inner {{ctrl.movie.rating}}
+
     .actions
       div(ng-if="!ctrl.download")
         a.btn(ng-click="ctrl.downloadMagnet()") Download
