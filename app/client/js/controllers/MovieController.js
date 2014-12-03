@@ -1,28 +1,30 @@
-function MovieController($stateParams, Restangular, download, $scope) {
-  this.$stateParams = $stateParams;
-  this.Restangular = Restangular;
-  this.downloadService = download;
+class MovieController {
+  constructor($stateParams, moviesStore, download, $scope) {
+    this.downloadService = download;
+    this.moviesStore = moviesStore;
 
-  this.fetchMovie();
-  this.startDownloadInterval();
+    this.movieId = $stateParams.id;
 
-  $scope.$on("$destroy", this.destroy.bind(this));
-}
 
-MovieController.prototype = {
+    this.fetchMovie();
+    this.fetchTorrents();
+    //this.startDownloadInterval();
 
-  startDownloadInterval: function () {
-    //this.stopDownloadInterval();
-    //this.downloadInterval = setInterval(this.fetchDownload.bind(this), 1000);
-  },
+    $scope.$on("$destroy", this.destroy.bind(this));
+  }
 
-  stopDownloadInterval: function () {
+  startDownloadInterval() {
+    this.stopDownloadInterval();
+    this.downloadInterval = setInterval(this.fetchDownload.bind(this), 1000);
+  }
+
+  stopDownloadInterval() {
     if (this.downloadInterval) {
       clearInterval(this.downloadInterval);
     }
-  },
+  }
 
-  fetchDownload: function () {
+  fetchDownload() {
     var self = this;
     if (this.movie) {
       var where = {
@@ -33,20 +35,29 @@ MovieController.prototype = {
         self.download = download;
       });
     }
-  },
+  }
 
-  fetchMovie: function () {
-    this.movie = this.Restangular.one("movies", this.$stateParams.id).get().$object;
-  },
+  fetchMovie() {
+    this.moviesStore.get(this.movieId).then((movie) => {
+      this.movie = movie;
+    });
+  }
 
-  downloadMagnet: function () {
+  fetchTorrents() {
+    this.moviesStore.findTorrentsForMovie(this.movieId).then((torrents) => {
+      this.torrents = torrents;
+    });
+  }
+
+  downloadMagnet(magnet) {
     this.downloadService.downloadMovie(this.movie.id, this.movie.yts_magnet);
-  },
+  }
 
-  destroy: function () {
+  destroy() {
     this.stopDownloadInterval();
   }
 
-};
+}
+
 
 angular.module("app").controller("MovieController", MovieController);

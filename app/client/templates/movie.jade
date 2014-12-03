@@ -8,7 +8,7 @@
 
     .actions
       div(ng-if="!ctrl.download")
-        a.btn(ng-click="ctrl.downloadMagnet()") Download
+        a.btn(ng-click="ctrl.downloadMagnet(ctrl.movie.yts_magnet)") Download
       div(ng-if="ctrl.download")
         a.btn() {{ctrl.download.progress / 10}}% - {{ctrl.download.speed / 1000 | kbFmt:2}}/s
 
@@ -18,4 +18,11 @@
     p {{ctrl.movie.overview}}
     h2 Trailer
     youtube-player(video-url="ctrl.movie.trailer")
+
+    table.torrents
+      tr.torrent-item(ng-repeat="torrent in ctrl.torrents")
+        td
+          a(ng-click="ctrl.downloadMagnet(torrent.link)") {{torrent.title}}
+        td {{torrent.seeds}}
+        td {{torrent.leechers}}
 

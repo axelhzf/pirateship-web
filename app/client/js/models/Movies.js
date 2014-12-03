@@ -56,6 +56,22 @@ class MoviesStore {
     return params;
   }
 
+  _doGet (url) {
+    return this.$http.get(url).then(function (response) {
+      return response.data;
+    });
+  }
+
+  get(id) {
+    var url = this.config.api.path + "/movies/" + id;
+    return this._doGet(url);
+  }
+
+  findTorrentsForMovie(id) {
+    var url = this.config.api.path + "/movies/" + id + "/torrents";
+    return this._doGet(url);
+  }
+
 }
 
 class MoviesIterator {
