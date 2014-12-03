@@ -1,27 +1,9 @@
-function HeaderController($state, $rootScope, global) {
-  this.$state = $state;
-  this.$rootScope = $rootScope;
-  this.global = global;
-}
-
-HeaderController.prototype = {
-  clearQuery: function () {
-    this.global.query = "";
-  },
-  next: function () {
-    history.next();
-  },
-  previous: function () {
-    history.back();
-  }
-};
-
-
 class HeaderController {
-  constructor($state, $rootScope, global) {
+  constructor($state, $rootScope, global, $location) {
     this.$state = $state;
     this.$rootScope = $rootScope;
     this.global = global;
+    this.$location = $location;
   }
 
   clearQuery() {
@@ -34,6 +16,10 @@ class HeaderController {
 
   previous() {
     history.back();
+  }
+
+  onSubmit() {
+    this.$state.go("movies", {query: this.global.moviesStoreQuery.query});
   }
 }
 

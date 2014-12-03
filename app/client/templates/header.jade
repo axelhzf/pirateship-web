@@ -1,9 +1,9 @@
 .header(ng-controller="HeaderController as h")
   .header-left
     a.brand(ui-sref="home") Pirateship
-    form
-      input(type="text", ng-model="h.global.moviesStoreQuery.query", placeholder="Search...")
-      a.input-clear(ng-click="h.clearQuery()", ng-class="{visible: h.global.query.length > 0}")
+    form(ng-submit="h.onSubmit()")
+      input(type="text", ng-model="h.global.moviesStoreQuery.query", placeholder="Search...", ng-model-options="{debounce: 300}")
+      a.input-clear(ng-click="h.clearQuery()", ng-class="{visible: h.global.moviesStoreQuery.query.length > 0}")
         i.ion-ios7-close-outline
 
   .header-right
