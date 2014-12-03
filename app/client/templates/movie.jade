@@ -16,13 +16,19 @@
   .center
     h1 {{ctrl.movie.title}}
     p {{ctrl.movie.overview}}
-    h2 Trailer
-    youtube-player(video-url="ctrl.movie.trailer")
 
-    table.torrents
-      tr.torrent-item(ng-repeat="torrent in ctrl.torrents")
-        td
-          a(ng-click="ctrl.downloadMagnet(torrent.link)") {{torrent.title}}
-        td {{torrent.seeds}}
-        td {{torrent.leechers}}
+    ul.tabs
+      li: a(ng-class="{active: ctrl.tab === 'trailer'}", ng-click="ctrl.tab = 'trailer'") Trailer
+      li: a(ng-class="{active: ctrl.tab === 'torrents'}", ng-click="ctrl.tab  = 'torrents'") Torrents
+
+    .tab-trailer(ng-if="ctrl.tab == 'trailer'")
+      youtube-player(video-url="ctrl.movie.trailer")
+
+    .tab-torrents(ng-if="ctrl.tab == 'torrents'")
+      table.torrents
+        tr.torrent-item(ng-repeat="torrent in ctrl.torrents")
+          td
+            a(ng-click="ctrl.downloadMagnet(torrent.link)") {{torrent.title}}
+          td {{torrent.seeds}}
+          td {{torrent.leechers}}
 

@@ -10,6 +10,8 @@ class MovieController {
     this.fetchTorrents();
     //this.startDownloadInterval();
 
+    this.tab = "trailer";
+
     $scope.$on("$destroy", this.destroy.bind(this));
   }
 
