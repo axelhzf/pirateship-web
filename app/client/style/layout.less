@@ -1,79 +1,92 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
-    color: #fff;
+
+}
+
+::selection {
+  background: fade(@rebecapurple, 20%);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 body {
-    margin: 0;
-    background-color: #121923;
+  margin: 0;
+  background-color: #121923;
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: @lightGrey;
 }
 
 a {
-    cursor: pointer;
-    color: @lightGrey;
+  cursor: pointer;
+  color: @lightGrey;
+  text-decoration: none;
+  &:hover {
+    color: #76D1EE;
     text-decoration: none;
-    &:hover {
-        color: #76D1EE;
-        text-decoration: none;
-    }
+  }
 }
 
 h1, h2, h3, h4, h5 {
-    font-weight: 100;
-    color: #fff;
-    margin: 20px 0;
+  font-weight: 100;
+  color: #fff;
+  margin: 20px 0;
 }
 
 .main-content {
-    padding-top: @header-height;
-    padding-left: 20px;
-    padding-right: 20px;
+  padding-top: @header-height;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 li {
-    padding: 5px 2px;
+  padding: 5px 2px;
 }
 
 ul.inline {
-    li {
-        display: inline-block;
-    }
+  li {
+    display: inline-block;
+  }
 }
 
 .show header {
-    display: flex;
-    flex-direction: row;
-    background-color: #10121A;
-    padding: @default-padding;
+  display: flex;
+  flex-direction: row;
+  background-color: #10121A;
+  padding: @default-padding;
 
-    .poster img {
-        width: 100px;
-        height: auto;
+  .poster img {
+    width: 100px;
+    height: auto;
+  }
+
+  .description {
+    flex: 1;
+    margin-left: 20px;
+
+    h1 {
+      color: #fff;
+
     }
+  }
 
-    .description {
-        flex: 1;
-        margin-left: 20px;
+  .seasons {
+    font-size: 24px;
+    font-weight: lighter;
 
-        h1 {
-            color: #fff;
-
-        }
+    .active {
+      color: @green;
     }
-
-    .seasons {
-        font-size: 24px;
-        font-weight: lighter;
-
-        .active {
-            color: @green;
-        }
-    }
+  }
 }
 
 .show-content {
@@ -81,28 +94,27 @@ ul.inline {
 }
 
 .aired {
-    color: @green;
+  color: @green;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 
-    td, th {
-        padding: 7px;
-    }
+  td, th {
+    padding: 7px;
+  }
 
-    td {
-        border-top: 1px solid @border-color;
-        border-bottom: 1px solid @border-color;
-    }
+  td {
+    border-top: 1px solid @border-color;
+    border-bottom: 1px solid @border-color;
+  }
 }
 
-
 .torrents-table {
-    .status {
-        width: 120px;
-    }
+  .status {
+    width: 120px;
+  }
 }
 
 .favorites {
@@ -110,21 +122,27 @@ table {
 }
 
 .subtitles-status {
-    font-variant: small-caps;
+  font-variant: small-caps;
 }
 
 .subtitles-status-none {
-    color: @lightGrey;
+  color: @lightGrey;
 }
 
 .subtitles-status-some {
-    color: orange;
+  color: orange;
 }
 
 .subtitles-status-all {
-    color: @green;
+  color: @green;
 }
 
 .hd {
-    height: 15px;
+  height: 15px;
+}
+
+table {
+  th {
+    text-align: left;
+  }
 }

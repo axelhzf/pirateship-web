@@ -26,9 +26,15 @@
 
     .tab-torrents(ng-if="ctrl.tab == 'torrents'")
       table.torrents
-        tr.torrent-item(ng-repeat="torrent in ctrl.torrents")
-          td
-            a(ng-click="ctrl.downloadMagnet(torrent.link)") {{torrent.title}}
-          td {{torrent.seeds}}
-          td {{torrent.leechers}}
+        thead
+          tr
+            th Name
+            th Seeds
+            th Leechers
+        tbody
+          tr.torrent-item(ng-repeat="torrent in ctrl.torrents")
+            td
+              a(ng-click="ctrl.downloadMagnet(torrent.link)") {{torrent.title}}
+            td {{torrent.seeds}}
+            td {{torrent.leechers}}
 

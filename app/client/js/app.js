@@ -1,12 +1,11 @@
-var App = angular.module("app", ["restangular", "ui.router", "ngSanitize", "angular.filter", "infinite-scroll", "ngDropdowns"]);
+var App = angular.module("app", ["ui.router", "ngSanitize", "angular.filter", "infinite-scroll", "ngDropdowns"]);
 
 App.ctrl = function (clazz) {
   window.App.controller(clazz.name, clazz);
 };
 
-App.config(function ($stateProvider, $urlRouterProvider, RestangularProvider) {
+App.config(function ($stateProvider, $urlRouterProvider) {
 
-  RestangularProvider.setBaseUrl("/api/");
 
   $urlRouterProvider.otherwise("/movies");
 

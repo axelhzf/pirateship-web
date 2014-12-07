@@ -16,6 +16,7 @@ class DownloadsController {
   }
 
   startInterval() {
+    this.fetchDownloads();
     this.interval = this.$interval(() => {
       this.fetchDownloads();
     }, 1000);

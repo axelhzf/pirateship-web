@@ -1,16 +1,21 @@
 .content.movies
   h1 Movies
-
   .filters
     .filter(dropdown-select="ctrl.years", dropdown-model="ctrl.selectedYear", dropdown-item-label="text")
     .filter(dropdown-select="ctrl.genres", dropdown-model="ctrl.selectedGenre", dropdown-item-label="text")
     .filter(dropdown-select="ctrl.sort", dropdown-model="ctrl.selectedSort", dropdown-item-label="text")
 
+
   .poster-list(infinite-scroll="ctrl.appendNextPage()")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")
-      fade-img(img="/tmp/{{movie.poster_thumb}}")
-      .rating {{movie.rating}}
-      .backdrop
-        i.ion-ios7-eye
-      .post-list-content(ng-if="show.favorite")
-        i.ion-ios7-heart
+      .poster-image
+        fade-img(img="/tmp/{{movie.poster_thumb}}")
+        .rating {{movie.rating}}
+        .backdrop
+          i.ion-ios7-eye
+        .post-list-content(ng-if="show.favorite")
+          i.ion-ios7-heart
+      .poster-data
+        .poster-title {{movie.title}}
+        .poster-genre {{movie.genre}}
+
