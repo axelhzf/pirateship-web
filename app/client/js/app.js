@@ -29,6 +29,12 @@ App.config(function ($stateProvider, $urlRouterProvider, RestangularProvider) {
     controller: "MovieController as ctrl"
   });
 
+  $stateProvider.state("downloads", {
+    url: "/downloads",
+    templateUrl: "assets/templates/downloads.html",
+    controller: "DownloadsController as ctrl"
+  })
+
 
 
 });

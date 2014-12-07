@@ -18,6 +18,7 @@
     "mkdirp": "^0.5.0",
     "pirateship-server": "git://github.com/axelhzf/pirateship-server.git#master",
     "qs": "^2.3.2",
+    "simple-glob": "^0.1.0",
     "thunkify": "^2.1.2",
     "underscore": "^1.6.0"
   },

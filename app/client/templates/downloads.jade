@@ -1,0 +1,21 @@
+.content.downloads
+  h1 Downloads
+
+  table(ng-if="ctrl.downloads")
+    thead
+      tr
+        th Status
+        th Name
+        th Progress
+        th Speed
+        th ETA
+    tbody
+      tr(ng-repeat="download in ctrl.downloads")
+        td {{download.status}}
+        td
+          span(ng-if="download.movie")
+            a(ui-sref="movie({id: download.movie.id})") {{download.name}}
+          span(ng-if="!download.movie") {{download.name}}
+        td {{download.progress / 10}}%
+        td {{download.speed / 1000 | kbFmt:2}}/s
+        td {{download.eta | eta}}
