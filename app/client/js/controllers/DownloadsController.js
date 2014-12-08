@@ -35,6 +35,29 @@ class DownloadsController {
     });
   }
 
+  statusText(code) {
+    var codes = {
+      STOPPED: 0,  //Torrent is stopped
+      CHECK_WAIT: 1, // Queued to check files
+      CHECK: 2,  // Checking files
+      DOWNLOAD_WAIT: 3,  // Queued to download
+      DOWNLOAD: 4,  // Downloading
+      SEED_WAIT: 5,  // Queued to seed
+      SEED: 6,  // Seeding
+      ISOLATED: 7  // Torrent can't find peers
+    };
+    return _.invert(codes)[code];
+  }
+
+  start(download) {
+    this.downloadsStore.start(download.id);
+  }
+
+  stop(download) {
+    this.downloadsStore.stop(download.id);
+  }
+
+
 }
 
 angular.module("app").controller("DownloadsController", DownloadsController);

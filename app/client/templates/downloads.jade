@@ -4,6 +4,7 @@
   table(ng-if="ctrl.downloads")
     thead
       tr
+        th
         th Status
         th Name
         th Progress
@@ -11,11 +12,17 @@
         th ETA
     tbody
       tr(ng-repeat="download in ctrl.downloads")
-        td {{download.status}}
+        td.actions
+          a(ng-if="download.status === 0", ng-click="ctrl.start(download)")
+            i.ion-play
+          a(ng-if="download.status === 4", ng-click="ctrl.stop(download)")
+            i.ion-pause
+
+        td.status {{ctrl.statusText(download.status)}}
         td
           span(ng-if="download.movie")
             a(ui-sref="movie({id: download.movie.id})") {{download.name}}
           span(ng-if="!download.movie") {{download.name}}
-        td {{download.progress / 10}}%
-        td {{download.speed / 1000 | kbFmt:2}}/s
-        td {{download.eta | eta}}
+        td.percentDone {{download.percentDone * 100 | number}}%
+        td.download {{download.rateDownload / 1000 | kbFmt:2}}/s
+        td.eta {{download.eta | eta}}
