@@ -15,7 +15,7 @@
   "js/models/*.js",
   "js/libs/qs.js",
   "js/directives/fadeImg.js",
-  "js/directives/youtube-player.js",
+  "js/directives/youtubePlayer.js",
   "js/controllers/*.js",
   "js/filter/*"
 ]

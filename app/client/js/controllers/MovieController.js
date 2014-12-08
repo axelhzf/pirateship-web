@@ -1,8 +1,8 @@
 class MovieController {
-  constructor($stateParams, moviesStore, download, $scope) {
+  constructor($stateParams, moviesStore, download, $scope, $state) {
+    this.$state = $state;
     this.downloadService = download;
     this.moviesStore = moviesStore;
-
     this.movieId = $stateParams.id;
 
     this.fetchMovie();
@@ -26,7 +26,9 @@ class MovieController {
   }
 
   downloadMagnet(magnet) {
-    this.downloadService.downloadMovie(this.movie.id, this.movie.yts_magnet);
+    this.downloadService.downloadMovie(this.movie.id, this.movie.yts_magnet).then(() => {
+      this.$state.go("downloads");
+    })
   }
 
   destroy() {

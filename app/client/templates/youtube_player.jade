@@ -1,0 +1,10 @@
+.youtube-player
+  .thumbnail(ng-click="ctrl.showModal()")
+    fade-img(img="{{ctrl.thumbnailUrl()}}")
+    .backdrop
+      i.ion-play
+
+  .youtube-player-modal(ng-if="ctrl.modalVisible")
+    a.close(ng-click="ctrl.hideModal()")
+      i.ion-close-circled
+    iframe(type="text/html", width="560", height="315", allowfullscreen, frameborder="0" ng-src="{{ctrl.embedUrl()}}")
