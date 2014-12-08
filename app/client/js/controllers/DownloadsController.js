@@ -24,8 +24,7 @@ class DownloadsController {
 
   stopInterval() {
     if (this.interval) {
-      console.log("clearing interval");
-      clearInterval(this.interval);
+      this.$interval.cancel(this.interval);
     }
   }
 
