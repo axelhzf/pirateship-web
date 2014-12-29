@@ -1,0 +1,26 @@
+{
+  "style": "style/app.less",
+  "components": [
+    "jquery",
+    "angular",
+    "ui-router",
+    "underscore",
+    "angular-sanitize",
+    "angular-filter",
+    "ngInfiniteScroll",
+    "angular-dropdowns",
+    "moment"
+  ],
+  "js": [
+    "app.js",
+    "config.js",
+    "models/BasicStore.js",
+    "models/*.js",
+    "libs/qs.js",
+    "directives/fadeImg.js",
+    "directives/youtubePlayer.js",
+    "controllers/*.js",
+    "filter/*"
+  ]
+}
+

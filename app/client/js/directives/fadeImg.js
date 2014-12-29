@@ -1,7 +1,7 @@
 App.directive("fadeImg", function ($sce) {
   return {
     restrict: "E",
-    templateUrl: "assets/templates/fadeImg.html",
+    templateUrl: "templates/fadeImg.html",
     scope: {
       img: "@"
     },

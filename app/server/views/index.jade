@@ -1,0 +1,13 @@
+extends layout
+block head
+  link(rel="stylesheet", href="/assets/" + assets.style)
+block content
+  div(ng-app="app")
+    .header
+      ng-include(src="'templates/header.html'")
+    .main-content(ui-view)
+
+  if assets.js
+    each script in assets.js
+      script(src="assets/" + script)
+    script(src="assets/templates/templates.js")

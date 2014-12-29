@@ -18,19 +18,19 @@ App.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state("movies", {
     url: "/movies?query&year&genre&order&sort",
-    templateUrl: "assets/templates/movies.html",
+    templateUrl: "templates/movies.html",
     controller: "MoviesController as ctrl"
   });
 
   $stateProvider.state("movie", {
     url: "/movies/:id",
-    templateUrl: "assets/templates/movie.html",
+    templateUrl: "templates/movie.html",
     controller: "MovieController as ctrl"
   });
 
   $stateProvider.state("downloads", {
     url: "/downloads",
-    templateUrl: "assets/templates/downloads.html",
+    templateUrl: "templates/downloads.html",
     controller: "DownloadsController as ctrl"
   })
 

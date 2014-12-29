@@ -48,7 +48,7 @@ angular.module("app").directive("youtubePlayer", function ($sce) {
       videoId: "=",
       videoUrl: "="
     },
-    templateUrl: "assets/templates/youtube_player.html",
+    templateUrl: "templates/youtube_player.html",
     link: function (scope) {
       console.log("youtube player link");
       scope.ctrl = new YoutubePlayerDirective($sce, scope);
