@@ -4,6 +4,7 @@ var Promise = require("bluebird");
 var pirateship = require("pirateship");
 var Movie = require("../models/Movie");
 var Download = require("../models/Download");
+var Kickass = require("node-kickass");
 
 function TorrentService() {
   var transmissionOptions = {
@@ -21,7 +22,27 @@ function TorrentService() {
 
 TorrentService.prototype = {
 
-  find: Promise.promisify(pirateship.find, pirateship),
+  find: function (query) {
+    return function (cb) {
+      new Kickass()
+        .setQuery(query)
+        .run(function(errors, data) {
+          if (errors.length > 0) {
+            cb(new Error(errors));
+          } else {
+            data = data.map(function (item) {
+              return {
+                title: item.title,
+                link: item["torrent:magneturi"]["#"],
+                seeds: item["torrent:seeds"]["#"],
+                leechers: item["torrent:peers"]["#"]
+              }
+            });
+            cb(null, data);
+          }
+        });
+    }
+  },
 
   findByMovie: function *(movieId) {
     var movie = yield Movie.find(movieId);

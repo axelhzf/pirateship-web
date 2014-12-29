@@ -12,12 +12,13 @@
     "gm": "^1.17.0",
     "mkdirp": "^0.5.0",
     "mz": "^1.2.1",
+    "node-kickass": "^0.2.0",
+    "pirateship": "git://github.com/axelhzf/pirateship.git#master",
+    "post-process": "git://github.com/axelhzf/download-post-process#master",
     "request": "^2.51.0",
     "transmission": "^0.4.1",
     "underscore": "^1.7.0",
-    "underscore.string": "^2.4.0",
-    "pirateship": "git://github.com/axelhzf/pirateship.git#master",
-    "post-process": "git://github.com/axelhzf/download-post-process#master"
+    "underscore.string": "^2.4.0"
   },
   "scripts": {
     "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js"
