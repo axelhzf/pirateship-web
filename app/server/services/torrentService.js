@@ -1,7 +1,6 @@
 var _ = require("underscore");
 var Transmission = require("transmission");
 var Promise = require("bluebird");
-var pirateship = require("pirateship");
 var Movie = require("../models/Movie");
 var Download = require("../models/Download");
 var Kickass = require("node-kickass");
