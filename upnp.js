@@ -18,7 +18,7 @@ client.search('upnp:rootdevice');
 var client = new MediaRendererClient('http://192.168.2.118:62042/');
 
 // Load a stream and play it immediately
-var file = "file:///tmp/media/usb/Video/Peliculas/Planes.Fire.and.Rescue.2014.720p.BluRay.x264.YIFY.mp4";
+var file = "file:///tmp/media/usb/Video/movies/Gone.Girl.2014.720p.BluRay.x264.YIFY.mp4";
 client.load(file, { autoplay: true }, function(err, result) {
   if(err) throw err;
   console.log('playing ...');
