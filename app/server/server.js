@@ -6,6 +6,8 @@ var queue = require("./queue");
 
 var app = new barbakoa();
 
+barbakoa.mountStatic("/tmp", __dirname + "/../../tmp");
+
 require("./routes");
 
 events.on("post-start", function * () {

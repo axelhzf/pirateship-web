@@ -4,3 +4,5 @@ node_modules
 app/.assets
 logs
 app/client/components
+tmp/
+npm-debug.log

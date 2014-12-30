@@ -23,6 +23,11 @@
     "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js"
   },
   "devDependencies": {
-    "gulp": "^3.8.10"
+    "chai": "^1.10.0",
+    "co-glob": "0.0.2",
+    "co-mocha": "^1.1.0",
+    "commander": "^2.6.0",
+    "gulp": "^3.8.10",
+    "mocha": "^2.1.0"
   }
 }

@@ -86,13 +86,15 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
     if (!movie.poster) {
       throw new Error("Movie " + movieId + " doesn't have a poster");
     }
-    console.log("image procesing job", movieId);
 
     var poster = movie.poster;
-    var imageName = _s.slugify(movie.title);
-    var localFile = yield imageService.downloadImage(poster, imageName);
-    var thumbFiles = yield imageService.resizeImage(localFile);
-    movie.poster_thumb = path.basename(thumbFiles);
+    var imageName = movie.imdb_id + "-" +  _s.slugify(movie.title);
+    var posterFile = yield imageService.downloadImage(poster, imageName);
+    var posterThumbFile = yield imageService.resizeImage(posterFile);
+    var backgroundFile = yield imageService.downloadImage(movie.background, imageName + "_bg");
+    movie.poster = path.basename(posterFile);
+    movie.poster_thumb = path.basename(posterThumbFile);
+    movie.background = path.basename(backgroundFile);
     yield movie.save();
   })
 });

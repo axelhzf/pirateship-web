@@ -9,6 +9,7 @@ var debug = require("debug")("moviesService");
 var _s = require("underscore.string");
 var request = require("./request");
 var traktService = require("./traktService");
+var moviedbService = require("./moviedbService");
 
 
 var moviesService = {
@@ -72,7 +73,7 @@ var moviesService = {
       var isNew = yield this._isNewMovie(movie);
       if (isNew) {
         movie = yield Movie.create(movie);
-        traktService.fillDataFromMovie(movie.id);
+        moviedbService.fillMetadataFromMovie(movie.id);
       }
       return isNew;
     } catch (e) {

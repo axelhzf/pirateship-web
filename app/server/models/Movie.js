@@ -11,6 +11,7 @@ module.exports = db.define("Movie", {
   overview: db.types.TEXT,
   poster: db.types.URL,
   poster_thumb: db.types.URL,
+  background: db.types.URL,
   rating: db.types.FLOAT,
   genre: db.types.STRING
 }, {
