@@ -1,4 +1,6 @@
-.content.movie
+.content.movie(style="background-image:url(/tmp/{{ctrl.movie.background}});")
+  .movie-backdrop
+
   .left
     .img-container
       fade-img(img="/tmp/{{ctrl.movie.poster_thumb}}")
@@ -15,14 +17,14 @@
 
   .center
     h1 {{ctrl.movie.title}}
-    p {{ctrl.movie.overview}}
+    p.overview {{ctrl.movie.overview}}
 
     ul.tabs
       li: a(ng-class="{active: ctrl.tab === 'trailer'}", ng-click="ctrl.tab = 'trailer'") Trailer
       li: a(ng-class="{active: ctrl.tab === 'torrents'}", ng-click="ctrl.tab  = 'torrents'") Torrents
 
     .tab-trailer(ng-if="ctrl.tab == 'trailer'")
-      youtube-player(video-url="ctrl.movie.trailer")
+      youtube-player(video-id="ctrl.movie.trailer")
 
     .tab-torrents(ng-if="ctrl.tab == 'torrents'")
       table.torrents

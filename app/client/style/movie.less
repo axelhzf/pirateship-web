@@ -1,10 +1,24 @@
 .movie {
     display: flex;
-    padding-top: 20px;
     color: #6E6E73;
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    padding-top: @header-height + 20px;
+
+    background-size: cover;
+    background-position: center center;
+    background-attachment:fixed;
+
+    .movie-backdrop {
+        background-color: rgba(0, 0, 0, 0.8);
+        .full-size;
+    }
 
     .left {
         width: 200px;
+        margin-left: 20px;
+        position: relative;
 
         .img-container {
             width: 200px;
@@ -24,7 +38,6 @@
             .rating-inner {
                 display: inline-block;
                 font-size: 30px;
-                background-color: rgba(255, 255, 255, 0.05);
                 color: #fff;
                 padding: 30px;
                 border-radius: 5px;
@@ -41,8 +54,10 @@
     }
 
     .center {
+        position: relative;
         flex: 1;
         padding: 0 20px;
+        color: #fff;
 
         h1 {
 
@@ -63,5 +78,9 @@
             }
         }
 
+    }
+
+    .overview {
+        line-height: 1.5;
     }
 }
