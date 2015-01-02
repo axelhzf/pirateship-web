@@ -4,11 +4,12 @@ var Promise = require("bluebird");
 var Movie = require("../models/Movie");
 var Download = require("../models/Download");
 var Kickass = require("node-kickass");
+var config = require("config");
 
 function TorrentService() {
   var transmissionOptions = {
-    host: "localhost",
-    port: 9091
+    host: config.get("transmission.host"),
+    port: config.get("transmission.port")
   };
   this.transmission = new Transmission(transmissionOptions);
 

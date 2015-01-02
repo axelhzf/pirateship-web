@@ -37,6 +37,10 @@ module.exports = {
     enable: true,
     downloadedFolder: path.join(getUserHome(), "Downloads", "torrents", "downloaded"),
     destinationFolder: path.join(getUserHome(), "Downloads", "torrents", "pirateship")
+  },
+  transmission: {
+    host: "localhost",
+    port: 9091
   }
 };
 
