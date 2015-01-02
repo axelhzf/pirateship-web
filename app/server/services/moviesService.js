@@ -30,8 +30,6 @@ var moviesService = {
       } else {
         getNextFeaturedSet = false;
       }
-
-      getNextFeaturedSet = false; //one set
     }
     var stats = {
       totalMoviesAdded: totalMoviesAdded
@@ -53,11 +51,6 @@ var moviesService = {
       for (i = 0; i < result.MovieList.length; i++) {
         var movieItem = result.MovieList[i];
         yield this._processMovieItem(movieItem);
-
-        if (i === 20) {
-          return; // process a movie
-        }
-
       }
       debug("Featured set %d: processed %d movies", setNumber, i);
       return i;
