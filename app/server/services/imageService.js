@@ -7,6 +7,8 @@ var mkdirp = Promise.promisify(require("mkdirp"));
 var gm = require('gm');
 var _s = require("underscore.string");
 
+var debug = require("debug")("imageService");
+
 var queue = require("../queue");
 var Movie = require("../models/Movie");
 
@@ -21,6 +23,8 @@ function ImageService() {
 
 ImageService.prototype = {
   downloadImage: function* (url, filename) {
+    debug("Downloading %s to %s", url, filename);
+
     var tmpDirectory = yield this.getTmpDirectory();
     var ext = path.extname(url);
     var file = path.join(tmpDirectory, filename + ext);

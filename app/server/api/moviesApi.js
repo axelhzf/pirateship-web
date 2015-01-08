@@ -1,5 +1,5 @@
 var Movie = require("../models/Movie");
-var resource = require("./resource");
+var resource = require("barbakoa").api.resource;
 var moviesService = require("../services/moviesService");
 var torrentService = require("../services/torrentService");
 var _ = require("underscore");

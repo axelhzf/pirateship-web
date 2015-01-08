@@ -22,7 +22,13 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
     }
     var apikey = config.get("trakt.apikey");
     var summary = yield request.get("http://api.trakt.tv/movie/summary.json/" + apikey + "/" + movie.imdb_id);
-    _.extend(movie, _.pick(summary, "tagline", "trailer", "overview", "poster"));
+
+    movie.tagline = summary.tagline;
+    movie.trailer = summary.trailer;
+    movie.overview = summary.overview;
+    movie.poster = summary.images.poster;
+    movie.background = summary.images.fanart;
+
     yield movie.save();
 
     console.log("imgserver downloadImagesForMovies with id ", movie.id);

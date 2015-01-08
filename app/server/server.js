@@ -1,4 +1,5 @@
 var barbakoa = require("barbakoa");
+
 var events = barbakoa.events;
 var router = barbakoa.router;
 var postProcess = require("./services/postProcess");
@@ -15,4 +16,9 @@ events.on("post-start", function * () {
   queue.start();
 });
 
-app.start();
+module.exports = app;
+
+if (require.main === module) {
+  app.start();
+}
+

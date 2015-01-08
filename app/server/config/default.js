@@ -12,7 +12,7 @@ module.exports = {
     forceSync: false
   },
   logs: {
-    request: true,
+    request: false,
     path: path.join(__dirname, "../../../logs")
   },
   uploads: {

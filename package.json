@@ -21,7 +21,8 @@
     "underscore.string": "^2.4.0"
   },
   "scripts": {
-    "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js"
+    "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js",
+    "test": "NODE_ENV=test NODE_CONFIG_DIR=./app/server/config node --harmony test/server/test.js"
   },
   "devDependencies": {
     "chai": "^1.10.0",
@@ -29,7 +30,10 @@
     "co-mocha": "^1.1.0",
     "commander": "^2.6.0",
     "gulp": "^3.8.10",
+    "image-size": "^0.3.5",
     "mocha": "^2.1.0",
+    "qs": "^2.3.3",
+    "sinon": "^1.12.2",
     "sshane": "0.0.2"
   }
 }
