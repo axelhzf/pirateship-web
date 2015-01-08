@@ -23,5 +23,4 @@ class HeaderController {
   }
 }
 
-
-App.ctrl(HeaderController);
+angular.module("app").controller("HeaderController", HeaderController);

@@ -1,11 +1,6 @@
 var App = angular.module("app", ["ui.router", "ngSanitize", "angular.filter", "infinite-scroll", "ngDropdowns"]);
 
-App.ctrl = function (clazz) {
-  window.App.controller(clazz.name, clazz);
-};
-
 App.config(function ($stateProvider, $urlRouterProvider) {
-
 
   $urlRouterProvider.otherwise("/movies");
 
