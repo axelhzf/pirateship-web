@@ -1,7 +1,7 @@
 var sinon = require("sinon");
 var request = require("co-request");
 var Movie = require("../../../app/server/models/Movie");
-var dbUtils = require("barbakoa").test.utils.dbUtils;
+var dbUtils = require("barbakoa").test.server.utils.dbUtils;
 var qs = require("qs");
 var torrentService = require("../../../app/server/services/torrentService");
 

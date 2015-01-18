@@ -1,3 +1,4 @@
+var Joi = require("joi");
 var torrentService = require("../services/torrentService");
 
 exports.list = function* () {
@@ -5,12 +6,18 @@ exports.list = function* () {
   this.body = torrents;
 };
 
+var idSchema = Joi.object().keys({
+  id: Joi.number().integer().min(0).required()
+});
+
 exports.start = function* () {
-  var id = parseInt(this.params["id"], 10);
+  var params = yield this.validateParams(idSchema);
+  var id = params.id;
   this.body = yield torrentService.start(id);
 };
 
 exports.stop = function* () {
-  var id = parseInt(this.params["id"], 10);
+  var params = yield this.validateParams(idSchema);
+  var id = params.id;
   this.body = yield torrentService.stop(id);
 };

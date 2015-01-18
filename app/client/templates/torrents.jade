@@ -1,0 +1,6 @@
+.content.show
+  h1 Torrents
+  form(ng-submit="ctrl.search()")
+    input(ng-model="ctrl.tmpSearchQuery")
+
+  torrents-list(query="ctrl.searchQuery")

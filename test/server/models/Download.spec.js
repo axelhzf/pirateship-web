@@ -1,5 +1,5 @@
 var Download = require("../../../app/server/models/Download");
-var dbUtils = require("barbakoa").test.utils.dbUtils;
+var dbUtils = require("barbakoa").test.server.utils.dbUtils;
 
 describe("Download", function () {
 

@@ -1,23 +1,25 @@
+var path = require("path");
 var fs = require("mz/fs");
-var downloadPostProcess = require("download-post-process");
+var VideoOrganizer = require("video-organizer");
 var config = require("config");
 var Promise = require("bluebird");
 var mkdirp = Promise.promisify(require("mkdirp"));
+var log = require("barbakoa").logger.child({component: "video-organizer"});
+var subtitlesDownloader = require("subtitles-downloader");
+var co = require("co");
+var Recent = require("../models/Recent");
 
-var debug = require("debug")("pirateship:postProcess");
 
 module.exports = {
   start: start,
   stop: stop
 };
 
-var watcher;
+var videoOrganizer;
 
 function* start() {
-  console.log("start");
-
   if (!config.get("postProcess.enable")) {
-    debug("Post process not enabled");
+    log.info("Postprocess not enabled");
     return;
   }
 
@@ -28,27 +30,47 @@ function* start() {
     yield createIfNotExists(basePath);
     yield createIfNotExists(destPath);
 
-    watcher = downloadPostProcess.watcher(basePath, destPath);
-    watcher.start();
+    var options = {
+      srcPath: basePath,
+      destPath: destPath,
+      logger: log
+    };
+    videoOrganizer = new VideoOrganizer(options);
 
-    debug("Starting postProcess watcher %s -> %s", basePath, destPath);
+    videoOrganizer.on("processedFile", function (e) {
+      co(function * () {
+        log.info("Processed file %s to %s", e.src, e.dest);
+
+        yield Recent.create({file: path.basename(e.dest)});
+
+        var result = yield {
+          "spa": subtitlesDownloader.downloadSubtitle(e.dest, "spa"),
+          "eng": subtitlesDownloader.downloadSubtitle(e.dest, "eng")
+        };
+        log.info(result, "Subtitles downloaded");
+      }).catch(function (e) {
+        log.error(e, "Error downloading subtitles");
+      });
+    });
+
+    videoOrganizer.start();
 
   } catch (e) {
-    console.error("postProcess service error", e);
+    log.error("VideoOrganizer service error", e);
   }
 }
 
 function* createIfNotExists(folder) {
   var exist = yield fs.exists(folder);
   if (!exist) {
-    debug("Creating not existing folder %s", folder);
+    log.debug("Creating not existing folder %s", folder);
     yield mkdirp(folder);
   }
 }
 
 function stop() {
   if (watcher) {
-    watcher.stop();
-    watcher = undefined;
+    videoOrganizer.stop();
+    videoOrganizer = undefined;
   }
 }

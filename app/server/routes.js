@@ -3,6 +3,8 @@ var r = barbakoa.router;
 
 var moviesApi = require("./api/moviesApi");
 var downloadApi = require("./api/downloadApi");
+var torrentsApi = require("./api/torrentsApi");
+var recentApi = require("./api/recentApi");
 
 r.get("/", function * () {
   var assets = barbakoa.assets.getModule("app");
@@ -20,3 +22,8 @@ r.get("/api/movies/:id/torrents/", moviesApi.torrents);
 r.get("/api/downloads", downloadApi.list);
 r.post("/api/downloads/:id/start", downloadApi.start);
 r.post("/api/downloads/:id/stop", downloadApi.stop);
+
+r.get("/api/torrents", torrentsApi.list);
+r.get("/api/torrents/download/:magnet", torrentsApi.download);
+
+r.get("/api/recent", recentApi.list);

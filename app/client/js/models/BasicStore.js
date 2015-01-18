@@ -14,8 +14,9 @@ class BasicStore {
     }
   }
 
-  find() {
-    return this.$http.get(this.url()).then((response) => {
+  find(data) {
+    console.log("params", data);
+    return this.$http.get(this.url(), {params: data}).then((response) => {
       this.cache = response.data;
       return response.data;
     });

@@ -8,5 +8,8 @@ module.exports = {
   },
   assets: {
     reload: false
+  },
+  logs: {
+    request: true
   }
 };

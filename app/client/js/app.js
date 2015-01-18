@@ -23,12 +23,16 @@ App.config(function ($stateProvider, $urlRouterProvider) {
     controller: "MovieController as ctrl"
   });
 
+  $stateProvider.state("torrents", {
+    url: "/torrents?query",
+    templateUrl: "templates/torrents.html",
+    controller: "TorrentsController as ctrl"
+  });
+
   $stateProvider.state("downloads", {
     url: "/downloads",
     templateUrl: "templates/downloads.html",
     controller: "DownloadsController as ctrl"
-  })
-
-
+  });
 
 });

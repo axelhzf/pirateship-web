@@ -19,6 +19,7 @@
     "libs/qs.js",
     "directives/fadeImg.js",
     "directives/youtubePlayer.js",
+    "directives/torrentsList.js",
     "controllers/*.js",
     "filter/*"
   ]

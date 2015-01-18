@@ -39,7 +39,7 @@ module.exports = {
     destinationFolder: path.join(getUserHome(), "Downloads", "torrents", "pirateship")
   },
   transmission: {
-    host: "localhost",
+    host: "imac",
     port: 9091
   }
 };

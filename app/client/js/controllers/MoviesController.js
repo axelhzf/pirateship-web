@@ -1,6 +1,5 @@
 class MoviesController {
   constructor($scope, moviesStore, global, movieYearsStore, movieGenresStore, $state, $location) {
-    console.log("execute constructor");
     this.$scope = $scope;
     this.moviesStore = moviesStore;
     this.movieYearsStore = movieYearsStore;
