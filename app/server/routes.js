@@ -26,4 +26,4 @@ r.post("/api/downloads/:id/stop", downloadApi.stop);
 r.get("/api/torrents", torrentsApi.list);
 r.get("/api/torrents/download/:magnet", torrentsApi.download);
 
-r.get("/api/recent", recentApi.list);
+r.get("/api/recents", recentApi.list);

@@ -1,0 +1,11 @@
+.content.recents
+  h1 Recents
+  table
+    thead
+      tr
+        th Filename
+        th Date
+    tbody
+      tr(ng-repeat="recent in ctrl.recents")
+        td {{recent.file}}
+        td {{recent.createdAt | date}}

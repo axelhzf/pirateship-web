@@ -15,8 +15,15 @@ class BasicStore {
   }
 
   find(data) {
-    console.log("params", data);
-    return this.$http.get(this.url(), {params: data}).then((response) => {
+    var url;
+    if (data) {
+      var paramsString = qs.stringify(data);
+      url = this.url() + "?" + paramsString;
+    } else {
+      url = this.url();
+    }
+
+    return this.$http.get(url).then((response) => {
       this.cache = response.data;
       return response.data;
     });

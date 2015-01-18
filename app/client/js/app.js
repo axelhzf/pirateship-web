@@ -35,4 +35,10 @@ App.config(function ($stateProvider, $urlRouterProvider) {
     controller: "DownloadsController as ctrl"
   });
 
+  $stateProvider.state("recents", {
+    url: "/recents",
+    templateUrl: "templates/recents.html",
+    controller: "RecentsController as ctrl"
+  });
+
 });
