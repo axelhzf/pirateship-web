@@ -10,7 +10,7 @@
   .poster-list(infinite-scroll="ctrl.appendNextPage()", infinite-scroll-distance="1")
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({id: movie.id})")
       .poster-image
-        fade-img(img="/tmp/{{movie.poster_thumb}}")
+        fade-img(img="{{movie.poster_thumb}}")
         .rating {{movie.rating}}
         .backdrop
           i.ion-ios7-eye

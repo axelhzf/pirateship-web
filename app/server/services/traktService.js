@@ -26,14 +26,17 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
     movie.tagline = summary.tagline;
     movie.trailer = summary.trailer;
     movie.overview = summary.overview;
+    
     movie.poster = summary.images.poster;
+    movie.poster_thumb = thumb(movie.poster);
     movie.background = summary.images.fanart;
-
+    movie.background_thumb = thumb(movie.background);
+    
+    
+    
     yield movie.save();
 
     console.log("imgserver downloadImagesForMovies with id ", movie.id);
-    imageService.downloadImagesForMovie(movie.id);
-    console.log("done movie", movieId);
   });
 });
 
@@ -41,3 +44,9 @@ exports.fillDataFromMovie = function (movieId) {
   console.log("job create", JOB_NAME, movieId);
   return queue.addJob(JOB_NAME, {id: movieId});
 };
+
+function thumb(url) {
+  if (url) {
+    return url.replace(/original/, "thumb");
+  }
+}
