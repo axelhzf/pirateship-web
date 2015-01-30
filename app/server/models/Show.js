@@ -6,6 +6,7 @@ module.exports = db.define("Show", {
   year: db.types.INTEGER,
   overview: db.types.TEXT,
   imdb_id: db.types.STRING,
+  rating: db.types.FLOAT,
   
   image_poster: db.types.URL,
   image_poster_thumb: db.types.URL,
@@ -13,5 +14,6 @@ module.exports = db.define("Show", {
   image_fanart_thumb: db.types.URL,
   image_banner: db.types.URL,
   image_banner_thumb: db.types.URL
+  
   
 });

@@ -6,7 +6,7 @@
       a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({id: show.id})")
         .poster-image
           fade-img(img="{{show.image_poster_thumb}}")
-          .rating {{show.rating}}
+          .rating {{show.rating | number: 0}}
           .backdrop
             i.ion-ios7-eye
           .post-list-content(ng-if="show.favorite")

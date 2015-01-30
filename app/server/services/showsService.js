@@ -19,7 +19,8 @@ exports.trendingShows = function *trendingShows() {
     showData.image_fanart_thumb = thumb(showData.images.fanart);
     showData.image_banner = showData.images.fanart;
     showData.image_banner_thumb = thumb(showData.images.banner);
-
+    showData.rating = showData.ratings.percentage;
+    
     var show = yield Show.findOne({where: {imdb_id: showData.imdb_id}});
     if (show) {
       yield show.updateAttributes(showData);
@@ -40,7 +41,7 @@ exports.trendingShows = function *trendingShows() {
 
       for (var k = 0; k < episodesData.length; k++) {
         var episodeData = episodesData[k];
-        episodeData.first_aired = new Date(episodeData.first_aired);
+        episodeData.first_aired = new Date(episodeData.first_aired_iso);
         episodeData.image_screen = episodeData.images.screen;
         episodeData.image_screen_thumb = thumb(episodeData.images.screen);
 

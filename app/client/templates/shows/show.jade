@@ -3,18 +3,24 @@
   .left
     .img-container
       fade-img(img="{{ctrl.show.image_poster_thumb}}")
-    h2 Seasons
-    ul.list-inline
-      li(ng-repeat="season in ctrl.seasons")
-        a(ng-click="ctrl.setActiveSeason(season)") {{ season }}
-
-    .rating
-      .rating-inner {{ctrl.show.rating}}
-
-
+      .rating
+        .rating-inner {{ctrl.show.rating | number: 0}}
   .center
-    h1 {{ctrl.show.title}} / S{{ctrl.pad(ctrl.activeSeason)}}
+    h1
+      |  {{ctrl.show.title}} / S{{ctrl.pad(ctrl.activeSeason)}}
+      .all-seasons
+        span All seasons:
+        ul.list-inline
+          li(ng-repeat="season in ctrl.seasons")
+            a(ng-click="ctrl.setActiveSeason(season)") {{ season }}
+
 
     table
       tr(ng-repeat="episode in ctrl.activeEpisodes")
         td S{{ctrl.pad(ctrl.activeSeason)}}E{{ctrl.pad(episode.number)}} - {{episode.title}}
+        td {{episode.first_aired | relativeDate }}
+        td.actions
+          //a(ng-click="ctrl.search(episode)")
+          //  i.ion-search
+          a(ng-click="ctrl.download(episode)")
+            i.ion-ios-cloud-download
