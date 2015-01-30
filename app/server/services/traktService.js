@@ -33,7 +33,6 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
 
     console.log("imgserver downloadImagesForMovies with id ", movie.id);
     imageService.downloadImagesForMovie(movie.id);
-
     console.log("done movie", movieId);
   });
 });

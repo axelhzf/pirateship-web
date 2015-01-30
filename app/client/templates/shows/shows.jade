@@ -1,0 +1,15 @@
+.content.movies
+  div(ui-view)
+    h1 Shows
+
+    .poster-list(infinite-scroll="ctrl.appendNextPage()", infinite-scroll-distance="1")
+      a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({id: show.id})")
+        .poster-image
+          fade-img(img="{{show.image_poster_thumb}}")
+          .rating {{show.rating}}
+          .backdrop
+            i.ion-ios7-eye
+          .post-list-content(ng-if="show.favorite")
+            i.ion-ios7-heart
+        .poster-data
+          .poster-title {{show.title}}

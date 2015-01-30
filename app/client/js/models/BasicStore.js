@@ -29,6 +29,12 @@ class BasicStore {
     });
   }
 
+  get(id) {
+    return this.$http.get(this.url() + "/" + id).then((response) => {
+      return response.data;
+    })
+  }
+  
   url() {
     throw new Error("Unimplemented method");
   }

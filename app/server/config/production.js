@@ -7,7 +7,7 @@ module.exports = {
   },
   assets: {
     reload: false,
-    cache: true,
+    cache: false,
     min: true
   }
 };

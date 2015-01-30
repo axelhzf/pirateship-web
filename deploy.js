@@ -48,10 +48,11 @@ co(function* () {
   yield exec("cd out && tar -cvzf ../pirateship.tar.gz .", {maxBuffer: 10000 * 1024});
   yield exec("rm -rf out");
   yield remote.connect();
-  yield remote.exec("cd dev/pirateship");
-  yield remote.exec("forever stop app/server/server.js");
-  yield remote.exec("rm -rf dev/pirateship/app dev/pirateship/node_modules dev/pirateship/package.json");
   yield remote.exec("mkdir -p dev/pirateship");
+  //yield remote.exec("cd ~/dev/pirateship");
+  //yield remote.exec("forever stop app/server/server.js");
+  //yield remote.exec("rm -rf dev/pirateship/app dev/pirateship/node_modules dev/pirateship/package.json");
+  //yield remote.exec("mkdir -p dev/pirateship");
   yield remote.put("pirateship.tar.gz", "dev/pirateship/pirateship.tar.gz");
   yield remote.exec("tar -xvzf pirateship.tar.gz");
   yield remote.exec("rm pirateship.tar.gz");

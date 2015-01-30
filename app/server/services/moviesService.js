@@ -29,6 +29,7 @@ var moviesService = {
       } else {
         getNextFeaturedSet = false;
       }
+      break;
     }
     var stats = {
       totalMoviesAdded: totalMoviesAdded

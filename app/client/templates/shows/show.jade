@@ -1,0 +1,20 @@
+.content.show(ng-if="ctrl.show", style="background-image:url({{ctrl.show.image_fanart_thumb}});")
+  .movie-backdrop
+  .left
+    .img-container
+      fade-img(img="{{ctrl.show.image_poster_thumb}}")
+    h2 Seasons
+    ul.list-inline
+      li(ng-repeat="season in ctrl.seasons")
+        a(ng-click="ctrl.setActiveSeason(season)") {{ season }}
+
+    .rating
+      .rating-inner {{ctrl.show.rating}}
+
+
+  .center
+    h1 {{ctrl.show.title}} / S{{ctrl.pad(ctrl.activeSeason)}}
+
+    table
+      tr(ng-repeat="episode in ctrl.activeEpisodes")
+        td S{{ctrl.pad(ctrl.activeSeason)}}E{{ctrl.pad(episode.number)}} - {{episode.title}}

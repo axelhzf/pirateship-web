@@ -9,7 +9,8 @@
     "angular-filter",
     "ngInfiniteScroll",
     "angular-dropdowns",
-    "moment"
+    "moment",
+    "underscore.string"
   ],
   "js": [
     "app.js",
