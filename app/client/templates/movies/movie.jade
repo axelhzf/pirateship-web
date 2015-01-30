@@ -1,9 +1,9 @@
-.content.movie(style="background-image:url(/tmp/{{ctrl.movie.background}});")
+.content.movie(style="background-image:url({{ctrl.movie.background}});")
   .movie-backdrop
 
   .left
     .img-container
-      fade-img(img="/tmp/{{ctrl.movie.poster_thumb}}")
+      fade-img(img="{{ctrl.movie.poster_thumb}}")
 
     .rating
       .rating-inner {{ctrl.movie.rating}}
@@ -24,7 +24,7 @@
       li: a(ng-class="{active: ctrl.tab === 'torrents'}", ng-click="ctrl.tab  = 'torrents'") Torrents
 
     .tab-trailer(ng-if="ctrl.tab == 'trailer'")
-      youtube-player(video-id="ctrl.movie.trailer")
+      youtube-player(video-url="ctrl.movie.trailer")
 
     .tab-torrents(ng-if="ctrl.tab == 'torrents'")
       table.torrents
