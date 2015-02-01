@@ -1,10 +1,10 @@
 class ShowController {
-  constructor(showsStore, $stateParams, torrentsStore) {
+  constructor(showsStore, $stateParams, torrentsStore, fileStore, player) {
     this.showsStore = showsStore;
     this.$stateParams = $stateParams;
     this.torrentsStore = torrentsStore;
-
-    console.log(this.$stateParams);
+    this.fileStore = fileStore;
+    this.player = player;
 
     this.fetchShow();
   }
@@ -21,6 +21,7 @@ class ShowController {
   setActiveSeason(activeSeason) {
     this.activeSeason = activeSeason;
     this.activeEpisodes = this.episodesBySeason[this.activeSeason];
+    this.updateActiveEpisodeFile();
   }
 
   pad(number) {
@@ -28,18 +29,35 @@ class ShowController {
   }
 
   download(episode) {
-    var show = this.show.title;
-    var season = episode.season;
-    var number = episode.number;
-    var query = show + " S" + this.pad(season) + "E" + this.pad(number) + " 720p";
-
+    var query = this.episodeId(episode) + " 720p";
     this.torrentsStore.find({query: query}).then((torrents) => {
-      console.log(torrents);
       this.torrentsStore.download(torrents[0].link).then(() => {
         console.log("downloading");
       });
     });
+  }
 
+  episodeId(episode) {
+    var show = this.show.title;
+    var season = episode.season;
+    var number = episode.number;
+    var episodeId = show + " S" + this.pad(season) + "E" + this.pad(number);
+    return episodeId;
+  }
+
+  updateActiveEpisodeFile() {
+    console.log("update active episodes");
+    this.activeEpisodes.forEach((episode) => {
+      var episodeId = this.episodeId(episode);
+      this.fileStore.find({query: episodeId}).then((file) => {
+        console.log(JSON.stringify(file));
+        episode.local = file;
+      });
+    });
+  }
+
+  play(episode) {
+    this.player.play(episode.local.video);
   }
 
 }

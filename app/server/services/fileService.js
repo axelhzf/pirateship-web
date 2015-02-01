@@ -6,10 +6,11 @@ var _s = require("underscore.string");
 var path = require("path");
 
 exports.find = function* find(file) {
-  console.log("query", file);
   var destinationFolder = config.get("postProcess.destinationFolder");
   var normalizedFile = normalizeTvShowFile(file);
 
+  console.log("query", file, normalizedFile, destinationFolder);
+  
   var showDirectory = path.join(destinationFolder, "tvshows", normalizedFile.show);
   var video = yield globFirstFile(showDirectory, util.format("*%s*.+(mkv|mp4|avi)", normalizedFile.episodeId));
   var spaSrt = yield globFirstFile(showDirectory, util.format("*%s*.spa.srt", normalizedFile.episodeId));
@@ -26,7 +27,7 @@ exports.find = function* find(file) {
 
 function* globFirstFile(directory, pattern) {
   var result = yield glob(pattern, {cwd: directory, nocase: true});
-  if (result) {
+  if (result && result.length > 0) {
     return path.join(directory, result[0]);
   }
 }
