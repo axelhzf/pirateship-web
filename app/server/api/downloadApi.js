@@ -1,8 +1,10 @@
 var Joi = require("joi");
 var torrentService = require("../services/torrentService");
+var _ = require("underscore");
 
 exports.list = function* () {
   var torrents = yield torrentService.list();
+  torrents = _.sortBy(torrents, "addedDate").reverse();
   this.body = torrents;
 };
 
