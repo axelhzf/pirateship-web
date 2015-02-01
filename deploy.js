@@ -8,7 +8,7 @@ var originalExec = require('mz/child_process').exec;
 var childProcess = require('child_process');
 var SSHane = require("sshane");
 
-function spawn () {
+function spawn() {
   var args = _.toArray(arguments);
   debug("Running %s", args.join(" "));
   return new Promise(function (resolve, reject) {
@@ -22,9 +22,9 @@ function spawn () {
     });
 
     command.on("close", function (code) {
-      if(code !== 0 ) {
+      if (code !== 0) {
         reject(new Error("Command exit with result " + code));
-      }else {
+      } else {
         debug("Done running %s", cmd);
         resolve();
       }
@@ -33,7 +33,7 @@ function spawn () {
   });
 }
 
-function exec (cmd) {
+function exec(cmd) {
   var args = _.toArray(arguments);
   debug("Executing %s", args[0]);
   return originalExec.apply(null, args);
@@ -48,15 +48,13 @@ co(function* () {
   yield exec("cd out && tar -cvzf ../pirateship.tar.gz .", {maxBuffer: 10000 * 1024});
   yield exec("rm -rf out");
   yield remote.connect();
-  yield remote.exec("mkdir -p dev/pirateship");
-  //yield remote.exec("cd ~/dev/pirateship");
-  //yield remote.exec("forever stop app/server/server.js");
+  yield remote.exec("forever stopall");
   yield remote.exec("rm -rf dev/pirateship");
   yield remote.exec("mkdir -p dev/pirateship");
   yield remote.put("pirateship.tar.gz", "dev/pirateship/pirateship.tar.gz");
-  yield remote.exec("cd ~/dev/pirateship");
+  yield remote.exec("cd dev/pirateship");
   yield remote.exec("tar -xvzf pirateship.tar.gz");
-  //yield remote.exec("rm pirateship.tar.gz");
+  yield remote.exec("rm pirateship.tar.gz");
   yield remote.exec('NODE_ENV=production NODE_CONFIG_DIR=./app/server/config forever start -c "node --harmony" app/server/server.js');
   yield remote.close();
 }).catch(function (e) {
