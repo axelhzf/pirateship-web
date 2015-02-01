@@ -8,6 +8,7 @@
     "barbakoa": "git://github.com/axelhzf/barbakoa.git#master",
     "bluebird": "^2.5.1",
     "co": "^4.1.0",
+    "co-glob": "0.0.2",
     "co-parallel": "^1.0.0",
     "co-request": "^0.2.0",
     "config": "^1.9.0",
@@ -23,8 +24,9 @@
     "transmission": "^0.4.1",
     "underscore": "^1.7.0",
     "underscore.string": "^2.4.0",
-    "video-organizer": "^2.0.1",
-    "co-glob": "0.0.2"
+    "upnp-mediarenderer-client": "0.0.2",
+    "upnp-ssdp": "0.0.2",
+    "video-organizer": "^2.0.1"
   },
   "scripts": {
     "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js",
