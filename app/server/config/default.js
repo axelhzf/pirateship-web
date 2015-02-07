@@ -43,11 +43,9 @@ module.exports = {
     port: 9091
   },
   retry: {
-    retries: Infinity,
-    factor: 2,
-    minTimeout: 1000,
-    maxTimeout: 1000 * 3600,
-    randomize: false
+    max_tries: Infinity,
+    interval: 1000,
+    max_interval: 1000 * 3600 * 3
   }
 };
 

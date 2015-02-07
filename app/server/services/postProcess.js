@@ -11,6 +11,7 @@ var Recent = require("../models/Recent");
 var format = require("util").format;
 var promiseRetry = require("promise-retry");
 var _ = require("underscore");
+var retry = require("bluebird-retry");
 
 
 module.exports = {
@@ -71,16 +72,17 @@ function* onProcessedFile(src, dest) {
 }
 
 function downloadSubtitleRetry(file, lang) {
+  log.debug("Download subtitle retry %s %s", file, lang);
   var retryOptions = config.get("retry");
-  return promiseRetry(function (retry, number) {
-    log.debug("Trying to download subtitles %s in %s attempt %d", file, lang, number);
-    return downloadSubtitle(file, lang).catch(retry);
-  }, retryOptions);
+  var fn = downloadSubtitle.bind(null, file, lang);
+  return retry(fn, retryOptions);
 }
 
 function downloadSubtitle(file, lang) {
   return co(function* (){ //wrapped to return a promise that works with promise-retry
+    log.debug("download subtitle %s %s", file, lang);
     var result = yield subtitlesDownloader.downloadSubtitle(file, lang);
+    log.debug("download subtitle result %s", result);
     if (_.isUndefined(result)) {
       var msg = util.format("Subtitle for %s in %s not found");
       throw new Error(msg);

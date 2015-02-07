@@ -13,10 +13,8 @@ module.exports = {
     request: true
   },
   retry: {
-    retries: 10,
-    factor: 2,
-    minTimeout: 1,
-    maxTimeout: 2,
-    randomize: false
+    max_tries: Infinity,
+    interval: 10,
+    max_interval: 100
   }
 };
