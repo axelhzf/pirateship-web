@@ -5,19 +5,17 @@ var config = require("config");
 var Promise = require("bluebird");
 var mkdirp = Promise.promisify(require("mkdirp"));
 var log = require("barbakoa").logger.child({component: "video-organizer"});
-var subtitlesDownloader = require("subtitles-downloader");
 var co = require("co");
 var Recent = require("../models/Recent");
 var format = require("util").format;
 var _ = require("underscore");
-var retry = require("bluebird-retry");
+var subtitlesService = require("./subtitlesService");
 
 
 module.exports = {
   start: start,
   stop: stop,
-  onProcessedFile: onProcessedFile,
-  downloadSubtitle: downloadSubtitle
+  onProcessedFile: onProcessedFile
 };
 
 var videoOrganizer;
@@ -61,33 +59,11 @@ function* start() {
 
 function* onProcessedFile(src, dest) {
   log.info("Processed file %s to %s", src, dest);
+  
   yield Recent.create({file: path.basename(dest)});
-
-  var result = yield {
-    "spa": downloadSubtitleRetry(dest, "spa"),
-    "eng": downloadSubtitleRetry(dest, "eng")
-  };
+  var result = yield subtitlesService.downloadSubtitles(dest);
+  
   log.info(result, "Subtitles downloaded");
-}
-
-function downloadSubtitleRetry(file, lang) {
-  log.debug("Download subtitle retry %s %s", file, lang);
-  var retryOptions = config.get("retry");
-  var fn = downloadSubtitle.bind(null, file, lang);
-  return retry(fn, retryOptions);
-}
-
-function downloadSubtitle(file, lang) {
-  return co(function* (){ //wrapped to return a promise that works with promise-retry
-    log.debug("download subtitle %s %s", file, lang);
-    var result = yield subtitlesDownloader.downloadSubtitle(file, lang);
-    log.debug("download subtitle result %s", result);
-    if (_.isUndefined(result)) {
-      var msg = util.format("Subtitle for %s in %s not found");
-      throw new Error(msg);
-    }
-    return result;
-  });
 }
 
 
