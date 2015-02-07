@@ -8,6 +8,7 @@ var recentApi = require("./api/recentApi");
 var showsApi = require("./api/showsApi");
 var fileApi = require("./api/fileApi");
 var playerApi = require("./api/playerApi");
+var logsApi = require("./api/logsApi");
 
 r.get("/", function * () {
   var assets = barbakoa.assets.getModule("app");
@@ -39,3 +40,5 @@ r.get("/api/shows/:id", showsApi.get);
 r.get("/api/files", fileApi.find);
 
 r.get("/api/player", playerApi.play);
+
+r.get("/api/logs", logsApi.list);

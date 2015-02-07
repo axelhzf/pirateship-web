@@ -1,0 +1,7 @@
+.content
+  h1 Logs
+  table
+    tr(ng-repeat="log in ctrl.logs")
+      td {{log.time}}
+      td {{log.component}}
+      td {{log.msg}}

@@ -53,5 +53,12 @@ App.config(function ($stateProvider, $urlRouterProvider) {
     templateUrl: "templates/recents.html",
     controller: "RecentsController as ctrl"
   });
+  
+  $stateProvider.state("logs", {
+    url: "/logs",
+    templateUrl: "templates/logs.html",
+    controller: "LogsController as ctrl"
+  });
+  
 
 });
