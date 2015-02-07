@@ -31,12 +31,14 @@ describe("fileService", function () {
       video: path.join(baseDir, "The.Flash.2014.S01E01.720p.HDTV.X264-DIMENSION.mkv"),
       subtitles: {
         spa: path.join(baseDir, "the.flash.2014.s01E01.720p.HDTV.X264-DIMENSION.spa.srt"),
-        eng: path.join(baseDir, "The.Flash.2014.S01E01.720p.HDTV.X264-DIMENSION.eng.srt")
+        eng: path.join(baseDir, "The.Flash.2014.S01E01.720p.HDTV.X264-DIMENSION.eng.srt"),
+        default: path.join(baseDir, "The.Flash.2014.S01E01.720p.HDTV.X264-DIMENSION.srt")
       }
     };
     yield fs.writeFile(expectedResult.video, "");
     yield fs.writeFile(expectedResult.subtitles.spa, "");
     yield fs.writeFile(expectedResult.subtitles.eng, "");
+    yield fs.writeFile(expectedResult.subtitles.default, "");
 
     var findResult = yield fileService.find("the.Flash.2014.S01E01");
 

@@ -21,7 +21,9 @@
         td {{episode.first_aired | relativeDate }}
         td.actions
           div(ng-if="ctrl.episodeIsAvailableToDownload(episode)")
-            a(ng-click="ctrl.play(episode)", ng-if="episode.local.video", class="{{ctrl.subtitlesState(episode)}}")
+            a(ng-click="ctrl.downloadSubtitles(episode)", class="{{ctrl.subtitlesState(episode)}}", ng-if="episode.local.video")
+              i.ion-closed-captioning
+            a(ng-click="ctrl.play(episode)", ng-if="episode.local.video")
               i.ion-ios-play
             a(ng-click="ctrl.download(episode)", ng-if="!episode.local.video")
               i.ion-ios-cloud-download

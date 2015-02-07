@@ -66,7 +66,7 @@ class ShowController {
   
   subtitlesState(episode) {
     var langs = _.keys(episode.local.subtitles);
-    if (langs.length === 2) {
+    if (langs.length >= 2) {
       return "subtitles-completed";
     } else if (langs.length > 0) {
       return "subtitles-partial";

@@ -10,18 +10,28 @@ exports.find = function* find(file) {
   var normalizedFile = normalizeTvShowFile(file);
 
   var showDirectory = path.join(destinationFolder, "tvshows", normalizedFile.show);
-  var video = yield globFirstFile(showDirectory, util.format("*%s*.+(mkv|mp4|avi)", normalizedFile.episodeId));
-  var spaSrt = yield globFirstFile(showDirectory, util.format("*%s*.spa.srt", normalizedFile.episodeId));
-  var engSrt = yield globFirstFile(showDirectory, util.format("*%s*.eng.srt", normalizedFile.episodeId));
 
+  var video = yield globFirstFile(showDirectory, util.format("*%s*.+(mkv|mp4|avi)", normalizedFile.episodeId));
+  var result = yield findSubtitles(normalizedFile, showDirectory);
   return {
     video: video,
-    subtitles: {
-      spa: spaSrt,
-      eng: engSrt
-    }
+    subtitles: result
   };
 };
+
+function* findSubtitles(normalizedFile, showDirectory) {
+  var srtPattern = util.format("*%s*.srt", normalizedFile.episodeId);
+  var subtitles = yield glob(srtPattern, {cwd: showDirectory, nocase: true});
+  var result = {};
+  if (subtitles && subtitles.length > 0) {
+    subtitles.forEach(function (subtitle) {
+      var match = subtitle.match(/\.(\w{2,3})\.srt$/i);
+      var lang = match ? match[1] : "default";
+      result[lang] = path.join(showDirectory, subtitle);
+    });
+  }
+  return result;
+}
 
 function* globFirstFile(directory, pattern) {
   var result = yield glob(pattern, {cwd: directory, nocase: true});
