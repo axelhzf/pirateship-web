@@ -16,13 +16,12 @@
 
 
     table
-      tr(ng-repeat="episode in ctrl.activeEpisodes")
+      tr(ng-repeat="episode in ctrl.activeEpisodes", ng-class="{notAvailable: !ctrl.episodeIsAvailableToDownload(episode) }")
         td S{{ctrl.pad(ctrl.activeSeason)}}E{{ctrl.pad(episode.number)}} - {{episode.title}}
         td {{episode.first_aired | relativeDate }}
         td.actions
-          a(ng-click="ctrl.play(episode)", ng-if="episode.local.video", href="#")
-            i.ion-ios-play
-          a(ng-click="ctrl.playTv(episode)", ng-if="episode.local.video", href="#")
-            i.ion-ios-monitor
-          a(ng-click="ctrl.download(episode)")
-            i.ion-ios-cloud-download
+          div(ng-if="ctrl.episodeIsAvailableToDownload(episode)")
+            a(ng-click="ctrl.play(episode)", ng-if="episode.local.video", href="#")
+              i.ion-ios-play
+            a(ng-click="ctrl.download(episode)")
+              i.ion-ios-cloud-download

@@ -59,6 +59,12 @@ class ShowController {
   play(episode) {
     this.player.playTv(episode.local.video);
   }
+  
+  episodeIsAvailableToDownload(episode) {
+    var episodeTime = new Date(episode.first_aired).getTime();
+    if (episodeTime === 0) return false;
+    return episodeTime < Date.now();
+  }
 
 }
 
