@@ -9,7 +9,6 @@ var subtitlesDownloader = require("subtitles-downloader");
 var co = require("co");
 var Recent = require("../models/Recent");
 var format = require("util").format;
-var promiseRetry = require("promise-retry");
 var _ = require("underscore");
 var retry = require("bluebird-retry");
 
