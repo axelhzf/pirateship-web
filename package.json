@@ -19,6 +19,7 @@
     "mz": "^1.2.1",
     "node-kickass": "^0.2.0",
     "post-process": "git://github.com/axelhzf/download-post-process#master",
+    "promise-retry": "^0.2.7",
     "request": "^2.51.0",
     "subtitles-downloader": "^1.0.1",
     "transmission": "^0.4.1",

@@ -8,11 +8,16 @@ var log = require("barbakoa").logger.child({component: "video-organizer"});
 var subtitlesDownloader = require("subtitles-downloader");
 var co = require("co");
 var Recent = require("../models/Recent");
+var format = require("util").format;
+var promiseRetry = require("promise-retry");
+var _ = require("underscore");
 
 
 module.exports = {
   start: start,
-  stop: stop
+  stop: stop,
+  onProcessedFile: onProcessedFile,
+  downloadSubtitle: downloadSubtitle
 };
 
 var videoOrganizer;
@@ -38,18 +43,12 @@ function* start() {
     videoOrganizer = new VideoOrganizer(options);
 
     videoOrganizer.on("processedFile", function (e) {
+      var src = e.src;
+      var dest = e.dest;
       co(function * () {
-        log.info("Processed file %s to %s", e.src, e.dest);
-
-        yield Recent.create({file: path.basename(e.dest)});
-
-        var result = yield {
-          "spa": subtitlesDownloader.downloadSubtitle(e.dest, "spa"),
-          "eng": subtitlesDownloader.downloadSubtitle(e.dest, "eng")
-        };
-        log.info(result, "Subtitles downloaded");
+        yield onProcessedFile(src, dest);
       }).catch(function (e) {
-        log.error(e, "Error downloading subtitles");
+        log.error(e, "Error processing file subtitles " + e.dest);
       });
     });
 
@@ -60,6 +59,37 @@ function* start() {
   }
 }
 
+function* onProcessedFile(src, dest) {
+  log.info("Processed file %s to %s", src, dest);
+  yield Recent.create({file: path.basename(dest)});
+
+  var result = yield {
+    "spa": downloadSubtitleRetry(dest, "spa"),
+    "eng": downloadSubtitleRetry(dest, "eng")
+  };
+  log.info(result, "Subtitles downloaded");
+}
+
+function downloadSubtitleRetry(file, lang) {
+  var retryOptions = config.get("retry");
+  return promiseRetry(function (retry, number) {
+    log.debug("Trying to download subtitles %s in %s attempt %d", file, lang, number);
+    return downloadSubtitle(file, lang).catch(retry);
+  }, retryOptions);
+}
+
+function downloadSubtitle(file, lang) {
+  return co(function* (){ //wrapped to return a promise that works with promise-retry
+    var result = yield subtitlesDownloader.downloadSubtitle(file, lang);
+    if (_.isUndefined(result)) {
+      var msg = util.format("Subtitle for %s in %s not found");
+      throw new Error(msg);
+    }
+    return result;
+  });
+}
+
+
 function* createIfNotExists(folder) {
   var exist = yield fs.exists(folder);
   if (!exist) {
@@ -69,7 +99,7 @@ function* createIfNotExists(folder) {
 }
 
 function stop() {
-  if (watcher) {
+  if (videoOrganizer) {
     videoOrganizer.stop();
     videoOrganizer = undefined;
   }

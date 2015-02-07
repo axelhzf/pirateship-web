@@ -11,5 +11,12 @@ module.exports = {
   },
   logs: {
     request: true
+  },
+  retry: {
+    retries: 10,
+    factor: 2,
+    minTimeout: 1,
+    maxTimeout: 2,
+    randomize: false
   }
 };

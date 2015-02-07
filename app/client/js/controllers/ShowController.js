@@ -57,7 +57,7 @@ class ShowController {
   }
 
   play(episode) {
-    this.player.play(episode.local.video);
+    this.player.playTv(episode.local.video);
   }
 
 }

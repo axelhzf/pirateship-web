@@ -41,6 +41,13 @@ module.exports = {
   transmission: {
     host: "localhost",
     port: 9091
+  },
+  retry: {
+    retries: Infinity,
+    factor: 2,
+    minTimeout: 1000,
+    maxTimeout: 1000 * 3600,
+    randomize: false
   }
 };
 
