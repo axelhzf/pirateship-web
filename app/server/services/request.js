@@ -9,7 +9,7 @@ exports.get = function* (url) {
       if (res.statusCode === 200) {
         return res.body;
       }
-      logger.warn("statusCode !== 200", {statusCode: res.statusCode});
+      logger.warn("statusCode !== 200", {statusCode: res.statusCode, url: url});
     } catch (e) {
       remaining_tries--;
       logger.warn("error", {url: url}, e);
