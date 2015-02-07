@@ -46,11 +46,9 @@ class ShowController {
   }
 
   updateActiveEpisodeFile() {
-    console.log("update active episodes");
     this.activeEpisodes.forEach((episode) => {
       var episodeId = this.episodeId(episode);
       this.fileStore.find({query: episodeId}).then((file) => {
-        console.log(JSON.stringify(file));
         episode.local = file;
       });
     });
@@ -64,6 +62,15 @@ class ShowController {
     var episodeTime = new Date(episode.first_aired).getTime();
     if (episodeTime === 0) return false;
     return episodeTime < Date.now();
+  }
+  
+  subtitlesState(episode) {
+    var langs = _.keys(episode.local.subtitles);
+    if (langs.length === 2) {
+      return "subtitles-completed";
+    } else if (langs.length > 0) {
+      return "subtitles-partial";
+    }
   }
 
 }
