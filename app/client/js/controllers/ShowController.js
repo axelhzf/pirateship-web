@@ -1,11 +1,12 @@
 class ShowController {
-  constructor(showsStore, $stateParams, torrentsStore, fileStore, player) {
+  constructor(showsStore, $stateParams, torrentsStore, fileStore, player, subtitlesStore) {
     this.showsStore = showsStore;
     this.$stateParams = $stateParams;
     this.torrentsStore = torrentsStore;
     this.fileStore = fileStore;
     this.player = player;
-
+    this.subtitlesStore = subtitlesStore;
+    
     this.fetchShow();
   }
 
@@ -21,7 +22,7 @@ class ShowController {
   setActiveSeason(activeSeason) {
     this.activeSeason = activeSeason;
     this.activeEpisodes = this.episodesBySeason[this.activeSeason];
-    this.updateActiveEpisodeFile();
+    this.updateActiveEpisodesFile();
   }
 
   pad(number) {
@@ -45,7 +46,7 @@ class ShowController {
     return episodeId;
   }
 
-  updateActiveEpisodeFile() {
+  updateActiveEpisodesFile() {
     this.activeEpisodes.forEach((episode) => {
       var episodeId = this.episodeId(episode);
       this.fileStore.find({query: episodeId}).then((file) => {
@@ -70,6 +71,15 @@ class ShowController {
       return "subtitles-completed";
     } else if (langs.length > 0) {
       return "subtitles-partial";
+    }
+  }
+  
+  downloadSubtitles(episode) {
+    if (episode.local.video) {
+      this.subtitlesStore.download(episode.local.video)
+        .then(() => {
+          this.updateActiveEpisodesFile();
+        })
     }
   }
 
