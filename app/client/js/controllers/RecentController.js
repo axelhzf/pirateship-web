@@ -22,7 +22,7 @@ class RecentController {
         this.fileStore.find({query: recent.file}).then((file) => {
           _.extend(recent, file);
           if (recent.show) {
-            var showId = recent.show;
+            var showId = recent.show.id;
             if (!showsById[showId]) {
               var show = _.omit(recent.show, "episode");
               show.episodes = [];
