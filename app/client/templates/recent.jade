@@ -1,0 +1,34 @@
+.content.recent
+  h1 Recent
+  
+  ul.display
+    li
+      a(ng-click="ctrl.setDisplay('list')")
+        i.ion-ios-list
+    li
+      a(ng-click="ctrl.setDisplay('group')")
+        i.ion-ios-photos
+  
+  div(ng-if="ctrl.display === 'list'")
+    table
+      thead
+        tr
+          th Filename
+          th Date
+      tbody
+        tr(ng-repeat="recent in ctrl.recent")
+          td {{recent.file}}
+          td {{recent.createdAt | relativeDate }}
+            
+  div(ng-if="ctrl.display === 'group'")
+    .poster-list
+      a.poster-list-item(ng-repeat="show in ctrl.shows", ui-sref="show({id: show.id})")
+        .poster-image
+          fade-img(img="{{show.image_poster_thumb}}")
+          .badge {{show.episodes.length}}
+          .backdrop
+            i.ion-ios7-eye
+          .post-list-content(ng-if="show.favorite")
+            i.ion-ios7-heart
+        .poster-data
+          .poster-title {{show.title}}

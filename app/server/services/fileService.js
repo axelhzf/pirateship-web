@@ -4,18 +4,25 @@ var util = require("util");
 var _ = require("underscore");
 var _s = require("underscore.string");
 var path = require("path");
+var Show = require("../models/Show");
+var Episode = require("../models/Episode");
 
 exports.find = function* find(file) {
   var destinationFolder = config.get("postProcess.destinationFolder");
   var normalizedFile = normalizeTvShowFile(file);
-
+  
   var showDirectory = path.join(destinationFolder, "tvshows", normalizedFile.show);
-
+  
   var video = yield globFirstFile(showDirectory, util.format("*%s*.+(mkv|mp4|avi)", normalizedFile.episodeId));
-  var result = yield findSubtitles(normalizedFile, showDirectory);
+  if (!video) return {};
+  
+  var subtitles = yield findSubtitles(normalizedFile, showDirectory);
+  var show = yield findShowEpisode(normalizedFile);
+  
   return {
     video: video,
-    subtitles: result
+    subtitles: subtitles,
+    show: show
   };
 };
 
@@ -33,6 +40,23 @@ function* findSubtitles(normalizedFile, showDirectory) {
   return result;
 }
 
+function* findShowEpisode(normalizedFile) {
+  var showTitle = normalizedFile.show.replace(/\./g, " ");
+  var show = yield Show.findOne({where: {title: showTitle}});
+  if (show) {
+    show = show.toJSON();
+    var episode = yield Episode.findOne({
+      where: {
+        ShowId: show.id,
+        season: normalizedFile.season,
+        number: normalizedFile.number
+      }
+    });
+    show.episode = episode.toJSON();
+  }
+  return show;
+}
+
 function* globFirstFile(directory, pattern) {
   var result = yield glob(pattern, {cwd: directory, nocase: true});
   if (result && result.length > 0) {
@@ -44,15 +68,24 @@ function normalizeTvShowFile(file) {
   file = file.replace(/\s+/g, ".");
   var searchResult = file.search(/\.S\d\dE\d\d/i);
   var showName = file.substring(0, searchResult);
-
+  
   showName = showName.split(/\./).map(function (part) {
     return _s.capitalize(part);
   }).join(".");
-
-  var episodeId = file.match(/S\d\dE\d\d/i)[0];
+  
+  var match = file.match(/S(\d\d)E(\d\d)/i);
+  if(!match) {
+    throw new Error("Not a tvshow " + file);
+  }
+  
+  var episodeId = match[0];
+  var season = match[1];
+  var number = match[2];
 
   return {
     show: showName,
-    episodeId: episodeId
+    episodeId: episodeId,
+    season: season,
+    number: number
   }
 }

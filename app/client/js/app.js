@@ -49,9 +49,9 @@ App.config(function ($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("recents", {
-    url: "/recents",
-    templateUrl: "templates/recents.html",
-    controller: "RecentsController as ctrl"
+    url: "/recent",
+    templateUrl: "templates/recent.html",
+    controller: "RecentController as ctrl"
   });
   
   $stateProvider.state("logs", {

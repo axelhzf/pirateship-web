@@ -6,8 +6,11 @@ var fs = require("mz/fs");
 var path = require("path");
 var config = require("config");
 var mkdirp = Promise.promisify(require("mkdirp"));
-
 var fileService = require("../../../app/server/services/fileService");
+var dbUtils = require("barbakoa").test.server.utils.dbUtils;
+var Show = require("../../../app/server/models/Show");
+var Episode = require("../../../app/server/models/Episode");
+var _ = require("underscore");
 
 describe("fileService", function () {
 
@@ -18,6 +21,8 @@ describe("fileService", function () {
     tmpPath = (yield tmpDir())[0];
     var configStub = sandbox.stub(config, "get");
     configStub.withArgs("postProcess.destinationFolder").returns(tmpPath);
+    
+    yield dbUtils.dropTables(Episode, Show);
   });
 
   afterEach(function () {
@@ -25,6 +30,15 @@ describe("fileService", function () {
   });
 
   it("should return file and subtitles", function* () {
+    var show = yield Show.create({
+      title: "The Flash 2014"
+    });
+    var episode = yield Episode.create({
+      season: 1,
+      number: 1
+    });
+    yield episode.setShow(show);
+    
     var baseDir = path.join(tmpPath, "tvshows", "The.Flash.2014");
     yield mkdirp(baseDir);
     var expectedResult = {
@@ -42,7 +56,9 @@ describe("fileService", function () {
 
     var findResult = yield fileService.find("the.Flash.2014.S01E01");
 
-    expect(findResult).to.eql(expectedResult);
+    expect(_.pick(findResult, "video", "subtitles")).to.eql(expectedResult);
+    expect(findResult.show).to.include({title: "The Flash 2014"});
+    expect(findResult.show.episode).to.include({season: 1, number: 1});
   });
 
 });

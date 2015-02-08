@@ -4,7 +4,7 @@ class RecentStore extends BasicStore {
   }
 
   url() {
-    return this.config.api.path + "/recents";
+    return this.config.api.path + "/recent";
   }
 
 }
