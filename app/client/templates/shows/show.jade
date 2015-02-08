@@ -27,3 +27,6 @@
               i.ion-ios-play
             a(ng-click="ctrl.download(episode)", ng-if="!episode.local.video")
               i.ion-ios-cloud-download
+            a(ui-sref="torrents({query: ctrl.episodeId(episode)})", ng-if="!episode.local.video")
+              i.ion-ios-search-strong
+                          

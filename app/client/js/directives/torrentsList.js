@@ -7,8 +7,11 @@ class TorrentsList {
     this.$state = $state;
 
     this.scope.$watch("query", this.changeQuery.bind(this));
-
     this.torrents = [];
+    
+    if (this.scope.query) {
+      this.search();
+    }
   }
 
   changeQuery(newValue, oldValue) {
@@ -18,6 +21,7 @@ class TorrentsList {
   }
 
   search() {
+    console.log("search", this.scope.query);
     this.torrentsStore.find({query: this.scope.query}).then((torrents) => {
       this.torrents = torrents;
     });

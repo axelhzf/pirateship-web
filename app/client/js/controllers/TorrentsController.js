@@ -1,10 +1,13 @@
 class TorrentsController {
-  constructor(global) {
+  constructor(global, $state) {
     this.global = global;
+    this.$state = $state;
+    
+    this.tmpSearchQuery = this.searchQuery = $state.params.query;
   }
 
-  search () {
-    this.searchQuery = this.tmpSearchQuery;
+  search() {
+    this.$state.go("torrents", {query : this.tmpSearchQuery});
   }
 
 }
