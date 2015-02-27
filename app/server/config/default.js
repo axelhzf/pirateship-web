@@ -2,16 +2,20 @@ var path = require("path");
 
 module.exports = {
   name: "koa-base-app",
+  ip: "",
   port: process.env.PORT || 3000,
   keys: ['some secret hurr'],
   db: {
     username: "root",
     password: "",
     database: "pirateship",
+    host: "127.0.0.1",
+    port: "",
     sync: true,
     forceSync: false
   },
   logs: {
+    src: true,
     request: false,
     path: path.join(__dirname, "../../../logs")
   },
