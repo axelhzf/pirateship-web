@@ -44,7 +44,7 @@ exports.trendingShows = function *trendingShows() {
         episodeData.first_aired = new Date(episodeData.first_aired_iso);
         episodeData.image_screen = episodeData.images.screen;
         episodeData.image_screen_thumb = thumb(episodeData.images.screen);
-
+        
         var episode = yield Episode.findOne({
           where: {
             ShowId: show.id,

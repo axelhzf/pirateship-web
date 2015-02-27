@@ -9,7 +9,8 @@ var Episode = db.define("Episode", {
   first_aired: db.types.DATE,
   image_screen: db.types.URL,
   image_screen_thumb: db.types.URL,
-  rating: db.types.INTEGER
+  rating: db.types.INTEGER,
+  watched: {type: db.types.BOOLEAN, defaultValue: false}
 });
 
 Episode.belongsTo(Show);

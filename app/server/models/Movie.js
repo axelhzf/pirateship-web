@@ -13,7 +13,8 @@ module.exports = db.define("Movie", {
   poster_thumb: db.types.URL,
   background: db.types.URL,
   rating: db.types.FLOAT,
-  genre: db.types.STRING
+  genre: db.types.STRING,
+  watched: {type: db.types.BOOLEAN, defaultValue: false}
 }, {
   classMethods: {
     getYears: function () {
