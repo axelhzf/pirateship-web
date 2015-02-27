@@ -1,3 +1,5 @@
+"use strict";
+
 var co = require("co");
 var Movie = require("../models/Movie");
 var Auth = require("../models/Auth");
@@ -14,6 +16,8 @@ var JOB_PARALLEL = 20;
 var request = require("co-request");
 var barbakoa = require("barbakoa");
 
+var TraktApiClient = require("./TraktApiClient");
+
 queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
   return co(function* () {
     var movieId = data.id;
@@ -26,7 +30,7 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
     }
     var apikey = config.get("trakt.apikey");
     var summary = yield mrequest.get("http://api.trakt.tv/movie/summary.json/" + apikey + "/" + movie.imdb_id);
-
+    
     movie.tagline = summary.tagline;
     movie.trailer = summary.trailer;
     movie.overview = summary.overview;
@@ -38,7 +42,7 @@ queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
     movie.watched = summary.watched;
     
     yield movie.save();
-
+    
     console.log("imgserver downloadImagesForMovies with id ", movie.id);
   });
 });
@@ -54,67 +58,41 @@ function thumb(url) {
   }
 }
 
+var format = require("util").format;
 
-var qs = require("qs");
+var router = barbakoa.router;
 
-barbakoa.router.get("/auth", function* () {
-  var queryString = qs.stringify({
-    response_type : "code",
-    client_id: "f64e2679607320225850c2b25f5512d8f38a6b6b824995cc202354c9b05e64f3",
-    redirect_uri: "http://localhost:3000/callback"
-  });
-  var url = "https://api-v2launch.trakt.tv/oauth/authorize?" + queryString;
-  this.redirect(url);
-});
+var traktClient = new TraktApiClient();
 
-barbakoa.router.get("/callback", function* () {
-  var query = this.request.query;
-  var code = query.code;
-  var response = yield request({
-    method: "post", 
-    uri: "https://api-v2launch.trakt.tv/oauth/token",
-    body: {
-      code: code,
-      client_id: "f64e2679607320225850c2b25f5512d8f38a6b6b824995cc202354c9b05e64f3",
-      client_secret: "12390b92e7874ef7b77c6570e91d5ded54ba095ad31189abca84997b62978baf",
-      redirect_uri: "http://localhost:3000/callback",
-      grant_type: "authorization_code"
-    },
-    json: true
-  });
-  var auth = yield Auth.instance();
-  console.log(response.body, response.statusCode);
-  if (response.statusCode === 200) {
-    yield auth.updateAttributes(response.body);
-    this.body = response.body;
-  } else {
-    throw new Error("Authentication Error");
+router.get("/movies", function * () {
+  var movies = yield traktClient.moviesPopular();
+  
+  for (var i = 0; i < movies.length; i++) {
+    var movie = movies[i];
+    movies[i] = yield traktClient.movieSummary(movie.ids.imdb);
   }
+  
+  this.body = movies;
 });
 
-barbakoa.router.get("/movies", function * () {
-  var auth = yield Auth.instance();
-  console.log(auth.access_token);
-  var response = yield request({
-    method: "get", 
-    uri: "https://api-v2launch.trakt.tv/movies/trending",
-    json: true,
-    headers: {
-      "trakt-api-version": 2,
-      "trakt-api-key": "f64e2679607320225850c2b25f5512d8f38a6b6b824995cc202354c9b05e64f3",
-      "Authorization": "Bearer " + auth.access_token,
-      "Content-Type": "application/json"
-    }
-  });
-  console.log(response.body, response.statusCode);
-  this.body = {
-    statusCode: response.statusCode,
-    body: response.body
-  };
+router.get("/watched", function* () {
+  var watched = yield traktClient.syncGetWatched();
+  this.body = watched;
 });
 
-exports.checkin = function (type, id) {
-  //https://api-v2launch.trakt.tv
+router.get("/history/add", function* () {
+  var movies = yield traktClient.moviesPopular();
+  var movie = movies[0];
   
-  
-}
+  var response = yield traktClient.syncAddToHistory({movies: [movie]});
+  this.body = response;
+});
+
+router.get("/history/remove", function* () {
+  var movies = yield traktClient.moviesPopular();
+  var movie = movies[0];
+
+  var response = yield traktClient.syncRemoveFromHistory({movies: [movie]});
+  this.body = response;
+});
+

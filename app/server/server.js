@@ -11,6 +11,10 @@ barbakoa.mountStatic("/tmp", __dirname + "/../../tmp");
 
 require("./routes");
 
+var TraktAuth = require("./services/TraktAuth");
+var traktAuth = new TraktAuth(barbakoa.router);
+traktAuth.initializeRoutes();
+
 events.on("post-start", function * () {
   yield postProcess.start();
   queue.start();
