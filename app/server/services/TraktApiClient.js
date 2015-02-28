@@ -12,7 +12,7 @@ class TraktApiClient {
     var accessToken = "0d0140bce120dbdaeff28a2c5f50b65bb3bf21b720ba62a4c31f81e2c3d6f8a6";
     
     var apiClientOptions = {
-      retry: 3,
+      retry: 0,
       baseUri: "https://api-v2launch.trakt.tv/",
       request: {
         headers: {
@@ -48,6 +48,7 @@ class TraktApiClient {
       }
     });
     
+    /*
     var translation = yield this.apiClient.get({
       path: `movies/${imdb}/translations/es`,
       options: {
@@ -55,8 +56,8 @@ class TraktApiClient {
         cacheTtl: 7 * 24 * 60 * 60
       }
     });
-    
     _.extend(summary, translation[0]);
+    */
     
     return summary;
   }
@@ -77,12 +78,22 @@ class TraktApiClient {
     for (var i = 0; i < searchResults.length; i++) {
       var searchResult = searchResults[i];
       if (searchResult.type === "movie") {
-        var summary = yield this.movieSummary(searchResult[searchResult.type].ids.imdb);
-        summary.type = searchResult.type;
-        summaries[i] = summary;
+        try {
+          var imdb = searchResult[searchResult.type].ids.imdb;
+          if (imdb) {
+            var summary = yield this.movieSummary(imdb);
+            summary.type = searchResult.type;
+            summaries[i] = summary;
+          }
+        }catch(e) {
+
+        }
       }
     }
-    return summaries;
+    
+    var sortedSummaries = _.sortBy(summaries, "year").reverse();
+    
+    return sortedSummaries;
   }
   
   *syncGetWatched() {

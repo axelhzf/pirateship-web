@@ -1,13 +1,12 @@
 class HeaderController {
-  constructor($state, $rootScope, global, $location) {
+  constructor($state, $rootScope, $location) {
     this.$state = $state;
     this.$rootScope = $rootScope;
-    this.global = global;
     this.$location = $location;
   }
 
   clearQuery() {
-    this.global.moviesStoreQuery.query = "";
+    this.query = "";
   }
 
   next() {
@@ -19,7 +18,7 @@ class HeaderController {
   }
 
   onSubmit() {
-    this.$state.go("movies", {query: this.global.moviesStoreQuery.query});
+    this.$state.go("search", {query: this.query});
   }
 }
 

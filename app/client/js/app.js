@@ -12,10 +12,18 @@ App.config(function ($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("movies", {
-    url: "/movies?query&year&genre&order&sort",
+    url: "/movies",
     templateUrl: "templates/movies/movies.html",
     controller: "MoviesController as ctrl"
   });
+  
+  
+  $stateProvider.state("search", {
+    url: "/search?query",
+    templateUrl: "templates/search/search.html",
+    controller: "SearchController as ctrl"
+  });
+  
 
   $stateProvider.state("movie", {
     url: "/movies/:id",

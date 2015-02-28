@@ -5,6 +5,7 @@ var request = require("co-request");
 var Cacheman = require("cacheman");
 var Promise = require("bluebird");
 var logger = require("barbakoa").logger.child({component: "ApiClient"});
+var qs = require("qs");
 
 class ApiClient {
 
@@ -29,6 +30,7 @@ class ApiClient {
   
   *get(params) {
     var path = params.path;
+    var cacheKey = path + "?" + qs.stringify(params.qs);
     
     var options = _.merge(this.options, params.options);
     options.request.method = "get";
@@ -37,7 +39,7 @@ class ApiClient {
     
     // find in cache
     if(options.cache) { 
-      var body = yield this.cache.getAsync(path);
+      var body = yield this.cache.getAsync(cacheKey);
       if (body) {
         return body;
       }
@@ -70,7 +72,7 @@ class ApiClient {
   
     //save to cache
     if (options.cache) {
-      yield this.cache.setAsync(path, body, options.cacheTtl);
+      yield this.cache.setAsync(cacheKey, body, options.cacheTtl);
     }
     
     return body;

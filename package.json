@@ -24,6 +24,7 @@
     "mz": "^1.2.1",
     "node-kickass": "^0.2.0",
     "qs": "^2.3.3",
+    "query-string": "^1.0.0",
     "request": "^2.51.0",
     "simple-oauth2": "^0.2.1",
     "split": "^0.3.3",
