@@ -40,22 +40,18 @@ function exec(cmd) {
 }
 
 co(function* () {
+  process.env.DEBUG = "*";
+  
   var remote = new SSHane({host: "imac", username: "axelhzf"});
-  yield exec("NODE_ENV=production NODE_CONFIG_DIR=./app/server/config gulp");
-  yield exec("rm -rf out");
-  yield exec("mkdir -p out");
-  yield exec("cp -RL app node_modules package.json out");
-  yield exec("cd out && tar -cvzf ../pirateship.tar.gz .", {maxBuffer: 10000 * 1024});
-  yield exec("rm -rf out");
+
   yield remote.connect();
-  yield remote.exec("forever stopall");
-  yield remote.exec("rm -rf dev/pirateship");
-  yield remote.exec("mkdir -p dev/pirateship");
-  yield remote.put("pirateship.tar.gz", "dev/pirateship/pirateship.tar.gz");
-  yield remote.exec("cd dev/pirateship");
-  yield remote.exec("tar -xvzf pirateship.tar.gz");
-  yield remote.exec("rm pirateship.tar.gz");
-  yield remote.exec('NODE_ENV=production NODE_CONFIG_DIR=./app/server/config forever start -c "node --harmony" app/server/server.js');
+  yield remote.exec("cd dev/pirateship-web");
+  yield remote.exec("pm2 stop server");
+  yield remote.exec("git pull --rebase");
+  yield remote.exec("npm prune");
+  yield remote.exec("npm install --production --no-optional --loglevel info");
+  yield remote.exec('NODE_ENV=production NODE_CONFIG_DIR=./app/server/config pm2 start --node-args="--harmony" app/server/server.js');
+  
   yield remote.close();
 }).catch(function (e) {
   console.log(e.stack);
