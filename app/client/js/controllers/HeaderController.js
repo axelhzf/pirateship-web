@@ -1,8 +1,9 @@
 class HeaderController {
-  constructor($state, $rootScope, $location) {
+  constructor($state, $stateParams, $rootScope, $location) {
     this.$state = $state;
     this.$rootScope = $rootScope;
     this.$location = $location;
+    this.query = $location.search().query;
   }
 
   clearQuery() {

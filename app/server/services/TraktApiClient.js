@@ -36,6 +36,63 @@ class TraktApiClient {
     });
   }
   
+  *showsPopular() {
+    return yield this.apiClient.get({
+      path: "shows/popular",
+      qs: {
+        limit: 100,
+        extended: "full,images"
+      },
+      options: {
+        cache: true,
+        cacheTtl: 24 * 60 * 60
+      }
+    });
+  }
+  
+  *showSummary(imdb) {
+    var show = yield this.apiClient.get({
+      path: `shows/${imdb}`,
+      qs: {
+        extended: "full,images"
+      },
+      options: {
+        cache: true,
+        cacheTtl: 7 * 24 * 60 * 60
+      }
+    });
+    var seasons = yield this.apiClient.get({
+      path: `shows/${imdb}/seasons`,
+      qs: {
+        extended: "full"
+      },
+      options: {
+        cache: true,
+        cacheTtl: 7 * 24 * 60 * 60
+      }
+    });
+    show.seasons = seasons;
+    
+
+    for (var i = 0; i < seasons.length; i++) {
+      var season = seasons[i];
+      var episodes = yield this.apiClient.get({
+        path: `shows/${imdb}/seasons/${season.number}`,
+        qs: {
+          extended: "full"
+        },
+        options: {
+          cache: true,
+          cacheTtl: 7 * 24 * 60 * 60
+        }
+      });
+      season.episodes = episodes;
+    }
+
+    
+    return show;
+  }
+  
   *movieSummary(imdb) {
     var summary = yield this.apiClient.get({
       path: `movies/${imdb}`, 
@@ -47,7 +104,7 @@ class TraktApiClient {
         cacheTtl: 7 * 24 * 60 * 60
       }
     });
-    
+
     /*
     var translation = yield this.apiClient.get({
       path: `movies/${imdb}/translations/es`,
@@ -58,7 +115,7 @@ class TraktApiClient {
     });
     _.extend(summary, translation[0]);
     */
-    
+
     return summary;
   }
   

@@ -1,13 +1,20 @@
 class ShowsController {
-  constructor(showsStore) {
+  constructor($http, showsStore) {
+    this.$http = $http;
     this.showsStore = showsStore;
     this.fetchMovies();
   }
 
   fetchMovies() {
-    this.showsStore.find({limit: 1000}).then((shows) => {
-      this.shows = shows;
-    });
+    this.shows = {
+      state: "loading"
+    };
+    this.$http({method: "get", url: "/api/shows"})
+      .then((response) => {
+        this.shows.items = response.data;
+        this.shows.state = "loaded";
+      });
+    
   }
 
 }

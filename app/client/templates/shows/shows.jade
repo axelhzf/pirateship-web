@@ -2,10 +2,10 @@
   div(ui-view)
     h1 Shows
 
-    .poster-list(infinite-scroll="ctrl.appendNextPage()", infinite-scroll-distance="1")
+    .poster-list
       a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({id: show.id})")
         .poster-image
-          fade-img(img="{{show.image_poster_thumb}}")
+          fade-img(img="{{show.images.poster.thumb}}")
           .rating {{show.rating | number: 0}}
           .backdrop
             i.ion-ios7-eye

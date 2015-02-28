@@ -13,7 +13,7 @@ class YtsApiClient {
     return yield this.apiClient.get({
       path: "list_movies.json",
       qs: {
-        sort_by: "seeds",
+        sort_by: "download_count",
         limit: 50,
         set: 1
       },

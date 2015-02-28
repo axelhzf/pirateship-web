@@ -37,8 +37,8 @@ r.get("/api/torrents/download/:magnet", torrentsApi.download);
 r.get("/api/recent", recentApi.list);
 
 r.get("/api/shows/update", showsApi.update);
-r.get("/api/shows", showsApi.list);
-r.get("/api/shows/:id", showsApi.get);
+r.get("/api/shows", showsApi.find);
+r.get("/api/shows/:imdb", showsApi.get);
 
 
 r.get("/api/files", fileApi.find);

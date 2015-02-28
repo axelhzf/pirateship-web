@@ -4,6 +4,23 @@ var Episode = require("../models/Episode");
 var resource = require("barbakoa").api.resource;
 var _ = require("underscore");
 
+var ShowService = require("../services/ShowService");
+var showService = new ShowService();
+
+exports.find = function* () {
+  this.body = yield showService.findPopular();
+};
+
+exports.get = function* () {
+  this.body = yield showService.get(this.params.imdb);
+};
+  
+  
+
+
+
+
+
 exports.update = function* () {
   var totalTrendingShows = yield showsService.trendingShows();
   this.body = {
@@ -14,17 +31,3 @@ exports.update = function* () {
 var showResource = resource(Show, {});
 
 exports.list = showResource.list;
-
-exports.get = function* () {
-  var id = parseInt(this.params["id"], 10);
-  var show = yield Show.findOne(id);
-  if (!show) {
-    return this.throw("Resource doesn't exists", 404);
-  }
-  var episodes = yield Episode.findAll({where: {ShowId: id}});
-  show = show.toJSON();
-  show.episodes = episodes.map(function (episode) {
-    return episode.toJSON();
-  });
-  this.body = show;
-};
