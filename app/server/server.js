@@ -4,6 +4,7 @@ var events = barbakoa.events;
 var router = barbakoa.router;
 var postProcess = require("./services/postProcess");
 var queue = require("./queue");
+var heapdump = require('heapdump');
 
 var app = new barbakoa();
 
