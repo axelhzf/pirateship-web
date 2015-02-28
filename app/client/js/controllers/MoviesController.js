@@ -8,13 +8,12 @@ class MoviesController {
     this.movies = {
       state: "loading"
     };
-    
+
     this.$http({method: "get", url: "/api/movies"})
       .then((response) => {
         this.movies.items = response.data;
         this.movies.state = "loaded";
       });
-    
   }
 }
 

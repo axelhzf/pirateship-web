@@ -10,6 +10,7 @@ var fileApi = require("./api/fileApi");
 var playerApi = require("./api/playerApi");
 var logsApi = require("./api/logsApi");
 var subtitlesApi = require("./api/subtitlesApi");
+var favApi = require("./api/favApi");
 
 r.get("/", function * () {
   var assets = barbakoa.assets.getModule("app");
@@ -20,6 +21,12 @@ r.get("/", function * () {
 r.get("/api/movies", movieApi.find);
 r.get("/api/movies/seeds", movieApi.findBySeeds);
 r.get("/api/movies/:imdb", movieApi.get);
+
+r.get("/api/shows", showsApi.find);
+r.get("/api/shows/:imdb", showsApi.get);
+
+r.post("/api/favs/:imdb", favApi.add);
+r.delete("/api/favs/:imdb", favApi.remove);
 
 
 r.get("/api/search", require("./api/searchApi").search);
@@ -36,9 +43,7 @@ r.get("/api/torrents/download/:magnet", torrentsApi.download);
 
 r.get("/api/recent", recentApi.list);
 
-r.get("/api/shows/update", showsApi.update);
-r.get("/api/shows", showsApi.find);
-r.get("/api/shows/:imdb", showsApi.get);
+
 
 
 r.get("/api/files", fileApi.find);

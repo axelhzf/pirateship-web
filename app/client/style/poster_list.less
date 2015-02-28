@@ -11,14 +11,13 @@
   max-width: 130px;
 
   margin: 0 20px 20px 0;
-  //background-color: rgba(255, 255, 255, 0.1);
-  //border-radius: 5px;
   overflow: hidden;
 
   .poster-image {
     position: relative;
     width: 130px;
     height: 185px;
+    cursor: pointer;
   }
 
   img {
@@ -71,6 +70,33 @@
 
   &:hover {
     .backdrop {
+      opacity: 1;
+    }
+  }
+  
+  .fav {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 20px;
+    color: #fff;
+    
+    &:hover {
+      color: @blue;
+    }
+  }
+  
+  .fav-true {
+    
+  }
+  
+  .fav-false {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  &:hover {
+    .fav-false {
       opacity: 1;
     }
   }

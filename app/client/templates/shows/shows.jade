@@ -2,14 +2,23 @@
   div(ui-view)
     h1 Shows
 
-    .poster-list
-      a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({imdb: show.ids.imdb})")
-        .poster-image
-          fade-img(img="{{show.images.poster.thumb}}")
-          .rating {{show.rating | number: 0}}
-          .backdrop
-            i.ion-ios7-eye
-          .post-list-content(ng-if="show.favorite")
-            i.ion-ios7-heart
-        .poster-data
-          .poster-title {{show.title}}
+    mixin posterList(collection)
+      .poster-list
+        div.poster-list-item(ng-repeat="show in #{collection} track by show.ids.imdb")
+          .poster-image(ui-sref="show({imdb: show.ids.imdb})")
+            fade-img(img="{{show.images.poster.thumb}}")
+            .rating {{show.rating | number: 0}}
+            .backdrop
+            a.fav(ng-click="ctrl.toggleFav($event, show)")
+              i.fav-true.ion-android-favorite(ng-if="show.favorite")
+              i.fav-false.ion-android-favorite-outline(ng-if="!show.favorite")
+                
+          .poster-data
+            .poster-title {{show.title}}
+    
+    
+    h2 Favorites
+    +posterList("ctrl.favs.items")
+
+    h2 Popular
+    +posterList("ctrl.popular.items")
