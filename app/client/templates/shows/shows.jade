@@ -3,7 +3,7 @@
     h1 Shows
 
     .poster-list
-      a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({id: show.id})")
+      a.poster-list-item(ng-repeat="show in ctrl.shows.items", ui-sref="show({imdb: show.ids.imdb})")
         .poster-image
           fade-img(img="{{show.images.poster.thumb}}")
           .rating {{show.rating | number: 0}}

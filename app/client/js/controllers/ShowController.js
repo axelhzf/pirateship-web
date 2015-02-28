@@ -1,27 +1,35 @@
 class ShowController {
-  constructor(showsStore, $stateParams, torrentsStore, fileStore, player, subtitlesStore) {
+  constructor(showsStore, $stateParams, torrentsStore, fileStore, player, subtitlesStore, $http) {
     this.showsStore = showsStore;
     this.$stateParams = $stateParams;
     this.torrentsStore = torrentsStore;
     this.fileStore = fileStore;
     this.player = player;
     this.subtitlesStore = subtitlesStore;
+    this.$http = $http;
     
     this.fetchShow();
   }
 
   fetchShow() {
-    this.showsStore.get(this.$stateParams.id).then((show) => {
-      this.show = show;
-      this.seasons = _.sortBy(_.unique(_.pluck(this.show.episodes, "season")));
-      this.episodesBySeason = _.groupBy(_.sortBy(this.show.episodes, "number"), "season");
-      this.setActiveSeason(_.last(this.seasons));
-    });
+  
+    var url = "/api/shows/" + this.$stateParams.imdb;
+    this.$http({method: "get", url})
+      .then((response) => {
+        this.show = response.data;
+        this.seasons = _.sortBy(_.pluck(this.show.seasons, "number"));
+        this.episodesBySeason = _.reduce(this.show.seasons, function (memo, season) {
+          memo[season.number] = season.episodes;
+          return memo;
+        }, []) ;
+        this.setActiveSeason(_.last(this.seasons));
+      });
   }
 
   setActiveSeason(activeSeason) {
     this.activeSeason = activeSeason;
     this.activeEpisodes = this.episodesBySeason[this.activeSeason];
+
     this.updateActiveEpisodesFile();
   }
 

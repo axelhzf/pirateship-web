@@ -3,7 +3,7 @@
   h1 Movies
 
   .poster-list
-    a.poster-list-item(ng-repeat="searchItem in ctrl.search.items", ui-sref="movie({id: movie.id})")
+    a.poster-list-item(ng-repeat="searchItem in ctrl.search.items", ui-sref="movie({imdb: searchItem.ids.imdb})")
       .poster-image
         fade-img(img="{{searchItem.images.poster.thumb}}")
         .rating {{searchItem.rating}}

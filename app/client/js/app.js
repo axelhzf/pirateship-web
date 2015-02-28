@@ -38,7 +38,7 @@ App.config(function ($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("show", {
-    url: "/shows/:id",
+    url: "/shows/:imdb",
     templateUrl: "templates/shows/show.html",
     controller: "ShowController as ctrl"
   });

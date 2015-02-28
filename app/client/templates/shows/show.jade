@@ -1,8 +1,8 @@
-.content.show(ng-if="ctrl.show", style="background-image:url({{ctrl.show.image_fanart_thumb}});")
+.content.show(ng-if="ctrl.show", style="background-image:url({{ctrl.show.images.fanart.medium}});")
   .movie-backdrop
   .left
     .img-container
-      fade-img(img="{{ctrl.show.image_poster_thumb}}")
+      fade-img(img="{{ctrl.show.images.poster.medium}}")
       .rating
         .rating-inner {{ctrl.show.rating | number: 0}}
   .center
