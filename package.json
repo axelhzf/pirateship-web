@@ -41,7 +41,8 @@
     "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js",
     "test-server": "NODE_ENV=test NODE_CONFIG_DIR=./app/server/config node --harmony test/server/test.js",
     "test-client": "NODE_ENV=test NODE_CONFIG_DIR=./app/server/config node --harmony test/client/test.js",
-    "deploy": "DEBUG=* node --harmony deploy.js"
+    "deploy": "DEBUG=* node --harmony deploy.js",
+    "start": "NODE_ENV=production NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js"
   },
   "devDependencies": {
     "chai": "^1.10.0",
