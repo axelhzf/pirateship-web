@@ -51,7 +51,7 @@ class TraktApiClient {
   }
   
   *showSummary(imdb) {
-    var show = yield this.apiClient.get({
+    return yield this.apiClient.get({
       path: `shows/${imdb}`,
       qs: {
         extended: "full,images"
@@ -61,6 +61,11 @@ class TraktApiClient {
         cacheTtl: 7 * 24 * 60 * 60
       }
     });
+  }
+  
+  *showSummaryExtended(imdb) {
+    var show = yield this.showSummary(imdb);
+    
     var seasons = yield this.apiClient.get({
       path: `shows/${imdb}/seasons`,
       qs: {
@@ -89,7 +94,6 @@ class TraktApiClient {
       season.episodes = episodes;
     }
 
-    
     return show;
   }
   
@@ -120,7 +124,7 @@ class TraktApiClient {
   }
   
   *search(query) {
-    var searchResults = yield this.apiClient.get({
+    return yield this.apiClient.get({
       path: "search",
       qs: {
         query: query,
@@ -131,26 +135,6 @@ class TraktApiClient {
         cacheTtl: 7 * 24 * 60 * 60
       }
     });
-    var summaries = [];
-    for (var i = 0; i < searchResults.length; i++) {
-      var searchResult = searchResults[i];
-      if (searchResult.type === "movie") {
-        try {
-          var imdb = searchResult[searchResult.type].ids.imdb;
-          if (imdb) {
-            var summary = yield this.movieSummary(imdb);
-            summary.type = searchResult.type;
-            summaries[i] = summary;
-          }
-        }catch(e) {
-
-        }
-      }
-    }
-    
-    var sortedSummaries = _.sortBy(summaries, "year").reverse();
-    
-    return sortedSummaries;
   }
   
   *syncGetWatched() {

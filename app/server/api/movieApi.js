@@ -17,7 +17,7 @@ api.findBySeeds = function* () {
 };
 
 api.get = function* () {
-  this.body = yield movieService.get(this.params.imdb);
+  this.body = yield movieService.getExtended(this.params.imdb);
 };
 
 api.download = function* () {

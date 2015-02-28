@@ -30,11 +30,7 @@ class MovieService {
   *get (imdbCode) {
     return yield this.traktApiClient.movieSummary(imdbCode)
   }
-  *search(query) {
-    return yield this.traktApiClient.search(query);
-  }
-  
-  
+
   *_getSummaries(imdbCodes) {
     var movies = [];
     for (var i = 0; i < imdbCodes.length; i++) {

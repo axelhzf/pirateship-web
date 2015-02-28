@@ -39,14 +39,10 @@ class ShowService {
     return yield this.traktApiClient.showSummary(imdb);
   }
   
-  *favAdd(imdb) {
-    return yield Fav.add(imdb);
+  *getExtended(imdb) {
+    return yield this.traktApiClient.showSummaryExtended(imdb);
   }
-  
-  *favRemove(imdb) {
-    return yield Fav.remove(imdb);
-  }
-  
+
 }
 
 module.exports = ShowService;
