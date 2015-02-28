@@ -1,9 +1,9 @@
-.content.movie(style="background-image:url({{ctrl.movie.background}});")
+.content.movie(style="background-image:url({{ctrl.movie.images.fanart.medium}});")
   .movie-backdrop
 
   .left
     .img-container
-      fade-img(img="{{ctrl.movie.poster_thumb}}")
+      fade-img(img="{{ctrl.movie.images.poster.medium}}")
 
     .rating
       .rating-inner {{ctrl.movie.rating}}

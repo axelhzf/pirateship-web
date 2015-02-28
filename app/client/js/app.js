@@ -26,7 +26,7 @@ App.config(function ($stateProvider, $urlRouterProvider) {
   
 
   $stateProvider.state("movie", {
-    url: "/movies/:id",
+    url: "/movies/:imdb",
     templateUrl: "templates/movies/movie.html",
     controller: "MovieController as ctrl"
   });

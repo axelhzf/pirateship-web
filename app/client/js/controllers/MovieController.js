@@ -1,9 +1,10 @@
 class MovieController {
-  constructor($stateParams, moviesStore, download, $scope, $state) {
+  constructor($stateParams, moviesStore, download, $scope, $state, $http) {
     this.$state = $state;
     this.downloadService = download;
     this.moviesStore = moviesStore;
-    this.movieId = $stateParams.id;
+    this.imdb = $stateParams.imdb;
+    this.$http = $http;
 
     this.fetchMovie();
     this.fetchTorrents();
@@ -14,13 +15,15 @@ class MovieController {
   }
 
   fetchMovie() {
-    this.moviesStore.get(this.movieId).then((movie) => {
-      this.movie = movie;
-    });
+    var url = "/api/movies/" + this.imdb;
+    this.$http({method: "get", url})
+      .then((response) => {
+        this.movie = response.data;
+      });
   }
 
   fetchTorrents() {
-    this.moviesStore.findTorrentsForMovie(this.movieId).then((torrents) => {
+    this.moviesStore.findTorrentsForMovie(this.imdb).then((torrents) => {
       this.torrents = torrents;
     });
   }
