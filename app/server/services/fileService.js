@@ -4,8 +4,6 @@ var util = require("util");
 var _ = require("underscore");
 var _s = require("underscore.string");
 var path = require("path");
-var Show = require("../models/Show");
-var Episode = require("../models/Episode");
 
 exports.find = function* find(file) {
   var destinationFolder = config.get("postProcess.destinationFolder");
@@ -17,13 +15,8 @@ exports.find = function* find(file) {
   if (!video) return {};
   
   var subtitles = yield findSubtitles(normalizedFile, showDirectory);
-  var show = yield findShowEpisode(normalizedFile);
   
-  return {
-    video: video,
-    subtitles: subtitles,
-    show: show
-  };
+  return { video, subtitles };
 };
 
 function* findSubtitles(normalizedFile, showDirectory) {
@@ -38,23 +31,6 @@ function* findSubtitles(normalizedFile, showDirectory) {
     });
   }
   return result;
-}
-
-function* findShowEpisode(normalizedFile) {
-  var showTitle = normalizedFile.show.replace(/\./g, " ");
-  var show = yield Show.findOne({where: {title: showTitle}});
-  if (show) {
-    show = show.toJSON();
-    var episode = yield Episode.findOne({
-      where: {
-        ShowId: show.id,
-        season: normalizedFile.season,
-        number: normalizedFile.number
-      }
-    });
-    show.episode = episode.toJSON();
-  }
-  return show;
 }
 
 function* globFirstFile(directory, pattern) {
