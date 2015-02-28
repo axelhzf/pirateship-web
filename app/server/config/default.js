@@ -1,7 +1,7 @@
 var path = require("path");
 
 module.exports = {
-  name: "koa-base-app",
+  name: "pirateship",
   ip: "",
   port: process.env.PORT || 3000,
   keys: ['some secret hurr'],
