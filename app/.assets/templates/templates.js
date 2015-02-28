@@ -197,18 +197,6 @@ try {
   module = angular.module('app', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('templates/search/search.html',
-    '<div class="content movies"><div ui-view="ui-view"></div><h1>Search Results</h1><div class="poster-list"><div ng-repeat="searchItem in ctrl.search.items" ng-click="ctrl.navigate(searchItem)" class="poster-list-item"><div class="poster-image"><fade-img img="{{searchItem.images.poster.thumb}}"></fade-img><div class="rating">{{searchItem.rating}}</div><div class="backdrop"></div><a ng-click="ctrl.toggleFav($event, searchItem)" class="fav"><i ng-if="searchItem.favorite" class="fav-true ion-android-favorite"></i><i ng-if="!searchItem.favorite" class="fav-false ion-android-favorite-outline"></i></a></div><div class="poster-data"><div class="poster-title">{{searchItem.title}}</div><div class="poster-genre">{{searchItem.genres[0]}}</div></div></div></div></div>');
-}]);
-})();
-
-(function(module) {
-try {
-  module = angular.module('app');
-} catch (e) {
-  module = angular.module('app', []);
-}
-module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/movies/movie.html',
     '<div style="background-image:url({{ctrl.movie.images.fanart.medium}});" class="content movie"><div class="movie-backdrop"></div><div class="left"><div class="img-container"><fade-img img="{{ctrl.movie.images.poster.medium}}"></fade-img></div><div class="rating"><div class="rating-inner">{{ctrl.movie.rating}}</div></div><div class="actions"><div ng-if="!ctrl.download"><a ng-click="ctrl.downloadMagnet(ctrl.movie.yts_magnet)" class="btn">Download</a></div><div ng-if="ctrl.download"><a class="btn">{{ctrl.download.progress / 10}}% - {{ctrl.download.speed / 1000 | kbFmt:2}}/s</a></div></div></div><div class="center"><h1>{{ctrl.movie.title}}</h1><p class="overview">{{ctrl.movie.overview}}</p><ul class="tabs"><li><a ng-class="{active: ctrl.tab === \'trailer\'}" ng-click="ctrl.tab = \'trailer\'">Trailer</a></li><li><a ng-class="{active: ctrl.tab === \'torrents\'}" ng-click="ctrl.tab  = \'torrents\'">Torrents</a></li></ul><div ng-if="ctrl.tab == \'trailer\'" class="tab-trailer"><youtube-player video-url="ctrl.movie.trailer"></youtube-player></div><div ng-if="ctrl.tab == \'torrents\'" class="tab-torrents"><table class="torrents"><thead><tr><th>Name</th><th>Seeds</th><th>Leechers</th></tr></thead><tbody><tr ng-repeat="torrent in ctrl.torrents" class="torrent-item"><td><a ng-click="ctrl.downloadMagnet(torrent.link)">{{torrent.title}}</a></td><td>{{torrent.seeds}}</td><td>{{torrent.leechers}}</td></tr></tbody></table></div></div></div>');
 }]);
@@ -223,6 +211,18 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/movies/movies.html',
     '<div class="content movies"><div ui-view="ui-view"></div><h1>Movies</h1><div class="poster-list"><a ng-repeat="movie in ctrl.movies.items" ui-sref="movie({imdb: movie.ids.imdb})" class="poster-list-item"><div class="poster-image"><fade-img img="{{movie.images.poster.thumb}}"></fade-img><div class="rating">{{movie.rating}}</div><div class="backdrop"><i class="ion-ios7-eye"></i></div><div ng-if="show.favorite" class="post-list-content"><i class="ion-ios7-heart"></i></div></div><div class="poster-data"><div class="poster-title">{{movie.title}}</div><div class="poster-genre">{{movie.genres[0]}}</div></div></a></div></div>');
+}]);
+})();
+
+(function(module) {
+try {
+  module = angular.module('app');
+} catch (e) {
+  module = angular.module('app', []);
+}
+module.run(['$templateCache', function($templateCache) {
+  $templateCache.put('templates/search/search.html',
+    '<div class="content movies"><div ui-view="ui-view"></div><h1>Search Results</h1><div class="poster-list"><div ng-repeat="searchItem in ctrl.search.items" ng-click="ctrl.navigate(searchItem)" class="poster-list-item"><div class="poster-image"><fade-img img="{{searchItem.images.poster.thumb}}"></fade-img><div class="rating">{{searchItem.rating}}</div><div class="backdrop"></div><a ng-click="ctrl.toggleFav($event, searchItem)" class="fav"><i ng-if="searchItem.favorite" class="fav-true ion-android-favorite"></i><i ng-if="!searchItem.favorite" class="fav-false ion-android-favorite-outline"></i></a></div><div class="poster-data"><div class="poster-title">{{searchItem.title}}</div><div class="poster-genre">{{searchItem.genres[0]}}</div></div></div></div></div>');
 }]);
 })();
 

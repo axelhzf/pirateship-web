@@ -8,6 +8,6 @@ module.exports = {
   assets: {
     reload: false,
     cache: true,
-    min: false
+    min: true
   }
 };
