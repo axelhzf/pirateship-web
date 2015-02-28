@@ -1,17 +1,17 @@
 .content.movies
   div(ui-view)
-  h1 Movies
+  h1 Search Results
 
   .poster-list
-    a.poster-list-item(ng-repeat="searchItem in ctrl.search.items", ui-sref="movie({imdb: searchItem.ids.imdb})")
+    .poster-list-item(ng-repeat="searchItem in ctrl.search.items", ng-click="ctrl.navigate(searchItem)")
       .poster-image
         fade-img(img="{{searchItem.images.poster.thumb}}")
         .rating {{searchItem.rating}}
         .backdrop
-          i.ion-ios7-eye
-        .post-list-content(ng-if="searchItem.favorite")
-          i.ion-ios7-heart
+        a.fav(ng-click="ctrl.toggleFav($event, searchItem)")
+          i.fav-true.ion-android-favorite(ng-if="searchItem.favorite")
+          i.fav-false.ion-android-favorite-outline(ng-if="!searchItem.favorite")
+          
       .poster-data
         .poster-title {{searchItem.title}}
         .poster-genre {{searchItem.genres[0]}}
-

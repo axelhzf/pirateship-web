@@ -14,5 +14,5 @@ exports.find = function* () {
 };
 
 exports.get = function* () {
-  this.body = yield showService.get(this.params.imdb);
+  this.body = yield showService.getExtended(this.params.imdb);
 };

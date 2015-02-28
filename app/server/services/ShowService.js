@@ -36,11 +36,15 @@ class ShowService {
   }
   
   *get(imdb) {
-    return yield this.traktApiClient.showSummary(imdb);
+    var summary = yield this.traktApiClient.showSummary(imdb);
+    summary.favorite = yield Fav.exists(summary.ids.imdb);
+    return summary;
   }
   
   *getExtended(imdb) {
-    return yield this.traktApiClient.showSummaryExtended(imdb);
+    var summary = yield this.traktApiClient.showSummaryExtended(imdb);
+    summary.favorite = yield Fav.exists(summary.ids.imdb);
+    return summary;
   }
 
 }

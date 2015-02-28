@@ -14,7 +14,6 @@ class SearchService {
   
   *search(query) {
     var searchResults = yield this.traktApiClient.search(query);
-    console.log("seachResults", searchResults);
     var summaries = [];
     for (var i = 0; i < searchResults.length; i++) {
       var searchResult = searchResults[i];

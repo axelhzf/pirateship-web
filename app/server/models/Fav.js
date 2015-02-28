@@ -7,9 +7,12 @@ var Fav = db.define("Fav", {
   imdb: t.STRING
 }, {
   classMethods: {
+    exists: function* (imdb) {
+      var fav = yield Fav.find({where: {imdb: imdb}});
+      return !!fav;
+    },
     add: function* (imdb) {
-      var existingFav = yield Fav.find({where: {imdb: imdb}});
-      if (existingFav) {
+      if (yield this.exists(imdb)) {
         return false;
       }
       yield Fav.create({imdb: imdb});
