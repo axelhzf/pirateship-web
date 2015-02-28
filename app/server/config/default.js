@@ -48,8 +48,9 @@ module.exports = {
   },
   retry: {
     max_tries: Infinity,
-    interval: 1000,
-    max_interval: 1000 * 3600 * 3
+    interval: 60 * 1000, //1m
+    backoff: 2,
+    max_interval: 5 * 60 * 60 * 1000 //5h
   }
 };
 
