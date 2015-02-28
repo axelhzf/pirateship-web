@@ -127,6 +127,7 @@ class TraktApiClient {
     return yield this.apiClient.get({
       path: "search",
       qs: {
+        limit: 30,
         query: query,
         type: "movie,show"
       },

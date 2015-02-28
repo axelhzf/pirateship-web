@@ -31,7 +31,6 @@ class ShowsController {
     
     this.$http({method: method, url: url, data: {}}).then(() => {
       this.fetch("/api/shows").then((response) => {
-        console.log("response items", response.items);
         this.favs.items = response.items;
       });
     });
