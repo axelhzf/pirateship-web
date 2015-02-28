@@ -2,42 +2,93 @@
 
 var Auth = require("../models/Auth");
 var ApiClient = require("./ApiClient");
+var _ = require("lodash");
 
 class TraktApiClient {
   
-  constructor () {
+  constructor() {
     
     //todo accessToToken
-    var accessToken = "3c06d8e1058b2a6157f32bcdd0d78c911845ac9d463a60b5e860c284837cd465";
+    var accessToken = "0d0140bce120dbdaeff28a2c5f50b65bb3bf21b720ba62a4c31f81e2c3d6f8a6";
     
     var apiClientOptions = {
       retry: 3,
       baseUri: "https://api-v2launch.trakt.tv/",
-      headers: {
-        "trakt-api-version": 2,
-        "trakt-api-key": "f64e2679607320225850c2b25f5512d8f38a6b6b824995cc202354c9b05e64f3",
-        "Authorization": "Bearer " + accessToken,
-        "Content-Type": "application/json"
+      request: {
+        headers: {
+          "trakt-api-version": 2,
+          "trakt-api-key": "f64e2679607320225850c2b25f5512d8f38a6b6b824995cc202354c9b05e64f3",
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/json"
+        }
       }
     };
     this.apiClient = new ApiClient(apiClientOptions);
   }
   
   *moviesPopular() {
-    return yield this.apiClient.get("movies/popular", {cache: true, cacheTtl: "1d"});
+    return yield this.apiClient.get({
+      path: "movies/popular",
+      options: {
+        cache: true,
+        cacheTtl: 24 * 60 * 60
+      }
+    });
   }
   
   *movieSummary(imdb) {
-    var fullResponse = yield this.apiClient.get(`movies/${imdb}?extended=full`, {cache: true, cacheTtl: "1w"});
-    var imagesResponse = yield this.apiClient.get(`movies/${imdb}?extended=images`, {cache: true, cacheTttl: "1w"});
-    fullResponse.images = imagesResponse.images;
-    return fullResponse
+    var summary = yield this.apiClient.get({
+      path: `movies/${imdb}`, 
+      qs: {
+        extended: "full,images"
+      },
+      options: {
+        cache: true, 
+        cacheTtl: 7 * 24 * 60 * 60
+      }
+    });
+    
+    var translation = yield this.apiClient.get({
+      path: `movies/${imdb}/translations/es`,
+      options: {
+        cache: true,
+        cacheTtl: 7 * 24 * 60 * 60
+      }
+    });
+    
+    _.extend(summary, translation[0]);
+    
+    return summary;
+  }
+  
+  *search(query) {
+    var searchResults = yield this.apiClient.get({
+      path: "search",
+      qs: {
+        query: query,
+        type: "movie,show"
+      },
+      options: {
+        cache: true,
+        cacheTtl: 7 * 24 * 60 * 60
+      }
+    });
+    var summaries = [];
+    for (var i = 0; i < searchResults.length; i++) {
+      var searchResult = searchResults[i];
+      if (searchResult.type === "movie") {
+        var summary = yield this.movieSummary(searchResult[searchResult.type].ids.imdb);
+        summary.type = searchResult.type;
+        summaries[i] = summary;
+      }
+    }
+    return summaries;
   }
   
   *syncGetWatched() {
     var watched = yield {
-      movies: this.apiClient.get("sync/watched/movies"),
-      shows: this.apiClient.get("sync/watched/shows")
+      movies: this.apiClient.get({path: "sync/watched/movies"}),
+      shows: this.apiClient.get({path: "sync/watched/shows"})
     };
     return watched;
   }

@@ -17,6 +17,7 @@ var request = require("co-request");
 var barbakoa = require("barbakoa");
 
 var TraktApiClient = require("./TraktApiClient");
+var YtsApiClient = require("./YtsApiClient");
 
 queue.addWorker(JOB_NAME, JOB_PARALLEL, function (data) {
   return co(function* () {
@@ -62,37 +63,53 @@ var format = require("util").format;
 
 var router = barbakoa.router;
 
-var traktClient = new TraktApiClient();
+var traktApiClient = new TraktApiClient();
+var ytsApiClient = new YtsApiClient();
 
 router.get("/movies", function * () {
-  var movies = yield traktClient.moviesPopular();
-  
-  for (var i = 0; i < movies.length; i++) {
-    var movie = movies[i];
-    movies[i] = yield traktClient.movieSummary(movie.ids.imdb);
-  }
-  
+  var response = yield traktApiClient.moviesPopular();
+  var imdbCodes = response.map(function(movie) {
+    return movie.ids.imdb;
+  });
+  var movies = yield summaries(imdbCodes);
   this.body = movies;
 });
 
+router.get("/movies/seeds", function* () {
+  var response = yield ytsApiClient.listBySeeds();
+  var imdbCodes = _.pluck(response.data.movies, "imdb_code");
+  var movies = yield summaries(imdbCodes);
+  this.body = movies;
+});
+
+function* summaries(imdbCodes) {
+  var movies = [];
+  for (var i = 0; i < imdbCodes.length; i++) {
+    var imdbCode = imdbCodes[i];
+    movies[i] = yield traktApiClient.movieSummary(imdbCode);
+  }
+  return movies;
+}
+
+
 router.get("/watched", function* () {
-  var watched = yield traktClient.syncGetWatched();
+  var watched = yield traktApiClient.syncGetWatched();
   this.body = watched;
 });
 
 router.get("/history/add", function* () {
-  var movies = yield traktClient.moviesPopular();
+  var movies = yield traktApiClient.moviesPopular();
   var movie = movies[0];
   
-  var response = yield traktClient.syncAddToHistory({movies: [movie]});
+  var response = yield traktApiClient.syncAddToHistory({movies: [movie]});
   this.body = response;
 });
 
 router.get("/history/remove", function* () {
-  var movies = yield traktClient.moviesPopular();
+  var movies = yield traktApiClient.moviesPopular();
   var movie = movies[0];
 
-  var response = yield traktClient.syncRemoveFromHistory({movies: [movie]});
+  var response = yield traktApiClient.syncRemoveFromHistory({movies: [movie]});
   this.body = response;
 });
 

@@ -1,14 +1,23 @@
 var Movie = require("../models/Movie");
-var resource = require("barbakoa").api.resource;
-var moviesService = require("../services/moviesService");
 var torrentService = require("../services/torrentService");
 var _ = require("underscore");
 
-var api = resource(Movie, {});
+var MovieService = require("../services/MovieService");
 
-api.update = function * () {
-  var featured = yield moviesService.fetchFeatured();
-  this.body = featured;
+var movieService = new MovieService();
+
+var api = {};
+
+api.find = function* () {
+  this.body = yield movieService.findBySeeds();
+};
+
+api.findBySeeds = function* () {
+  this.body = yield movieService.findPopular();
+};
+
+api.get = function* () {
+  this.body = yield movieService.get(this.params.imdb);
 };
 
 api.download = function* () {

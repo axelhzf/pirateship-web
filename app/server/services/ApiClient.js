@@ -4,6 +4,7 @@ var _ = require("lodash");
 var request = require("co-request");
 var Cacheman = require("cacheman");
 var Promise = require("bluebird");
+var logger = require("barbakoa").logger.child({component: "ApiClient"});
 
 class ApiClient {
 
@@ -26,32 +27,53 @@ class ApiClient {
     this.cache = Promise.promisifyAll(this.cache);
   }
   
-  *get(path, _options) {
-    var options = _.merge(this.options, _options);
+  *get(params) {
+    var path = params.path;
+    
+    var options = _.merge(this.options, params.options);
     options.request.method = "get";
     options.request.uri = options.baseUri + path;
+    options.request.qs = params.qs;
     
-    console.log(options);
-    if(options.cache) { // find path in cache
+    // find in cache
+    if(options.cache) { 
       var body = yield this.cache.getAsync(path);
-      console.log("get cache", path, body !== undefined);
       if (body) {
-        console.log("from cache");
         return body;
       }
     }
     
-    var response = yield request(options.request);
-    
-    if (response.statusCode === 200) {
-      var body = response.body;
-      if (options.cache) {
-        yield this.cache.setAsync(path, body, options.cacheTtl);
+    // do request with retry
+    var remainingTries = options.retry + 1;
+    var body;
+    while (remainingTries > 0) {
+      logger.info("doing request", path);
+      var res = yield request(options.request);
+      if (res.statusCode === 200) {
+        body = res.body;
+        break;
+      } else {
+        remainingTries--;
+        logger.warn(`Request error`, {
+          method: options.request.method,
+          uri: options.request.uri,
+          remainingTries,
+          statusCode: res.statusCode,
+          body: res.body
+        });
       }
-      return body;
-    } else {
-      //todo retry
     }
+
+    if (!body) {
+      throw new Error(`Request error [GET] ${options.request.uri}`);
+    }
+  
+    //save to cache
+    if (options.cache) {
+      yield this.cache.setAsync(path, body, options.cacheTtl);
+    }
+    
+    return body;
   }
   
   *post(path, body, _options) {

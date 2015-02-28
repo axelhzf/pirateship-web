@@ -1,7 +1,7 @@
 var barbakoa = require("barbakoa");
 var r = barbakoa.router;
 
-var moviesApi = require("./api/moviesApi");
+var movieApi = require("./api/movieApi");
 var downloadApi = require("./api/downloadApi");
 var torrentsApi = require("./api/torrentsApi");
 var recentApi = require("./api/recentApi");
@@ -16,13 +16,16 @@ r.get("/", function * () {
   yield this.render("index", {assets: assets});
 });
 
-r.get("/api/movies/update", moviesApi.update);
-r.get("/api/movies", moviesApi.list);
-r.get("/api/movies/_years", moviesApi.getYears);
-r.get("/api/movies/_genres", moviesApi.getGenres);
-r.get("/api/movies/:id", moviesApi.get);
-r.get("/api/movies/:id/download/:magnet", moviesApi.download);
-r.get("/api/movies/:id/torrents/", moviesApi.torrents);
+
+r.get("/api/movies", movieApi.find);
+r.get("/api/movies/seeds", movieApi.findBySeeds);
+r.get("/api/movies/:imdb", movieApi.get);
+
+
+r.get("/api/search", require("./api/searchApi").search);
+
+//r.get("/api/movies/:id/download/:magnet", moviesApi.download);
+//r.get("/api/movies/:id/torrents/", moviesApi.torrents);
 
 r.get("/api/downloads", downloadApi.list);
 r.post("/api/downloads/:id/start", downloadApi.start);
