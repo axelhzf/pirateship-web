@@ -5,7 +5,7 @@ var ApiClient = require("./ApiClient");
 class YtsApiClient {
   constructor() {
     this.apiClient = new ApiClient({
-      baseUri: "https://yts.re/api/v2/"
+      baseUri: "https://yts.to/api/v2/"
     });
   }
   
