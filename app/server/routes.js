@@ -31,8 +31,8 @@ r.delete("/api/favs/:imdb", favApi.remove);
 r.get("/api/search", searchApi.search);
 
 r.get("/api/downloads", downloadApi.list);
-r.post("/api/downloads/:id/start", downloadApi.start);
-r.post("/api/downloads/:id/stop", downloadApi.stop);
+r.get("/api/downloads/:id/start", downloadApi.start);
+r.get("/api/downloads/:id/stop", downloadApi.stop);
 
 r.get("/api/torrents", torrentsApi.list);
 r.get("/api/torrents/download/:magnet", torrentsApi.download);

@@ -10,12 +10,12 @@ class DownloadsStore extends BasicStore {
 
   start(id) {
     var url = this.url() + "/" + id + "/start";
-    return this.$http.post(url);
+    return this.$http.get(url);
   }
 
   stop(id) {
     var url = this.url() + "/" + id + "/stop";
-    return this.$http.post(url);
+    return this.$http.get(url);
   }
 
 }
