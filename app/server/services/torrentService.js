@@ -3,7 +3,7 @@ var Transmission = require("transmission");
 var Promise = require("bluebird");
 var Movie = require("../models/Movie");
 var Download = require("../models/Download");
-var Kickass = require("node-kickass");
+var pirateship = require("pirateship");
 var config = require("config");
 
 function TorrentService() {
@@ -24,23 +24,7 @@ TorrentService.prototype = {
 
   find: function (query) {
     return function (cb) {
-      new Kickass()
-        .setQuery(query)
-        .run(function(errors, data) {
-          if (errors.length > 0) {
-            cb(new Error(errors));
-          } else {
-            data = data.map(function (item) {
-              return {
-                title: item.title,
-                link: item["torrent:magneturi"]["#"],
-                seeds: item["torrent:seeds"]["#"],
-                leechers: item["torrent:peers"]["#"]
-              }
-            });
-            cb(null, data);
-          }
-        });
+      pirateship.find(query, cb);
     }
   },
 
