@@ -9,7 +9,8 @@ class NotificationService {
   constructor() {
     this.apn = notify.apn({
       key: __dirname + '/key.pem',
-      cert: __dirname + '/cert.pem'
+      cert: __dirname + '/cert.pem',
+      production: false
     });
     this.apn.on('transmitted', function (notification, device) {
       log.info("transmitted", device);
