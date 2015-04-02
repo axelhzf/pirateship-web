@@ -19,6 +19,10 @@ class NotificationService {
     this.apn.on('transmissionError', function (errorCode, notification, device) {
       log.error("transmission error", errorCode, device);
     });
+
+    this.apn.on("error", function (error) {
+      log.error(error, "error");
+    });
   }
 
   *registerDevice(deviceToken) {
