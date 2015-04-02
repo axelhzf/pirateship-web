@@ -12,6 +12,7 @@ var logsApi = require("./api/logsApi");
 var subtitlesApi = require("./api/subtitlesApi");
 var favApi = require("./api/favApi");
 var searchApi = require("./api/searchApi");
+var notificationsApi = require("./api/notificationsApi");
 
 r.get("/", function * () {
   var assets = barbakoa.assets.getModule("app");
@@ -44,3 +45,7 @@ r.get("/api/player", playerApi.play);
 r.get("/api/logs", logsApi.list);
 
 r.post("/api/subtitles", subtitlesApi.download);
+
+
+r.get("/api/notifications", notificationsApi.registerDevice);
+r.get("/api/notifications/test", notificationsApi.testNotification);

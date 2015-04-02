@@ -10,7 +10,7 @@ var Recent = require("../models/Recent");
 var format = require("util").format;
 var _ = require("underscore");
 var subtitlesService = require("./subtitlesService");
-
+var notificationService = require("../notifications/notificationService");
 
 module.exports = {
   start: start,
@@ -59,8 +59,12 @@ function* start() {
 
 function* onProcessedFile(src, dest) {
   log.info("Processed file %s to %s", src, dest);
-  
-  yield Recent.create({file: path.basename(dest)});
+
+  var fileName = path.basename(dest);
+
+  yield notificationService.sendToAll(`Downloaded ${fileName}`);
+
+  yield Recent.create({file: fileName});
   var result = yield subtitlesService.downloadSubtitles(dest);
   
   log.info(result, "Subtitles downloaded");
