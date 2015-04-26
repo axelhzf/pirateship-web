@@ -3169,6 +3169,7 @@ table td {
   width: 130px;
   height: 185px;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.9);
 }
 .poster-list-item img {
   width: 100%;
@@ -3449,19 +3450,30 @@ table td {
   padding-top: 60px;
 }
 .movies .filters {
-  margin-bottom: 20px;
-}
-.movies .filters:before,
-.movies .filters:after {
-  content: " ";
-  display: table;
-}
-.movies .filters:after {
-  clear: both;
-}
-.movies .filter {
   float: left;
   margin-right: 10px;
+}
+.movies .filters .filter-label {
+  font-variant: small-caps;
+}
+.movies .filters li {
+  margin: 0;
+  padding: 0;
+}
+.movies .filters a {
+  display: block;
+  padding: 5px;
+}
+.movies .filters .active {
+  background-color: #663399;
+  color: #fff;
+}
+.movies .poster-image .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -25.5px;
+  margin-top: -15px;
 }
 .movie {
   display: -webkit-flex;
@@ -3679,4 +3691,63 @@ table td {
 }
 .torrents input:focus {
   transition: background-color 0.3s ease;
+}
+.spinner {
+  margin: 100px auto;
+  width: 51px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px;
+}
+.spinner > div {
+  background-color: #663399;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+          animation: stretchdelay 1.2s infinite ease-in-out;
+  margin-right: 3px;
+}
+.spinner > div:last-child {
+  margin-right: 0;
+}
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+          animation-delay: -1.1s;
+}
+.spinner .rect3 {
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s;
+}
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+          animation-delay: -0.9s;
+}
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+          animation-delay: -0.8s;
+}
+@-webkit-keyframes stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+  }
+}
+@keyframes stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+  }
 }

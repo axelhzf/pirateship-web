@@ -40,9 +40,9 @@
     "video-organizer": "^2.0.1"
   },
   "scripts": {
-    "dev": "NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js",
-    "test-server": "NODE_ENV=test NODE_CONFIG_DIR=./app/server/config node --harmony test/server/test.js",
-    "test-client": "NODE_ENV=test NODE_CONFIG_DIR=./app/server/config node --harmony test/client/test.js",
+    "dev": "bk dev",
+    "test-server": "bk test-server",
+    "test-client": "bk test-client",
     "deploy": "DEBUG=* node --harmony deploy.js",
     "start": "NODE_ENV=production NODE_CONFIG_DIR=./app/server/config node --harmony app/server/server.js",
     "deploy": "DEBUG=* node deploy.js"

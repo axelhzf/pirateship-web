@@ -9,11 +9,8 @@ var movieService = new MovieService();
 var api = {};
 
 api.find = function* () {
-  this.body = yield movieService.findBySeeds();
-};
-
-api.findBySeeds = function* () {
-  this.body = yield movieService.findPopular();
+  var options = this.query;
+  this.body = yield movieService.find(options);
 };
 
 api.get = function* () {

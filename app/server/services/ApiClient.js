@@ -32,13 +32,14 @@ class ApiClient {
     var path = params.path;
     var cacheKey = path + "?" + qs.stringify(params.qs);
     
-    var options = _.merge(this.options, params.options);
+    var options = _.merge({}, this.options, params.options);
     options.request.method = "get";
     options.request.uri = options.baseUri + path;
     options.request.qs = params.qs;
     
     // find in cache
     if(options.cache) { 
+      console.log("find in cache", cacheKey);
       var body = yield this.cache.getAsync(cacheKey);
       if (body) {
         return body;

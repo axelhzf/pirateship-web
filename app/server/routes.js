@@ -20,7 +20,6 @@ r.get("/", function * () {
 });
 
 r.get("/api/movies", movieApi.find);
-r.get("/api/movies/seeds", movieApi.findBySeeds);
 r.get("/api/movies/:imdb", movieApi.get);
 
 r.get("/api/shows", showApi.find);

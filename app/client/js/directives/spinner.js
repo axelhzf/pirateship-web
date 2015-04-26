@@ -4,7 +4,7 @@ angular.module("app").directive("spinner", function () {
     scope: {
       waitFor: "="
     },
-    templateUrl: "dist/views/spinner.html",
+    templateUrl: "templates/spinner.html",
     link: function (scope, element, attrs) {
 
     }

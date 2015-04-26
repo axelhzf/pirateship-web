@@ -1,10 +1,6 @@
 .header(ng-controller="HeaderController as ctrl")
   .header-left
     .brand Pirateship
-    form(ng-submit="ctrl.onSubmit()")
-      input(type="text", ng-model="ctrl.query", placeholder="Search...")
-      a.input-clear(ng-click="h.clearQuery()", ng-class="{visible: ctrl.query.length > 0}")
-        i.ion-ios7-close-outline
 
   .header-right
     a.icon(ui-sref="movies", ui-sref-active="active") Movies

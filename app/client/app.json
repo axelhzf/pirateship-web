@@ -10,7 +10,8 @@
     "ngInfiniteScroll",
     "angular-dropdowns",
     "moment",
-    "underscore.string"
+    "underscore.string",
+    "angular-inview"
   ],
   "js": [
     "app.js",
@@ -21,6 +22,7 @@
     "directives/fadeImg.js",
     "directives/youtubePlayer.js",
     "directives/torrentsList.js",
+    "directives/spinner.js",
     "controllers/*.js",
     "filter/*"
   ]

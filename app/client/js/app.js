@@ -1,4 +1,4 @@
-var App = angular.module("app", ["ui.router", "ngSanitize", "angular.filter", "infinite-scroll", "ngDropdowns"]);
+var App = angular.module("app", ["ui.router", "ngSanitize", "angular.filter", "angular-inview", "ngDropdowns"]);
 
 App.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -12,7 +12,7 @@ App.config(function ($stateProvider, $urlRouterProvider) {
   });
 
   $stateProvider.state("movies", {
-    url: "/movies",
+    url: "/movies?sort_by",
     templateUrl: "templates/movies/movies.html",
     controller: "MoviesController as ctrl"
   });

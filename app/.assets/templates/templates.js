@@ -66,7 +66,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/header.html',
-    '<div ng-controller="HeaderController as ctrl" class="header"><div class="header-left"><div class="brand">Pirateship</div><form ng-submit="ctrl.onSubmit()"><input type="text" ng-model="ctrl.query" placeholder="Search..."/><a ng-click="h.clearQuery()" ng-class="{visible: ctrl.query.length &gt; 0}" class="input-clear"><i class="ion-ios7-close-outline"></i></a></form></div><div class="header-right"><a ui-sref="movies" ui-sref-active="active" class="icon">Movies</a><a ui-sref="shows" ui-sref-active="active" class="icon">Shows</a><a ui-sref="torrents" ui-sref-active="active" class="icon">Torrents</a><a ui-sref="downloads" ui-sref-active="active" class="icon">Downloads</a><a ui-sref="recents" ui-sref-active="active" class="icon">Recents</a></div></div>');
+    '<div ng-controller="HeaderController as ctrl" class="header"><div class="header-left"><div class="brand">Pirateship</div></div><div class="header-right"><a ui-sref="movies" ui-sref-active="active" class="icon">Movies</a><a ui-sref="shows" ui-sref-active="active" class="icon">Shows</a><a ui-sref="torrents" ui-sref-active="active" class="icon">Torrents</a><a ui-sref="downloads" ui-sref-active="active" class="icon">Downloads</a><a ui-sref="recents" ui-sref-active="active" class="icon">Recents</a></div></div>');
 }]);
 })();
 
@@ -210,7 +210,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/movies/movies.html',
-    '<div class="content movies"><div ui-view="ui-view"></div><h1>Movies</h1><div class="poster-list"><a ng-repeat="movie in ctrl.movies.items" ui-sref="movie({imdb: movie.ids.imdb})" class="poster-list-item"><div class="poster-image"><fade-img img="{{movie.images.poster.thumb}}"></fade-img><div class="rating">{{movie.rating}}</div><div class="backdrop"><i class="ion-ios7-eye"></i></div><div ng-if="show.favorite" class="post-list-content"><i class="ion-ios7-heart"></i></div></div><div class="poster-data"><div class="poster-title">{{movie.title}}</div><div class="poster-genre">{{movie.genres[0]}}</div></div></a></div></div>');
+    '<div class="content movies"><div ui-view="ui-view"></div><h1>Movies</h1><div class="filters"><div class="filter-label">Filter by</div><ul class="filter-options"><li ng-repeat="filter in ctrl.FILTERS.sort_by"><a ui-sref-active="active" ui-sref="movies(ctrl.extendFilter({sort_by: filter.key}))">{{filter.title}}</a></li></ul></div><div class="poster-list"><a ng-repeat="movie in ctrl.movies.items" ui-sref="movie({imdb: movie.ids.imdb})" class="poster-list-item"><div class="poster-image"><fade-img img="{{movie.images.poster.thumb}}"></fade-img><div class="rating">{{movie.rating}}</div><div class="backdrop"><i class="ion-ios7-eye"></i></div><div ng-if="show.favorite" class="post-list-content"><i class="ion-ios7-heart"></i></div></div><div class="poster-data"><div class="poster-title">{{movie.title}}</div><div class="poster-genre">{{movie.genres[0]}}</div></div></a><a in-view="$inview &amp;&amp; ctrl.loadNextPage()" class="poster-list-item"><div class="poster-image"><spinner ng-if="ctrl.movies.state === \'loading\'"></spinner></div><div class="poster-data"><div class="poster-title">{{movie.title}}</div><div class="poster-genre">{{movie.genres[0]}}</div></div></a></div></div>');
 }]);
 })();
 

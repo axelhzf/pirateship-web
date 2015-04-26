@@ -2,6 +2,13 @@
   div(ui-view)
   h1 Movies
 
+  .filters
+    .filter-label Filter by
+    ul.filter-options
+      li(ng-repeat="filter in ctrl.FILTERS.sort_by")
+        a(ui-sref-active='active'
+          ui-sref="movies(ctrl.extendFilter({sort_by: filter.key}))") {{filter.title}}
+
   .poster-list
     a.poster-list-item(ng-repeat="movie in ctrl.movies.items", ui-sref="movie({imdb: movie.ids.imdb})")
       .poster-image
@@ -11,6 +18,13 @@
           i.ion-ios7-eye
         .post-list-content(ng-if="show.favorite")
           i.ion-ios7-heart
+      .poster-data
+        .poster-title {{movie.title}}
+        .poster-genre {{movie.genres[0]}}
+
+    a.poster-list-item(in-view="$inview && ctrl.loadNextPage()")
+      .poster-image
+        spinner(ng-if="ctrl.movies.state === 'loading'")
       .poster-data
         .poster-title {{movie.title}}
         .poster-genre {{movie.genres[0]}}

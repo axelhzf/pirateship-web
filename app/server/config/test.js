@@ -16,5 +16,8 @@ module.exports = {
     max_tries: Infinity,
     interval: 10,
     max_interval: 100
+  },
+  postProcess: {
+    enable: false
   }
 };

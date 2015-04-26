@@ -21,6 +21,8 @@ module.exports = {
 var videoOrganizer;
 
 function* start() {
+  console.log("post process enable", config.get("postProcess.enable"));
+
   if (!config.get("postProcess.enable")) {
     log.info("Postprocess not enabled");
     return;
