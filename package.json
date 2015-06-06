@@ -1,7 +1,7 @@
 {
   "name": "pirateship-web",
   "version": "0.0.1",
-  "priavte": true,
+  "private": true,
   "description": "pirateship frontend",
   "repository": "https://github.com/axelhzf/pirateship-web",
   "dependencies": {

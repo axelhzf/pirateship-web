@@ -7,10 +7,12 @@ var _ = require("lodash");
 class TraktApiClient {
   
   constructor() {
-    
-    //todo accessToToken
-    var accessToken = "0d0140bce120dbdaeff28a2c5f50b65bb3bf21b720ba62a4c31f81e2c3d6f8a6";
-    
+
+  }
+
+  *getApiClient() {
+    var auth = yield Auth.instance();
+    var accessToken =  auth.access_token;
     var apiClientOptions = {
       retry: 0,
       baseUri: "https://api-v2launch.trakt.tv/",
@@ -23,11 +25,12 @@ class TraktApiClient {
         }
       }
     };
-    this.apiClient = new ApiClient(apiClientOptions);
+    return new ApiClient(apiClientOptions);
   }
-  
+
   *moviesPopular() {
-    return yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+    return yield apiClient.get({
       path: "movies/popular",
       options: {
         cache: true,
@@ -37,7 +40,8 @@ class TraktApiClient {
   }
   
   *showsPopular() {
-    return yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+    return yield apiClient.get({
       path: "shows/popular",
       qs: {
         limit: 100,
@@ -51,7 +55,8 @@ class TraktApiClient {
   }
   
   *showSummary(imdb) {
-    return yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+    return yield apiClient.get({
       path: `shows/${imdb}`,
       qs: {
         extended: "full,images"
@@ -65,8 +70,9 @@ class TraktApiClient {
   
   *showSummaryExtended(imdb) {
     var show = yield this.showSummary(imdb);
-    
-    var seasons = yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+
+    var seasons = yield apiClient.get({
       path: `shows/${imdb}/seasons`,
       qs: {
         extended: "full"
@@ -81,7 +87,7 @@ class TraktApiClient {
 
     for (var i = 0; i < seasons.length; i++) {
       var season = seasons[i];
-      var episodes = yield this.apiClient.get({
+      var episodes = yield apiClient.get({
         path: `shows/${imdb}/seasons/${season.number}`,
         qs: {
           extended: "full"
@@ -98,7 +104,8 @@ class TraktApiClient {
   }
   
   *movieSummary(imdb) {
-    var summary = yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+    var summary = yield apiClient.get({
       path: `movies/${imdb}`, 
       qs: {
         extended: "full,images"
@@ -124,7 +131,8 @@ class TraktApiClient {
   }
   
   *search(query) {
-    return yield this.apiClient.get({
+    var apiClient = yield this.getApiClient();
+    return yield apiClient.get({
       path: "search",
       qs: {
         limit: 30,
@@ -139,21 +147,24 @@ class TraktApiClient {
   }
   
   *syncGetWatched() {
+    var apiClient = yield this.getApiClient();
     var watched = yield {
-      movies: this.apiClient.get({path: "sync/watched/movies"}),
-      shows: this.apiClient.get({path: "sync/watched/shows"})
+      movies: apiClient.get({path: "sync/watched/movies"}),
+      shows: apiClient.get({path: "sync/watched/shows"})
     };
     return watched;
   }
   
   *syncAddToHistory(items) {
+    var apiClient = yield this.getApiClient();
     var params = this._historyParams(items);
-    return yield this.apiClient.post("sync/history", params);
+    return yield apiClient.post("sync/history", params);
   }
   
   *syncRemoveFromHistory(items) {
+    var apiClient = yield this.getApiClient();
     var params = this._historyParams(items);
-    return yield this.apiClient.post("sync/history/remove", params);
+    return yield apiClient.post("sync/history/remove", params);
   }
   
   _historyParams(items) {
